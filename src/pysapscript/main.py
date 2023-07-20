@@ -48,10 +48,21 @@ class Sap:
         return obj
 
     def _quit(self):
+        """tries to close the sap normal way (from main wnd) and then kills the process"""
+
+        try:
+            main = self.attach(0, 0)
+            self.navigate(main, "end")
+            self.element_press(main, "wnd[1]/usr/btnSPOP-OPTION1")
+
+        finally:
+            self.kill_process("saplogon.exe")
+
         self.sap_gui_auto = None
         self.application = None
         self.connections = {}
         self.sessions = {}
+
 
     def attach(self, connection: int, session: int) -> Obj:
         """connects to sap gui by number, sets application,
@@ -149,18 +160,6 @@ class Sap:
                         "Failed to launch SAP and Mindow did not appear."
                     )
         return
-
-    def quit(self):
-        """tries to close the sap normal way (from main wnd) and then kills the process"""
-
-        try:
-            main = self.attach(0, 0)
-            self.navigate(main, "end")
-            self.element_press(main, "wnd[1]/usr/btnSPOP-OPTION1")
-            time.sleep(1)
-
-        finally:
-            self.kill_process("saplogon.exe")
 
     def maximize(self, obj: Obj):
         """Maximizes sap window"""
