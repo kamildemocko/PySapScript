@@ -52,7 +52,7 @@ class Sap:
 
         try:
             main = self.attach(0, 0)
-            self.navigate(main, "end")
+            self.element_select(main, "wnd[0]/mbar/menu[4]/menu[12]")
             self.element_press(main, "wnd[1]/usr/btnSPOP-OPTION1")
 
         finally:
