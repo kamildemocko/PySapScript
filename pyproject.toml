@@ -1,0 +1,8 @@
+[build-system]
+requires = [
+    "setuptools",
+    "wheel",
+    "pandas",
+    "pywin32"
+]
+build-backend = "setuptools.build_meta"

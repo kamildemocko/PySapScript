@@ -1,0 +1,5 @@
+venv
+.vscode
+.idea
+dist
+src/pysapscript.egg-info
