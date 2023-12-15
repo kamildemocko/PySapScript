@@ -1,5 +1,6 @@
 import win32com.client
 import pandas
+from win32com.universal import com_error
 
 from pysapscript.src.types import exceptions
 from pysapscript.src.types.types import NavigateAction
@@ -80,7 +81,7 @@ class Window:
         except Exception as e:
             raise exceptions.ActionException(f"Error reading element {element}: {e}")
 
-    def read_shell_table(self, element: str) -> pandas.DataFrame:
+    def read_shell_table(self, element: str, load_table: bool = True) -> pandas.DataFrame:
         """Reads table of shell table and returns pandas DataFrame"""
 
         try:
@@ -89,6 +90,12 @@ class Window:
             columns = shell.ColumnOrder
             rows_count = shell.RowCount
 
+            if rows_count == 0:
+                return pandas.DataFrame()
+
+            if load_table:
+                self.load_shell_table(element)
+
             data = [{column: shell.GetCellValue(i, column) for column in columns} for i in range(rows_count)]
 
             return pandas.DataFrame(data)
@@ -96,10 +103,44 @@ class Window:
         except Exception as ex:
             raise exceptions.ActionException(f"Error reading element {element}: {ex}")
 
+    def load_shell_table(self, table_element: str, move_by: int = 20, move_by_table_end: int = 2):
+        """Skims through the table to load all data, as SAP only loads visible data"""
+
+        row_position = 0
+
+        shell = self.session_handle.findById(table_element)
+
+        while True:
+            try:
+                shell.currentCellRow = row_position
+                shell.SelectedRows = row_position
+
+            except com_error:
+                """no more rows for this step"""
+                break
+
+            row_position += move_by
+
+        row_position -= 20
+        while True:
+            try:
+                shell.currentCellRow = row_position
+                shell.SelectedRows = row_position
+
+            except com_error:
+                """no more rows for this step"""
+                break
+
+            row_position += move_by_table_end
+
     def press_shell_button(self, element: str, button: str):
+        """Presses button that is in a shell table"""
+
         self.session_handle.findById(element).pressButton(button)
 
     def change_shell_checkbox(self, element: str, checkbox: str, flag: bool):
+        """Sets checkbox in a shell table"""
+
         self.session_handle.findById(element).changeCheckbox(checkbox, "1", flag)
 
     def close_window(self):
