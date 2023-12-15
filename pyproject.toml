@@ -1,8 +1,11 @@
-[build-system]
-requires = [
-    "setuptools",
-    "wheel",
-    "pandas",
-    "pywin32"
-]
-build-backend = "setuptools.build_meta"
+[tool.poetry]
+name = "pysapscript"
+version = "2.0.1"
+description = ""
+authors = ["Kamil Democko <kamil.democko@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pandas = "^2.0.0"
+pywin32 = "^306"

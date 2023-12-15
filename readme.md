@@ -1,41 +1,50 @@
 # Description
-SAP scripting for python
+SAP scripting for Python automatization
 
 
 # Usage
-## Attaching:
+## Create pysapscript object
+```python
+pss = pysapscript.Sapscript()
 ```
-sap = Sap()
-main_window = sap.attach(0, 0)
-```
-- (0, 0) -> (connection, session)
+parameter `default_window_title: = "SAP Easy Access"`
 
-## Starting new SAP:
+## Launch Sap
+```python
+pss.launch_sap(
+    sid="SQ4",
+    client="012",
+    user="robot_t",
+    password=os.getenv("secret_password")
+)
 ```
-sap = Sap()
-main_window = sap.start_sap(sap_dir, SID, client, name, password)
-````
+additional parameters:
+```python
+root_sap_dir = Path(r"C:\Program Files (x86)\SAP\FrontEnd\SAPgui")
+maximise = True
+quit_auto = True
+```
 
-## Ending session / connection:
+## Attach to window:
+```python
+window = pss.attach_window(0, 0)
 ```
-sap.detach(main_window)
-```
+positional parameters (0, 0) -> (connection, session)
 
 ## Quitting SAP:
-- will automatically quit
+- will automatically quit if not specified differently
+- manual quitting: `pss.quit()`
 
 ## Performing action:
 ```
-sap.element_write(obj1, el_input_transaction, "se16")
-sap.element_click(el_enter_button)
-sap.element_select(el_enter_button)
+window.write(element, value)
+window.press(element)
+window.select(element)
+window.read(element)
+window.read_shell_table(element)
+window.press_shell_button(element, button_name)
+window.change_shell_checkbox(element, checkbox_name, boolean)
 ```
-among another available actions are:
-- reading elements
-- reading table
-- clicking table buttons
-
-also
-- opening new window
-- starting transaction
+And another available actions...
+- close window, open new window, start transaction, navigate, maximize
     
