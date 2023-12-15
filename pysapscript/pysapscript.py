@@ -5,9 +5,9 @@ from subprocess import Popen
 
 import win32com.client
 
-from pysapscript.src import window
-from pysapscript.src.utils import utils
-from pysapscript.src.types import exceptions
+from pysapscript import window
+from pysapscript.utils import utils
+from pysapscript.types_ import exceptions
 
 
 class Sapscript:

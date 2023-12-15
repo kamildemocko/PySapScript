@@ -2,8 +2,8 @@ import win32com.client
 import pandas
 from win32com.universal import com_error
 
-from pysapscript.src.types import exceptions
-from pysapscript.src.types.types import NavigateAction
+from pysapscript.types_ import exceptions
+from pysapscript.types_.types import NavigateAction
 
 
 class Window:

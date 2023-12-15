@@ -1,7 +1,7 @@
 import os
 
-from pysapscript.src.pysapscript import Sapscript
-from pysapscript.src.types.types import NavigateAction
+from pysapscript.pysapscript import Sapscript
+from pysapscript.types_.types import NavigateAction
 
 
 class TestRuns:

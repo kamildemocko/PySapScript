@@ -3,7 +3,7 @@ import time
 
 from win32gui import FindWindow, GetWindowText
 
-from pysapscript.src.types.exceptions import WindowDidNotAppearException
+from pysapscript.types_.exceptions import WindowDidNotAppearException
 
 def kill_process(process: str):
     os.system("taskkill /f /im %s" % process)
