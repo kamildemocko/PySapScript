@@ -45,6 +45,8 @@ window.read_shell_table(element)
 window.press_shell_button(element, button_name)
 window.change_shell_checkbox(element, checkbox_name, boolean)
 ```
+- use SAP path `wnd[0].....` for elements
+
 And another available actions...
 - close window, open new window, start transaction, navigate, maximize
     
