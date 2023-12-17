@@ -1,3 +1,5 @@
+from time import sleep
+
 import win32com.client
 import pandas
 from win32com.universal import com_error
@@ -19,6 +21,11 @@ class Window:
         """Maximizes this sap window"""
 
         self.session_handle.findById("wnd[0]").maximize()
+
+    def restore(self):
+        """Restores sap window to its default size, before maximization"""
+
+        self.session_handle.findById("wnd[0]").restore()
 
     def navigate(self, action: NavigateAction):
         """Navigates SAP: enter, back, end, cancel, save"""
@@ -80,6 +87,12 @@ class Window:
 
         except Exception as e:
             raise exceptions.ActionException(f"Error reading element {element}: {e}")
+
+    def visualize(self, element: str, seconds: int = 1):
+        """draws red frame around the element"""
+
+        self.session_handle.findById(element).Visualize(1)
+        sleep(seconds)
 
     def read_shell_table(self, element: str, load_table: bool = True) -> pandas.DataFrame:
         """Reads table of shell table and returns pandas DataFrame"""
