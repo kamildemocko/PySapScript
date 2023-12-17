@@ -1,11 +1,15 @@
 [tool.poetry]
 name = "pysapscript"
-version = "2.1.1"
+version = "2.1.2"
 description = ""
 authors = ["Kamil Democko <kamil.democko@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.8"
 pandas = "^2.0.0"
 pywin32 = "^306"
+
+[tool.poetry.group.dev.dependencies]
+sphinx = "^7.2.6"
+

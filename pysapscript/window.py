@@ -49,19 +49,18 @@ class Window:
             ActionException: wrong navigation action
         """
 
-        match action:
-            case NavigateAction.enter:
-                el = "wnd[0]/tbar[0]/btn[0]"
-            case NavigateAction.back:
-                el = "wnd[0]/tbar[0]/btn[3]"
-            case NavigateAction.end:
-                el = "wnd[0]/tbar[0]/btn[15]"
-            case NavigateAction.cancel:
-                el = "wnd[0]/tbar[0]/btn[12]"
-            case NavigateAction.save:
-                el = "wnd[0]/tbar[0]/btn[13]"
-            case _:
-                raise exceptions.ActionException("Wrong navigation action!")
+        if action == NavigateAction.enter:
+            el = "wnd[0]/tbar[0]/btn[0]"
+        elif action == NavigateAction.back:
+            el = "wnd[0]/tbar[0]/btn[3]"
+        elif action == NavigateAction.end:
+            el = "wnd[0]/tbar[0]/btn[15]"
+        elif action == NavigateAction.cancel:
+            el = "wnd[0]/tbar[0]/btn[12]"
+        elif action == NavigateAction.save:
+            el = "wnd[0]/tbar[0]/btn[13]"
+        else:
+            raise exceptions.ActionException("Wrong navigation action!")
 
         self.session_handle.findById(el).press()
 
