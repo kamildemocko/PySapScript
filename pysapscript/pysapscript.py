@@ -93,6 +93,8 @@ class Sapscript:
         """
         Opens new sap window, 
         First session must be already set up
+        ! Warning, this method will not wait for window to appear
+          if any other window is opened and has the default windows title
         """
 
         window_to_handle_opening.session_handle.createSession()
