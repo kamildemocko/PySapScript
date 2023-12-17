@@ -1,5 +1,6 @@
 """Exceptions thrown"""
 
+
 class WindowDidNotAppearException(Exception):
     """Main windows didn't show up - possible pop-up window"""
 

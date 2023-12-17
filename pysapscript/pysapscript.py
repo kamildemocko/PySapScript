@@ -21,8 +21,19 @@ class Sapscript:
                    user: str, password: str, 
                    maximise: bool = True, quit_auto: bool = True):
         """
-        Launches SAP and waits for it to load, 
-        quit_auto: quits automatically on exit if set to True
+        Launches SAP and waits for it to load
+
+        Args:
+            root_sap_dir (pathlib.Path): SAP directory in the system
+            sid (str): SAP system ID
+            client (str): SAP client
+            user (str): SAP user
+            password (str): SAP password
+            maximise (bool): maximises window after start if True
+            quit_auto (bool): quits automatically on SAP exit if True
+
+        Raises:
+            WindowDidNotAppearException: No SAP window appeared
         """
 
         self._launch(
@@ -40,8 +51,7 @@ class Sapscript:
 
     def quit(self):
         """
-        Tries to close the sap normal way (from main wnd) 
-        Then kills the process
+        Tries to close the sap normal way (from main window), then kills the process
         """
 
         try:
@@ -54,15 +64,28 @@ class Sapscript:
 
     def attach_window(self, connection: int, session: int) -> window.Window:
         """
-        Attaches window by connection and session number
-        Connection and session start with 0
+        Attaches window by connection and session number ID
+
+        Connection starts with 0 and is +1 for each client
+        Session start with 0 and is +1 for each new window opened
+
+        Args:
+            connection (int): connection number
+            session (int): session number
+
+        Returns:
+            window.Window: window attached
+
+        Raises:
+            AttributeError: srong connection or session
+            AttachException: could not attach to SAP window
         """
 
         if not isinstance(connection, int):
-            raise Exception("Wrong connection argument!")
+            raise AttributeError("Wrong connection argument!")
 
         if not isinstance(session, int):
-            raise Exception("Wrong session argument!")
+            raise AttributeError("Wrong session argument!")
 
         if not isinstance(self.sap_gui_auto, win32com.client.CDispatch):
             self.sap_gui_auto = win32com.client.GetObject("SAPGUI")
@@ -91,10 +114,17 @@ class Sapscript:
 
     def open_new_window(self, window_to_handle_opening: window.Window):
         """
-        Opens new sap window, 
-        First session must be already set up
-        ! Warning, this method will not wait for window to appear
-          if any other window is opened and has the default windows title
+        Opens new sap window
+
+        SAP must be already launched and window that is not busy must be available
+        Warning, as of now, this method will not wait for window to appear if any
+        other window is opened and has the default windows title
+
+        Args:
+            window_to_handle_opening: idle SAP window that will be used to open new window
+
+        Raises:
+            WindowDidNotAppearException: no SAP window appeared
         """
 
         window_to_handle_opening.session_handle.createSession()
@@ -103,7 +133,9 @@ class Sapscript:
 
     def _launch(self, working_dir: Path, sid: str, client: str, 
                 user: str, password: str, maximise: bool):
-        """launches sap from sapshcut.exe"""
+        """
+        launches sap from sapshcut.exe
+        """
 
         working_dir = working_dir.resolve()
         sap_executable = working_dir.joinpath("sapshcut.exe")

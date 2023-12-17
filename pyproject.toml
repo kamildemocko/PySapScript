@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pysapscript"
-version = "2.1.0"
+version = "2.1.1"
 description = ""
 authors = ["Kamil Democko <kamil.democko@gmail.com>"]
 readme = "README.md"

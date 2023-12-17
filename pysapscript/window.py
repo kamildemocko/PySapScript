@@ -18,17 +18,36 @@ class Window:
         self.session_handle = session_handle
 
     def maximize(self):
-        """Maximizes this sap window"""
+        """
+        Maximizes this sap window
+        """
 
         self.session_handle.findById("wnd[0]").maximize()
 
     def restore(self):
-        """Restores sap window to its default size, before maximization"""
+        """
+        Restores sap window to its default size, resp. before maximization
+        """
 
         self.session_handle.findById("wnd[0]").restore()
 
+    def close_window(self):
+        """
+        Closes this sap window
+        """
+
+        self.session_handle.findById("wnd[0]").close()
+
     def navigate(self, action: NavigateAction):
-        """Navigates SAP: enter, back, end, cancel, save"""
+        """
+        Navigates SAP: enter, back, end, cancel, save
+
+        Args:
+            action (NavigateAction): enter, back, end, cancel, save
+
+        Raises:
+            ActionException: wrong navigation action
+        """
 
         match action:
             case NavigateAction.enter:
@@ -47,11 +66,26 @@ class Window:
         self.session_handle.findById(el).press()
 
     def start_transaction(self, transaction: str):
+        """
+        Starts transaction
+
+        Args:
+            transaction (str): transaction name
+        """
+
         self.write("wnd[0]/tbar[0]/okcd", transaction)
         self.navigate(NavigateAction.enter)
 
     def press(self, element: str):
-        """Presses element"""
+        """
+        Presses element
+
+        Args:
+            element (str): element to press
+
+        Raises:
+            ActionException: error clicking element
+        """
 
         try:
             self.session_handle.findById(element).press()
@@ -62,7 +96,15 @@ class Window:
             )
 
     def select(self, element: str):
-        """Presses element"""
+        """
+        Presses element
+
+        Args:
+            element (str): element to select - tabs, menu items
+
+        Raises:
+            ActionException: error selecting element
+        """
 
         try:
             self.session_handle.findById(element).select()
@@ -71,7 +113,16 @@ class Window:
             raise exceptions.ActionException(f"Error clicking element {element}: {ex}")
 
     def write(self, element: str, text: str):
-        """Sets property text to a value"""
+        """
+        Sets text property of an element
+
+        Args:
+            element (str): element to accept a value
+            text (str): value to set
+
+        Raises:
+            ActionException: Error writing to element
+        """
 
         try:
             self.session_handle.findById(element).text = text
@@ -80,7 +131,15 @@ class Window:
             raise exceptions.ActionException(f"Error writing to element {element}: {ex}")
 
     def read(self, element: str) -> str:
-        """Reads property text"""
+        """
+        Reads text property
+
+        Args:
+            element (str): element to read
+
+        Raises:
+            ActionException: Error reading element
+        """
 
         try:
             return self.session_handle.findById(element).text
@@ -89,13 +148,41 @@ class Window:
             raise exceptions.ActionException(f"Error reading element {element}: {e}")
 
     def visualize(self, element: str, seconds: int = 1):
-        """draws red frame around the element"""
+        """
+        draws red frame around the element
 
-        self.session_handle.findById(element).Visualize(1)
-        sleep(seconds)
+        Args:
+            element (str): element to draw around
+            seconds (int): seconds to wait for
+
+        Raises:
+            ActionException: Error visualizing element
+        """
+
+        try:
+            self.session_handle.findById(element).Visualize(1)
+            sleep(seconds)
+
+        except Exception as e:
+            raise exceptions.ActionException(f"Error visualizing element {element}: {e}")
 
     def read_shell_table(self, element: str, load_table: bool = True) -> pandas.DataFrame:
-        """Reads table of shell table and returns pandas DataFrame"""
+        """
+        Reads table of shell table
+
+        If the table is too big, the SAP will not render all the data.
+        Default is to load table before reading it
+
+        Args:
+            element (str): table element
+            load_table (bool): whether to load table before reading
+
+        Returns:
+            pandas.DataFrame: table data
+
+        Raises:
+            ActionException: Error reading table
+        """
 
         try:
             shell = self.session_handle.findById(element)
@@ -117,11 +204,25 @@ class Window:
             raise exceptions.ActionException(f"Error reading element {element}: {ex}")
 
     def load_shell_table(self, table_element: str, move_by: int = 20, move_by_table_end: int = 2):
-        """Skims through the table to load all data, as SAP only loads visible data"""
+        """
+        Skims through the table to load all data, as SAP only loads visible data
+
+        Args:
+            table_element (str): table element
+            move_by (int): number of rows to move by, default 20
+            move_by_table_end (int): number of rows to move by when reaching the end of the table, default 2
+
+        Raises:
+            ActionException: error finding table
+        """
 
         row_position = 0
 
-        shell = self.session_handle.findById(table_element)
+        try:
+            shell = self.session_handle.findById(table_element)
+
+        except Exception as e:
+            raise exceptions.ActionException(f"Error finding table {table_element}: {e}")
 
         while True:
             try:
@@ -147,16 +248,38 @@ class Window:
             row_position += move_by_table_end
 
     def press_shell_button(self, element: str, button: str):
-        """Presses button that is in a shell table"""
+        """
+        Presses button that is in a shell table
 
-        self.session_handle.findById(element).pressButton(button)
+        Args:
+            element (str): table element
+            button (str): button name
+
+        Raises:
+            ActionException: error pressing shell button
+        """
+
+        try:
+            self.session_handle.findById(element).pressButton(button)
+
+        except Exception as e:
+            raise exceptions.ActionException(f"Error pressing button {button}: {e}")
 
     def change_shell_checkbox(self, element: str, checkbox: str, flag: bool):
-        """Sets checkbox in a shell table"""
+        """
+        Sets checkbox in a shell table
 
-        self.session_handle.findById(element).changeCheckbox(checkbox, "1", flag)
+        Args:
+            element (str): table element
+            checkbox (str): checkbox name
+            flag (bool): True for checked, False for unchecked
 
-    def close_window(self):
-        """Closes this sap window, assuming it's on the first page"""
+        Raises:
+            ActionException: error setting shell checkbox
+        """
 
-        self.session_handle.findById("wnd[0]").close()
+        try:
+            self.session_handle.findById(element).changeCheckbox(checkbox, "1", flag)
+
+        except Exception as e:
+            raise exceptions.ActionException(f"Error setting element {element}: {e}")
