@@ -1,6 +1,10 @@
 # Description
 SAP scripting for Python automatization
 
+# Installation
+```pip
+pip install pysapscript
+```
 
 # Usage
 ## Create pysapscript object
