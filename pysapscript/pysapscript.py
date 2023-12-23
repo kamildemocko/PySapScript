@@ -12,8 +12,8 @@ from pysapscript.types_ import exceptions
 
 class Sapscript:
     def __init__(self, default_window_title: str = "SAP Easy Access"):
-        self.sap_gui_auto = None
-        self.application = None
+        self._sap_gui_auto = None
+        self._application = None
         self.default_window_title = default_window_title
 
     def launch_sap(self, *, root_sap_dir: Path = Path(r"C:\Program Files (x86)\SAP\FrontEnd\SAPgui"), 
@@ -34,6 +34,16 @@ class Sapscript:
 
         Raises:
             WindowDidNotAppearException: No SAP window appeared
+
+        Example:
+            ```
+            pss.launch_sap(
+                sid="SQ4",
+                client="012",
+                user="robot_t",
+                password=os.getenv("secret")
+            )
+            ```
         """
 
         self._launch(
@@ -79,6 +89,11 @@ class Sapscript:
         Raises:
             AttributeError: srong connection or session
             AttachException: could not attach to SAP window
+
+        Example:
+            ```
+            main_window = pss.attach_window(0, 0)
+            ```
         """
 
         if not isinstance(connection, int):
@@ -87,14 +102,14 @@ class Sapscript:
         if not isinstance(session, int):
             raise AttributeError("Wrong session argument!")
 
-        if not isinstance(self.sap_gui_auto, win32com.client.CDispatch):
-            self.sap_gui_auto = win32com.client.GetObject("SAPGUI")
+        if not isinstance(self._sap_gui_auto, win32com.client.CDispatch):
+            self._sap_gui_auto = win32com.client.GetObject("SAPGUI")
 
-        if not isinstance(self.application, win32com.client.CDispatch):
-            self.application = self.sap_gui_auto.GetScriptingEngine
+        if not isinstance(self._application, win32com.client.CDispatch):
+            self._application = self._sap_gui_auto.GetScriptingEngine
 
         try:
-            connection_handle = self.application.Children(connection)
+            connection_handle = self._application.Children(connection)
 
         except Exception:
             raise exceptions.AttachException("Could not attach connection %s!" % connection)
@@ -125,6 +140,12 @@ class Sapscript:
 
         Raises:
             WindowDidNotAppearException: no SAP window appeared
+
+        Example:
+            ```
+            main_window = pss.attach_window(0, 0)
+            pss.open_new_window(main_window)
+            ```
         """
 
         window_to_handle_opening.session_handle.createSession()

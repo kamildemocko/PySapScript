@@ -47,6 +47,11 @@ class Window:
 
         Raises:
             ActionException: wrong navigation action
+
+        Example:
+            ```
+            main_window.navigate(NavigateAction.enter)
+            ```
         """
 
         if action == NavigateAction.enter:
@@ -84,6 +89,11 @@ class Window:
 
         Raises:
             ActionException: error clicking element
+
+        Example:
+            ```
+            main_window.press("wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03")
+            ```
         """
 
         try:
@@ -96,13 +106,18 @@ class Window:
 
     def select(self, element: str):
         """
-        Presses element
+        Selects element or menu item
 
         Args:
             element (str): element to select - tabs, menu items
 
         Raises:
             ActionException: error selecting element
+
+        Example:
+            ```
+            main_window.select("wnd[2]/tbar[0]/btn[1]")
+            ```
         """
 
         try:
@@ -121,6 +136,11 @@ class Window:
 
         Raises:
             ActionException: Error writing to element
+
+        Example:
+            ```
+            main_window.write("wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03", "VALUE")
+            ```
         """
 
         try:
@@ -138,6 +158,11 @@ class Window:
 
         Raises:
             ActionException: Error reading element
+
+        Example:
+            ```
+            value = main_window.read("wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03")
+            ```
         """
 
         try:
@@ -181,6 +206,11 @@ class Window:
 
         Raises:
             ActionException: Error reading table
+
+        Example:
+            ```
+            table = main_window.read_shell_table("wnd[0]/usr/shellContent/shell")
+            ```
         """
 
         try:
@@ -256,6 +286,11 @@ class Window:
 
         Raises:
             ActionException: error pressing shell button
+
+        Example:
+            ```
+            main_window.press_shell_button("wnd[0]/usr/shellContent/shell", "%OPENDWN")
+            ```
         """
 
         try:
@@ -275,6 +310,11 @@ class Window:
 
         Raises:
             ActionException: error setting shell checkbox
+
+        Example:
+            ```
+            main_window.change_shell_checkbox("wnd[0]/usr/cntlALV_CONT/shellcont/shell/rows[1]", "%CHBX", True)
+            ```
         """
 
         try:
