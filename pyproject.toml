@@ -12,6 +12,7 @@ keywords = ["sap", "sap script", "sapscript", "automation", "robot"]
 
 [project.urls]
 Repository = "https://github.com/kamildemocko/pysapscript"
+Documentation = "https://kamildemocko.github.io/pysapscript/"
 
 [tool.poetry]
 name = "pysapscript"
