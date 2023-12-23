@@ -1,6 +1,10 @@
 # Description
 SAP scripting for Python automatization
 
+# Documentation
+[https://kamildemocko.github.io/pysapscript/](https://kamildemocko.github.io/pysapscript/)
+
+
 # Installation
 ```pip
 pip install pysapscript
@@ -40,6 +44,7 @@ positional parameters (0, 0) -> (connection, session)
 - manual quitting: `pss.quit()`
 
 ## Performing action:
+use SAP path starting with `wnd[0]` for element argumetns
 ```
 window.write(element, value)
 window.press(element)
@@ -49,8 +54,7 @@ window.read_shell_table(element)
 window.press_shell_button(element, button_name)
 window.change_shell_checkbox(element, checkbox_name, boolean)
 ```
-- use SAP path `wnd[0].....` for elements
 
-And another available actions...
+Another available actions...
 - close window, open new window, start transaction, navigate, maximize
     
