@@ -3,3 +3,4 @@ venv
 .idea
 dist
 src/pysapscript.egg-info
+**/__pycache__
