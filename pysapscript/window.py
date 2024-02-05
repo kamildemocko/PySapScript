@@ -126,6 +126,29 @@ class Window:
         except Exception as ex:
             raise exceptions.ActionException(f"Error clicking element {element}: {ex}")
 
+    def set_checkbox(self, element: str, selected: bool):
+        """
+        Selects checkbox element
+
+        Args:
+            element (str): checkbox element
+            selected (bool): selected state - True for checked, False for unchecked
+
+        Raises:
+            ActionException: error checking checkbox element
+
+        Example:
+            ```
+            main_window.set_checkbox("wnd[0]/usr/chkPA_CHCK", True)
+            ```
+        """
+
+        try:
+            self.session_handle.findById(element).selected = selected
+
+        except Exception as ex:
+            raise exceptions.ActionException(f"Error clicking element {element}: {ex}")
+
     def write(self, element: str, text: str):
         """
         Sets text property of an element
@@ -186,6 +209,35 @@ class Window:
         try:
             self.session_handle.findById(element).Visualize(1)
             sleep(seconds)
+
+        except Exception as e:
+            raise exceptions.ActionException(f"Error visualizing element {element}: {e}")
+
+    def send_v_key(self, element: str = "wnd[0]", *, focus_element: str | None = None, value: int = 0):
+        """
+        Sends VKey to the window, this works for certaion fields
+        If more elements are present, optional focus_element can be used to focus on one of them.
+        Example use is a pick button, that opens POP-UP window that is otherwise not visible as a separate element.
+
+        Args:
+            element (str): element to draw around, default: wnd[0]
+            focus_element (str | None): optional, element to focus on, default: None
+            value (int): number of VKey to be sent, default: 0
+
+        Raises:
+            ActionException: Error focusing or send VKey to element
+
+        Example:
+            ```
+            window.send_v_key(focus_element="wnd[0]/usr/ctxtCITYC-LOW", value=4)
+            ```
+        """
+
+        try:
+            if focus_element is not None:
+                self.session_handle.findById(focus_element).SetFocus()
+
+            self.session_handle.findById(element).sendVKey(value)
 
         except Exception as e:
             raise exceptions.ActionException(f"Error visualizing element {element}: {e}")
