@@ -9,7 +9,7 @@ class TestRuns:
     def __init__(self):
         self.pss = Sapscript()
 
-        pwd = os.getenv("sap_sq8_006_robot01_pwd"),
+        pwd = os.getenv("sap_sq8_006_robot01_pwd")
 
         # Turns on
         self.pss.launch_sap(
@@ -45,6 +45,8 @@ class TestRuns:
         self.window.press("wnd[0]/tbar[1]/btn[8]")
         table = self.window.read_shell_table("wnd[0]/usr/cntlGRID1/shellcont/shell")
         print(table.head())
+
+        self.window.select_shell_rows("wnd[0]/usr/cntlGRID1/shellcont/shell", [1, 3, 5])
 
         self.window.navigate(NavigateAction.back)
         self.window.navigate(NavigateAction.back)
