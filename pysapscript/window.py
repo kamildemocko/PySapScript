@@ -351,6 +351,29 @@ class Window:
         except Exception as e:
             raise exceptions.ActionException(f"Error pressing button {button}: {e}")
 
+    def select_shell_rows(self, element, indexes: list[int]):
+        """
+        Presses button that is in a shell table
+
+        Args:
+            element (str): table element
+            indexes (list[int]): indexes of rows to select, starting with 0
+
+        Raises:
+            ActionException: error selecting shell rows
+
+        Example:
+            ```
+            main_window.select_shell_rows("wnd[0]/usr/shellContent/shell", [0, 1, 2])
+            ```
+        """
+        try:
+            value = ",".join([str(n) for n in indexes])
+            self.session_handle.findById(element).selectedRows = value
+
+        except Exception as e:
+            raise exceptions.ActionException(f"Error selecting rows with indexes {indexes}: {e}")
+
     def change_shell_checkbox(self, element: str, checkbox: str, flag: bool):
         """
         Sets checkbox in a shell table
