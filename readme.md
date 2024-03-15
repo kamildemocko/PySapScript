@@ -67,6 +67,7 @@ window.read_shell_table(element)
 window.press_shell_button(element, button_name)
 window.change_shell_checkbox(element, checkbox_name, boolean)
 window.select_shell_rows(element, [0, 1, 2])
+html_content = window.read_html_viewer(element)
 ```
 
 Another available actions...
