@@ -9,9 +9,13 @@ from pysapscript.types_.types import NavigateAction
 
 
 class Window:
-    def __init__(self, 
-                 connection: int, connection_handle: win32com.client.CDispatch, 
-                 session: int, session_handle: win32com.client.CDispatch):
+    def __init__(
+        self,
+        connection: int,
+        connection_handle: win32com.client.CDispatch,
+        session: int,
+        session_handle: win32com.client.CDispatch,
+    ):
         self.connection = connection
         self.connection_handle = connection_handle
         self.session = session
@@ -100,9 +104,7 @@ class Window:
             self.session_handle.findById(element).press()
 
         except Exception as ex:
-            raise exceptions.ActionException(
-                f"Error clicking element {element}: {ex}"
-            )
+            raise exceptions.ActionException(f"Error clicking element {element}: {ex}")
 
     def select(self, element: str):
         """
@@ -170,7 +172,9 @@ class Window:
             self.session_handle.findById(element).text = text
 
         except Exception as ex:
-            raise exceptions.ActionException(f"Error writing to element {element}: {ex}")
+            raise exceptions.ActionException(
+                f"Error writing to element {element}: {ex}"
+            )
 
     def read(self, element: str) -> str:
         """
@@ -211,9 +215,17 @@ class Window:
             sleep(seconds)
 
         except Exception as e:
-            raise exceptions.ActionException(f"Error visualizing element {element}: {e}")
+            raise exceptions.ActionException(
+                f"Error visualizing element {element}: {e}"
+            )
 
-    def send_v_key(self, element: str = "wnd[0]", *, focus_element: str | None = None, value: int = 0):
+    def send_v_key(
+        self,
+        element: str = "wnd[0]",
+        *,
+        focus_element: str | None = None,
+        value: int = 0,
+    ):
         """
         Sends VKey to the window, this works for certaion fields
         If more elements are present, optional focus_element can be used to focus on one of them.
@@ -240,9 +252,39 @@ class Window:
             self.session_handle.findById(element).sendVKey(value)
 
         except Exception as e:
-            raise exceptions.ActionException(f"Error visualizing element {element}: {e}")
+            raise exceptions.ActionException(
+                f"Error visualizing element {element}: {e}"
+            )
 
-    def read_shell_table(self, element: str, load_table: bool = True) -> pandas.DataFrame:
+    def read_html_viewer(self, element: str) -> str:
+        """
+        Read the HTML content of the specified HTMLViewer element.
+
+        Parameters:
+            element (str): The identifier of the element to read.
+
+        Returns:
+            str: The inner HTML content of the specified element.
+
+        Raises:
+            ActionException: If an error occurs while reading the element.
+
+        Example:
+            ```
+            html_content = main_window.read_html_viewer("wnd[0]/usr/cntlGRID1/shellcont[0]/shell")
+            ```
+        """
+        try:
+            return self.session_handle.findById(
+                element
+            ).BrowserHandle.Document.documentElement.innerHTML
+
+        except Exception as e:
+            raise exceptions.ActionException(f"Error reading element {element}: {e}")
+
+    def read_shell_table(
+        self, element: str, load_table: bool = True
+    ) -> pandas.DataFrame:
         """
         Reads table of shell table
 
@@ -277,14 +319,19 @@ class Window:
             if load_table:
                 self.load_shell_table(element)
 
-            data = [{column: shell.GetCellValue(i, column) for column in columns} for i in range(rows_count)]
+            data = [
+                {column: shell.GetCellValue(i, column) for column in columns}
+                for i in range(rows_count)
+            ]
 
             return pandas.DataFrame(data)
 
         except Exception as ex:
             raise exceptions.ActionException(f"Error reading element {element}: {ex}")
 
-    def load_shell_table(self, table_element: str, move_by: int = 20, move_by_table_end: int = 2):
+    def load_shell_table(
+        self, table_element: str, move_by: int = 20, move_by_table_end: int = 2
+    ):
         """
         Skims through the table to load all data, as SAP only loads visible data
 
@@ -303,7 +350,9 @@ class Window:
             shell = self.session_handle.findById(table_element)
 
         except Exception as e:
-            raise exceptions.ActionException(f"Error finding table {table_element}: {e}")
+            raise exceptions.ActionException(
+                f"Error finding table {table_element}: {e}"
+            )
 
         while True:
             try:
@@ -372,7 +421,9 @@ class Window:
             self.session_handle.findById(element).selectedRows = value
 
         except Exception as e:
-            raise exceptions.ActionException(f"Error selecting rows with indexes {indexes}: {e}")
+            raise exceptions.ActionException(
+                f"Error selecting rows with indexes {indexes}: {e}"
+            )
 
     def change_shell_checkbox(self, element: str, checkbox: str, flag: bool):
         """
