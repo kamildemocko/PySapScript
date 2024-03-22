@@ -1,10 +1,12 @@
-# Description
+[Github - https://github.com/kamildemocko/PySapScript](https://github.com/kamildemocko/PySapScript)
 
-SAP scripting for Python automatization
+SAP scripting for use in Python.  
+Can perform different actions in SAP GUI client on Windows.
+
 
 # Documentation
 
-[Github - https://github.com/kamildemocko/PySapScript](https://github.com/kamildemocko/PySapScript)
+[https://kamildemocko.github.io/PySapScript/pysapscript.html](https://kamildemocko.github.io/PySapScript/pysapscript.html)
 
 # Installation
 
@@ -17,7 +19,9 @@ pip install pysapscript
 ## Create pysapscript object
 
 ```python
-pss = pysapscript.Sapscript()
+import pysapscript
+
+sapscript = pysapscript.Sapscript()
 ```
 
 parameter `default_window_title: = "SAP Easy Access"`
@@ -25,7 +29,7 @@ parameter `default_window_title: = "SAP Easy Access"`
 ## Launch Sap
 
 ```python
-pss.launch_sap(
+sapscript.launch_sap(
     sid="SQ4",
     client="012",
     user="robot_t",
@@ -35,41 +39,75 @@ pss.launch_sap(
 
 additional parameters:
 
-```python
-root_sap_dir = Path(r"C:\Program Files (x86)\SAP\FrontEnd\SAPgui")
-maximise = True
-quit_auto = True
-```
+`root_sap_dir = Path(r"C:\Program Files (x86)\SAP\FrontEnd\SAPgui")`  
+`maximise = True`  
+`quit_auto = True`
 
-## Attach to window:
+## Attach to an already opened window:
 
 ```python
-window = pss.attach_window(0, 0)
+from pysapscript.window import Window
+
+window: Window = sapscript.attach_window(0, 0)
 ```
 
 positional parameters (0, 0) -> (connection, session)
 
 ## Quitting SAP:
 
-- will automatically quit if not specified differently
-- manual quitting: `pss.quit()`
+- pysapscript will automatically quit if not manually specified in `launch_sap` parameter
+- manual quitting method: `sapscript.quit()`
 
 ## Performing action:
 
-use SAP path starting with `wnd[0]` for element argumetns
+**element**: use SAP path starting with `wnd[0]` for element arguments, for example `wnd[0]/usr/txtMAX_SEL`  
+- element paths can be found by recording a sapscript with SAP GUI or by applications like [SAP Script Tracker](https://tracker.stschnell.de/)
 
-```
+```python
+window = sapscript.attach.window(0, 0)
+
+window.maximize()
+window.restore()
+window.close()
+
+window.start_transaction(value)
+window.navigate(NavigateAction.enter)
+window.navigate(NavigateAction.back)
+
 window.write(element, value)
 window.press(element)
+window.send_v_key(value[, focus_element=True, value=0])
 window.select(element)
 window.read(element)
-window.read_shell_table(element)
-window.press_shell_button(element, button_name)
-window.change_shell_checkbox(element, checkbox_name, boolean)
-window.select_shell_rows(element, [0, 1, 2])
+window.set_checkbox(value)
+window.visualize(element[, seconds=1])
+
+table: ShellTable = window.read_shell_table(element)
 html_content = window.read_html_viewer(element)
 ```
 
-Another available actions...
+## Table actions
 
-- close window, open new window, start transaction, navigate, maximize
+ShellTable uses polars, but can also be return pandas or dictionary
+
+```python
+from pysapscript.shell_table import ShellTable
+
+table: ShellTable = window.read_shell_table()
+
+table.rows
+table.columns
+
+table.to_dict()
+table.to_dicts()
+table.to_polars_dataframe()
+table.to_pandas_dataframe()
+
+table.cell(row_value, col_value_or_name)
+table.get_column_names()
+
+table.load()
+table.press_button(value)
+table.select_rows([0, 1, 2])
+table.change_checkbox(element, value)
+```

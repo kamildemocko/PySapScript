@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>pysapscript API documentation</title>
-<meta name="description" content="[Github - https://github.com/kamildemocko/PySapScript](https://github.com/kamildemocko/PySapScript) …" />
+<title>pysapscript.utils.utils API documentation</title>
+<meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -19,136 +19,141 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Package <code>pysapscript</code></h1>
+<h1 class="title">Module <code>pysapscript.utils.utils</code></h1>
 </header>
 <section id="section-intro">
-<p><a href="https://github.com/kamildemocko/PySapScript">Github - https://github.com/kamildemocko/PySapScript</a></p>
-<p>SAP scripting for use in Python.<br>
-Can perform different actions in SAP GUI client on Windows.</p>
-<h1 id="documentation">Documentation</h1>
-<p><a href="https://kamildemocko.github.io/PySapScript/pysapscript.html">https://kamildemocko.github.io/PySapScript/pysapscript.html</a></p>
-<h1 id="installation">Installation</h1>
-<pre><code class="language-pip">pip install pysapscript
-</code></pre>
-<h1 id="usage">Usage</h1>
-<h2 id="create-pysapscript-object">Create pysapscript object</h2>
-<pre><code class="language-python">import pysapscript
-
-sapscript = pysapscript.Sapscript()
-</code></pre>
-<p>parameter <code>default_window_title: = "SAP Easy Access"</code></p>
-<h2 id="launch-sap">Launch Sap</h2>
-<pre><code class="language-python">sapscript.launch_sap(
-    sid=&quot;SQ4&quot;,
-    client=&quot;012&quot;,
-    user=&quot;robot_t&quot;,
-    password=os.getenv(&quot;secret_password&quot;)
-)
-</code></pre>
-<p>additional parameters:</p>
-<p><code>root_sap_dir = Path(r"C:\Program Files (x86)\SAP\FrontEnd\SAPgui")</code><br>
-<code>maximise = True</code><br>
-<code>quit_auto = True</code></p>
-<h2 id="attach-to-an-already-opened-window">Attach to an already opened window:</h2>
-<pre><code class="language-python">from pysapscript.window import Window
-
-window: Window = sapscript.attach_window(0, 0)
-</code></pre>
-<p>positional parameters (0, 0) -&gt; (connection, session)</p>
-<h2 id="quitting-sap">Quitting SAP:</h2>
-<ul>
-<li>pysapscript will automatically quit if not manually specified in <code>launch_sap</code> parameter</li>
-<li>manual quitting method: <code>sapscript.quit()</code></li>
-</ul>
-<h2 id="performing-action">Performing action:</h2>
-<p><strong>element</strong>: use SAP path starting with <code>wnd[0]</code> for element arguments, for example <code>wnd[0]/usr/txtMAX_SEL</code><br>
-- element paths can be found by recording a sapscript with SAP GUI or by applications like <a href="https://tracker.stschnell.de/">SAP Script Tracker</a></p>
-<pre><code class="language-python">window = sapscript.attach.window(0, 0)
-
-window.maximize()
-window.restore()
-window.close()
-
-window.start_transaction(value)
-window.navigate(NavigateAction.enter)
-window.navigate(NavigateAction.back)
-
-window.write(element, value)
-window.press(element)
-window.send_v_key(value[, focus_element=True, value=0])
-window.select(element)
-window.read(element)
-window.set_checkbox(value)
-window.visualize(element[, seconds=1])
-
-table: ShellTable = window.read_shell_table(element)
-html_content = window.read_html_viewer(element)
-</code></pre>
-<h2 id="table-actions">Table actions</h2>
-<p>ShellTable uses polars, but can also be return pandas or dictionary</p>
-<pre><code class="language-python">from pysapscript.shell_table import ShellTable
-
-table: ShellTable = window.read_shell_table()
-
-table.rows
-table.columns
-
-table.to_dict()
-table.to_dicts()
-table.to_polars_dataframe()
-table.to_pandas_dataframe()
-
-table.cell(row_value, col_value_or_name)
-table.get_column_names()
-
-table.load()
-table.press_button(value)
-table.select_rows([0, 1, 2])
-table.change_checkbox(element, value)
-</code></pre>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#34;&#34;&#34;
-.. include:: ../README.md
-&#34;&#34;&#34;
+<pre><code class="python">import os
+import time
 
-from .pysapscript import Sapscript
-from .window import Window
-from .shell_table import ShellTable
-from .types_.types import NavigateAction
-from .types_ import exceptions</code></pre>
+from win32gui import FindWindow, GetWindowText
+
+from pysapscript.types_.exceptions import WindowDidNotAppearException
+
+
+def kill_process(process: str):
+    &#34;&#34;&#34;
+    Kills process by process name
+
+    Args:
+        process (str): process name
+    &#34;&#34;&#34;
+    os.system(&#34;taskkill /f /im %s&#34; % process)
+
+
+def wait_for_window_title(title: str, timeout_loops: int = 10):
+    &#34;&#34;&#34;
+    loops until title of expected window appears,
+    waits for 1 second between each check
+
+    Args:
+        title (str): expected window title
+        timeout_loops (int): number of loops
+
+    Raises:
+        WindowDidNotAppearException: Expected window did not appear
+    &#34;&#34;&#34;
+
+    for _ in range(0, timeout_loops):
+
+        window_pid = FindWindow(&#34;SAP_FRONTEND_SESSION&#34;, None)
+        window_text = GetWindowText(window_pid)
+        if window_text.startswith(title):
+            break
+
+        time.sleep(1)
+
+    else:
+        raise WindowDidNotAppearException(
+            &#34;Window title %s didn&#39;t appear within time window!&#34; % title
+        )</code></pre>
 </details>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt><code class="name"><a title="pysapscript.pysapscript" href="pysapscript.html">pysapscript.pysapscript</a></code></dt>
+<dt id="pysapscript.utils.utils.kill_process"><code class="name flex">
+<span>def <span class="ident">kill_process</span></span>(<span>process: str)</span>
+</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Kills process by process name</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>process</code></strong> :&ensp;<code>str</code></dt>
+<dd>process name</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def kill_process(process: str):
+    &#34;&#34;&#34;
+    Kills process by process name
+
+    Args:
+        process (str): process name
+    &#34;&#34;&#34;
+    os.system(&#34;taskkill /f /im %s&#34; % process)</code></pre>
+</details>
 </dd>
-<dt><code class="name"><a title="pysapscript.shell_table" href="shell_table.html">pysapscript.shell_table</a></code></dt>
+<dt id="pysapscript.utils.utils.wait_for_window_title"><code class="name flex">
+<span>def <span class="ident">wait_for_window_title</span></span>(<span>title: str, timeout_loops: int = 10)</span>
+</code></dt>
 <dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="pysapscript.types_" href="types_/index.html">pysapscript.types_</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="pysapscript.utils" href="utils/index.html">pysapscript.utils</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="pysapscript.window" href="window.html">pysapscript.window</a></code></dt>
-<dd>
-<div class="desc"></div>
+<div class="desc"><p>loops until title of expected window appears,
+waits for 1 second between each check</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>title</code></strong> :&ensp;<code>str</code></dt>
+<dd>expected window title</dd>
+<dt><strong><code>timeout_loops</code></strong> :&ensp;<code>int</code></dt>
+<dd>number of loops</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>WindowDidNotAppearException</code></dt>
+<dd>Expected window did not appear</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def wait_for_window_title(title: str, timeout_loops: int = 10):
+    &#34;&#34;&#34;
+    loops until title of expected window appears,
+    waits for 1 second between each check
+
+    Args:
+        title (str): expected window title
+        timeout_loops (int): number of loops
+
+    Raises:
+        WindowDidNotAppearException: Expected window did not appear
+    &#34;&#34;&#34;
+
+    for _ in range(0, timeout_loops):
+
+        window_pid = FindWindow(&#34;SAP_FRONTEND_SESSION&#34;, None)
+        window_text = GetWindowText(window_pid)
+        if window_text.startswith(title):
+            break
+
+        time.sleep(1)
+
+    else:
+        raise WindowDidNotAppearException(
+            &#34;Window title %s didn&#39;t appear within time window!&#34; % title
+        )</code></pre>
+</details>
 </dd>
 </dl>
-</section>
-<section>
-</section>
-<section>
 </section>
 <section>
 </section>
@@ -156,28 +161,18 @@ from .types_ import exceptions</code></pre>
 <nav id="sidebar">
 <h1>Index</h1>
 <div class="toc">
-<ul>
-<li><a href="#documentation">Documentation</a></li>
-<li><a href="#installation">Installation</a></li>
-<li><a href="#usage">Usage</a><ul>
-<li><a href="#create-pysapscript-object">Create pysapscript object</a></li>
-<li><a href="#launch-sap">Launch Sap</a></li>
-<li><a href="#attach-to-an-already-opened-window">Attach to an already opened window:</a></li>
-<li><a href="#quitting-sap">Quitting SAP:</a></li>
-<li><a href="#performing-action">Performing action:</a></li>
-<li><a href="#table-actions">Table actions</a></li>
-</ul>
-</li>
-</ul>
+<ul></ul>
 </div>
 <ul id="index">
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<li><h3>Super-module</h3>
 <ul>
-<li><code><a title="pysapscript.pysapscript" href="pysapscript.html">pysapscript.pysapscript</a></code></li>
-<li><code><a title="pysapscript.shell_table" href="shell_table.html">pysapscript.shell_table</a></code></li>
-<li><code><a title="pysapscript.types_" href="types_/index.html">pysapscript.types_</a></code></li>
-<li><code><a title="pysapscript.utils" href="utils/index.html">pysapscript.utils</a></code></li>
-<li><code><a title="pysapscript.window" href="window.html">pysapscript.window</a></code></li>
+<li><code><a title="pysapscript.utils" href="index.html">pysapscript.utils</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pysapscript.utils.utils.kill_process" href="#pysapscript.utils.utils.kill_process">kill_process</a></code></li>
+<li><code><a title="pysapscript.utils.utils.wait_for_window_title" href="#pysapscript.utils.utils.wait_for_window_title">wait_for_window_title</a></code></li>
 </ul>
 </li>
 </ul>
