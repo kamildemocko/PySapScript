@@ -40,6 +40,16 @@ from pysapscript.types_ import exceptions
 
 class Sapscript:
     def __init__(self, default_window_title: str = &#34;SAP Easy Access&#34;) -&gt; None:
+        &#34;&#34;&#34;
+        Args:
+            default_window_title (str): default SAP window title
+
+        Example:
+            sapscript = Sapscript()
+            main_window = sapscript.attach_window(0, 0)
+            main_window.write(&#34;wnd[0]/tbar[0]/okcd&#34;, &#34;ZLOGON&#34;)
+            main_window.press(&#34;wnd[0]/tbar[0]/btn[0]&#34;)
+        &#34;&#34;&#34;
         self._sap_gui_auto = None
         self._application = None
         self.default_window_title = default_window_title
@@ -227,13 +237,32 @@ class Sapscript:
 <span>(</span><span>default_window_title: str = 'SAP Easy Access')</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>default_window_title</code></strong> :&ensp;<code>str</code></dt>
+<dd>default SAP window title</dd>
+</dl>
+<h2 id="example">Example</h2>
+<p>sapscript = Sapscript()
+main_window = sapscript.attach_window(0, 0)
+main_window.write("wnd[0]/tbar[0]/okcd", "ZLOGON")
+main_window.press("wnd[0]/tbar[0]/btn[0]")</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Sapscript:
     def __init__(self, default_window_title: str = &#34;SAP Easy Access&#34;) -&gt; None:
+        &#34;&#34;&#34;
+        Args:
+            default_window_title (str): default SAP window title
+
+        Example:
+            sapscript = Sapscript()
+            main_window = sapscript.attach_window(0, 0)
+            main_window.write(&#34;wnd[0]/tbar[0]/okcd&#34;, &#34;ZLOGON&#34;)
+            main_window.press(&#34;wnd[0]/tbar[0]/btn[0]&#34;)
+        &#34;&#34;&#34;
         self._sap_gui_auto = None
         self._application = None
         self.default_window_title = default_window_title
