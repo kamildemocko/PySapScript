@@ -16,14 +16,18 @@ Documentation = "https://kamildemocko.github.io/pysapscript/"
 
 [tool.poetry]
 name = "pysapscript"
-version = "2.4.0"
+version = "3.0.0"
 description = "Automate SAP with python!"
 authors = ["Kamil Democko <kamil.democko@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8"
-pandas = "^2.0.0"
+python = "^3.9"
 pywin32 = "^306"
-pdoc = "^14.3.0"
+polars = "^0.20.16"
+pyarrow = "^15.0.2"
+
+[tool.poetry.group.dev.dependencies]
+pandas = "^2.2.1"
+pdoc3 = "^0.10.0"
 

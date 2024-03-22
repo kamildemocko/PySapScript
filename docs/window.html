@@ -1,0 +1,1266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pysapscript.window API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pysapscript.window</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from time import sleep
+
+import win32com.client
+
+from pysapscript.types_ import exceptions
+from pysapscript.types_.types import NavigateAction
+from pysapscript.shell_table import ShellTable
+
+
+class Window:
+    def __init__(
+        self,
+        connection: int,
+        connection_handle: win32com.client.CDispatch,
+        session: int,
+        session_handle: win32com.client.CDispatch,
+    ) -&gt; None:
+        self.connection = connection
+        self.connection_handle = connection_handle
+        self.session = session
+        self.session_handle = session_handle
+
+    def __repr__(self) -&gt; str:
+        return f&#34;Window(connection={self.connection}, session={self.session})&#34;
+
+    def __str__(self) -&gt; str:
+        return f&#34;Window(connection={self.connection}, session={self.session})&#34;
+
+    def __eq__(self, other: object) -&gt; bool:
+        if isinstance(other, Window):
+            return self.connection == other.connection and self.session == other.session
+
+        return False
+
+    def __hash__(self) -&gt; hash:
+        return hash(f&#34;{self.connection_handle}{self.session_handle}&#34;)
+
+    def maximize(self) -&gt; None:
+        &#34;&#34;&#34;
+        Maximizes this sap window
+        &#34;&#34;&#34;
+        self.session_handle.findById(&#34;wnd[0]&#34;).maximize()
+
+    def restore(self) -&gt; None:
+        &#34;&#34;&#34;
+        Restores sap window to its default size, resp. before maximization
+        &#34;&#34;&#34;
+        self.session_handle.findById(&#34;wnd[0]&#34;).restore()
+
+    def close_window(self) -&gt; None:
+        &#34;&#34;&#34;
+        Closes this sap window
+        &#34;&#34;&#34;
+        self.session_handle.findById(&#34;wnd[0]&#34;).close()
+
+    def navigate(self, action: NavigateAction) -&gt; None:
+        &#34;&#34;&#34;
+        Navigates SAP: enter, back, end, cancel, save
+
+        Args:
+            action (NavigateAction): enter, back, end, cancel, save
+
+        Raises:
+            ActionException: wrong navigation action
+
+        Example:
+            ```
+            main_window.navigate(NavigateAction.enter)
+            ```
+        &#34;&#34;&#34;
+        if action == NavigateAction.enter:
+            el = &#34;wnd[0]/tbar[0]/btn[0]&#34;
+        elif action == NavigateAction.back:
+            el = &#34;wnd[0]/tbar[0]/btn[3]&#34;
+        elif action == NavigateAction.end:
+            el = &#34;wnd[0]/tbar[0]/btn[15]&#34;
+        elif action == NavigateAction.cancel:
+            el = &#34;wnd[0]/tbar[0]/btn[12]&#34;
+        elif action == NavigateAction.save:
+            el = &#34;wnd[0]/tbar[0]/btn[13]&#34;
+        else:
+            raise exceptions.ActionException(&#34;Wrong navigation action!&#34;)
+
+        self.session_handle.findById(el).press()
+
+    def start_transaction(self, transaction: str) -&gt; None:
+        &#34;&#34;&#34;
+        Starts transaction
+
+        Args:
+            transaction (str): transaction name
+        &#34;&#34;&#34;
+        self.write(&#34;wnd[0]/tbar[0]/okcd&#34;, transaction)
+        self.navigate(NavigateAction.enter)
+
+    def press(self, element: str) -&gt; None:
+        &#34;&#34;&#34;
+        Presses element
+
+        Args:
+            element (str): element to press
+
+        Raises:
+            ActionException: error clicking element
+
+        Example:
+            ```
+            main_window.press(&#34;wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03&#34;)
+            ```
+        &#34;&#34;&#34;
+        try:
+            self.session_handle.findById(element).press()
+
+        except Exception as ex:
+            raise exceptions.ActionException(f&#34;Error clicking element {element}: {ex}&#34;)
+
+    def select(self, element: str) -&gt; None:
+        &#34;&#34;&#34;
+        Selects element or menu item
+
+        Args:
+            element (str): element to select - tabs, menu items
+
+        Raises:
+            ActionException: error selecting element
+
+        Example:
+            ```
+            main_window.select(&#34;wnd[2]/tbar[0]/btn[1]&#34;)
+            ```
+        &#34;&#34;&#34;
+        try:
+            self.session_handle.findById(element).select()
+
+        except Exception as ex:
+            raise exceptions.ActionException(f&#34;Error clicking element {element}: {ex}&#34;)
+
+    def set_checkbox(self, element: str, selected: bool) -&gt; None:
+        &#34;&#34;&#34;
+        Selects checkbox element
+
+        Args:
+            element (str): checkbox element
+            selected (bool): selected state - True for checked, False for unchecked
+
+        Raises:
+            ActionException: error checking checkbox element
+
+        Example:
+            ```
+            main_window.set_checkbox(&#34;wnd[0]/usr/chkPA_CHCK&#34;, True)
+            ```
+        &#34;&#34;&#34;
+        try:
+            self.session_handle.findById(element).selected = selected
+
+        except Exception as ex:
+            raise exceptions.ActionException(f&#34;Error clicking element {element}: {ex}&#34;)
+
+    def write(self, element: str, text: str) -&gt; None:
+        &#34;&#34;&#34;
+        Sets text property of an element
+
+        Args:
+            element (str): element to accept a value
+            text (str): value to set
+
+        Raises:
+            ActionException: Error writing to element
+
+        Example:
+            ```
+            main_window.write(&#34;wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03&#34;, &#34;VALUE&#34;)
+            ```
+        &#34;&#34;&#34;
+        try:
+            self.session_handle.findById(element).text = text
+
+        except Exception as ex:
+            raise exceptions.ActionException(
+                f&#34;Error writing to element {element}: {ex}&#34;
+            )
+
+    def read(self, element: str) -&gt; str:
+        &#34;&#34;&#34;
+        Reads text property
+
+        Args:
+            element (str): element to read
+
+        Raises:
+            ActionException: Error reading element
+
+        Example:
+            ```
+            value = main_window.read(&#34;wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03&#34;)
+            ```
+        &#34;&#34;&#34;
+        try:
+            return self.session_handle.findById(element).text
+
+        except Exception as e:
+            raise exceptions.ActionException(f&#34;Error reading element {element}: {e}&#34;)
+
+    def visualize(self, element: str, seconds: int = 1) -&gt; None:
+        &#34;&#34;&#34;
+        draws red frame around the element
+
+        Args:
+            element (str): element to draw around
+            seconds (int): seconds to wait for
+
+        Raises:
+            ActionException: Error visualizing element
+        &#34;&#34;&#34;
+
+        try:
+            self.session_handle.findById(element).Visualize(1)
+            sleep(seconds)
+
+        except Exception as e:
+            raise exceptions.ActionException(
+                f&#34;Error visualizing element {element}: {e}&#34;
+            )
+
+    def send_v_key(
+        self,
+        element: str = &#34;wnd[0]&#34;,
+        *,
+        focus_element: str | None = None,
+        value: int = 0,
+    ) -&gt; None:
+        &#34;&#34;&#34;
+        Sends VKey to the window, this works for certaion fields
+        If more elements are present, optional focus_element can be used to focus on one of them.
+        Example use is a pick button, that opens POP-UP window that is otherwise not visible as a separate element.
+
+        Args:
+            element (str): element to draw around, default: wnd[0]
+            focus_element (str | None): optional, element to focus on, default: None
+            value (int): number of VKey to be sent, default: 0
+
+        Raises:
+            ActionException: Error focusing or send VKey to element
+
+        Example:
+            ```
+            window.send_v_key(focus_element=&#34;wnd[0]/usr/ctxtCITYC-LOW&#34;, value=4)
+            ```
+        &#34;&#34;&#34;
+        try:
+            if focus_element is not None:
+                self.session_handle.findById(focus_element).SetFocus()
+
+            self.session_handle.findById(element).sendVKey(value)
+
+        except Exception as e:
+            raise exceptions.ActionException(
+                f&#34;Error visualizing element {element}: {e}&#34;
+            )
+
+    def read_html_viewer(self, element: str) -&gt; str:
+        &#34;&#34;&#34;
+        Read the HTML content of the specified HTMLViewer element.
+
+        Parameters:
+            element (str): The identifier of the element to read.
+
+        Returns:
+            str: The inner HTML content of the specified element.
+
+        Raises:
+            ActionException: If an error occurs while reading the element.
+
+        Example:
+            ```
+            html_content = main_window.read_html_viewer(&#34;wnd[0]/usr/cntlGRID1/shellcont[0]/shell&#34;)
+            ```
+        &#34;&#34;&#34;
+        try:
+            return self.session_handle.findById(
+                element
+            ).BrowserHandle.Document.documentElement.innerHTML
+
+        except Exception as e:
+            raise exceptions.ActionException(f&#34;Error reading element {element}: {e}&#34;)
+
+    def read_shell_table(self, element: str, load_table: bool = True) -&gt; ShellTable:
+        &#34;&#34;&#34;
+        Read the table of the specified ShellTable element.
+        Args:
+            element (str): The identifier of the element to read.
+            load_table (bool): Whether to load the table data. Default True
+
+        Returns:
+            ShellTable: The ShellTable object with the table data and methods to manage it.
+
+        Example:
+            ```
+            table = main_window.read_shell_table(&#34;wnd[0]/usr/cntlGRID1/shellcont[0]/shell&#34;)
+            rows = table.rows
+            for row in table:
+                print(row[&#34;COL1&#34;])
+            table.to_pandas()
+            ```
+        &#34;&#34;&#34;
+        return ShellTable(self.session_handle, element, load_table)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pysapscript.window.Window"><code class="flex name class">
+<span>class <span class="ident">Window</span></span>
+<span>(</span><span>connection: int, connection_handle: win32com.client.CDispatch, session: int, session_handle: win32com.client.CDispatch)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Window:
+    def __init__(
+        self,
+        connection: int,
+        connection_handle: win32com.client.CDispatch,
+        session: int,
+        session_handle: win32com.client.CDispatch,
+    ) -&gt; None:
+        self.connection = connection
+        self.connection_handle = connection_handle
+        self.session = session
+        self.session_handle = session_handle
+
+    def __repr__(self) -&gt; str:
+        return f&#34;Window(connection={self.connection}, session={self.session})&#34;
+
+    def __str__(self) -&gt; str:
+        return f&#34;Window(connection={self.connection}, session={self.session})&#34;
+
+    def __eq__(self, other: object) -&gt; bool:
+        if isinstance(other, Window):
+            return self.connection == other.connection and self.session == other.session
+
+        return False
+
+    def __hash__(self) -&gt; hash:
+        return hash(f&#34;{self.connection_handle}{self.session_handle}&#34;)
+
+    def maximize(self) -&gt; None:
+        &#34;&#34;&#34;
+        Maximizes this sap window
+        &#34;&#34;&#34;
+        self.session_handle.findById(&#34;wnd[0]&#34;).maximize()
+
+    def restore(self) -&gt; None:
+        &#34;&#34;&#34;
+        Restores sap window to its default size, resp. before maximization
+        &#34;&#34;&#34;
+        self.session_handle.findById(&#34;wnd[0]&#34;).restore()
+
+    def close_window(self) -&gt; None:
+        &#34;&#34;&#34;
+        Closes this sap window
+        &#34;&#34;&#34;
+        self.session_handle.findById(&#34;wnd[0]&#34;).close()
+
+    def navigate(self, action: NavigateAction) -&gt; None:
+        &#34;&#34;&#34;
+        Navigates SAP: enter, back, end, cancel, save
+
+        Args:
+            action (NavigateAction): enter, back, end, cancel, save
+
+        Raises:
+            ActionException: wrong navigation action
+
+        Example:
+            ```
+            main_window.navigate(NavigateAction.enter)
+            ```
+        &#34;&#34;&#34;
+        if action == NavigateAction.enter:
+            el = &#34;wnd[0]/tbar[0]/btn[0]&#34;
+        elif action == NavigateAction.back:
+            el = &#34;wnd[0]/tbar[0]/btn[3]&#34;
+        elif action == NavigateAction.end:
+            el = &#34;wnd[0]/tbar[0]/btn[15]&#34;
+        elif action == NavigateAction.cancel:
+            el = &#34;wnd[0]/tbar[0]/btn[12]&#34;
+        elif action == NavigateAction.save:
+            el = &#34;wnd[0]/tbar[0]/btn[13]&#34;
+        else:
+            raise exceptions.ActionException(&#34;Wrong navigation action!&#34;)
+
+        self.session_handle.findById(el).press()
+
+    def start_transaction(self, transaction: str) -&gt; None:
+        &#34;&#34;&#34;
+        Starts transaction
+
+        Args:
+            transaction (str): transaction name
+        &#34;&#34;&#34;
+        self.write(&#34;wnd[0]/tbar[0]/okcd&#34;, transaction)
+        self.navigate(NavigateAction.enter)
+
+    def press(self, element: str) -&gt; None:
+        &#34;&#34;&#34;
+        Presses element
+
+        Args:
+            element (str): element to press
+
+        Raises:
+            ActionException: error clicking element
+
+        Example:
+            ```
+            main_window.press(&#34;wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03&#34;)
+            ```
+        &#34;&#34;&#34;
+        try:
+            self.session_handle.findById(element).press()
+
+        except Exception as ex:
+            raise exceptions.ActionException(f&#34;Error clicking element {element}: {ex}&#34;)
+
+    def select(self, element: str) -&gt; None:
+        &#34;&#34;&#34;
+        Selects element or menu item
+
+        Args:
+            element (str): element to select - tabs, menu items
+
+        Raises:
+            ActionException: error selecting element
+
+        Example:
+            ```
+            main_window.select(&#34;wnd[2]/tbar[0]/btn[1]&#34;)
+            ```
+        &#34;&#34;&#34;
+        try:
+            self.session_handle.findById(element).select()
+
+        except Exception as ex:
+            raise exceptions.ActionException(f&#34;Error clicking element {element}: {ex}&#34;)
+
+    def set_checkbox(self, element: str, selected: bool) -&gt; None:
+        &#34;&#34;&#34;
+        Selects checkbox element
+
+        Args:
+            element (str): checkbox element
+            selected (bool): selected state - True for checked, False for unchecked
+
+        Raises:
+            ActionException: error checking checkbox element
+
+        Example:
+            ```
+            main_window.set_checkbox(&#34;wnd[0]/usr/chkPA_CHCK&#34;, True)
+            ```
+        &#34;&#34;&#34;
+        try:
+            self.session_handle.findById(element).selected = selected
+
+        except Exception as ex:
+            raise exceptions.ActionException(f&#34;Error clicking element {element}: {ex}&#34;)
+
+    def write(self, element: str, text: str) -&gt; None:
+        &#34;&#34;&#34;
+        Sets text property of an element
+
+        Args:
+            element (str): element to accept a value
+            text (str): value to set
+
+        Raises:
+            ActionException: Error writing to element
+
+        Example:
+            ```
+            main_window.write(&#34;wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03&#34;, &#34;VALUE&#34;)
+            ```
+        &#34;&#34;&#34;
+        try:
+            self.session_handle.findById(element).text = text
+
+        except Exception as ex:
+            raise exceptions.ActionException(
+                f&#34;Error writing to element {element}: {ex}&#34;
+            )
+
+    def read(self, element: str) -&gt; str:
+        &#34;&#34;&#34;
+        Reads text property
+
+        Args:
+            element (str): element to read
+
+        Raises:
+            ActionException: Error reading element
+
+        Example:
+            ```
+            value = main_window.read(&#34;wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03&#34;)
+            ```
+        &#34;&#34;&#34;
+        try:
+            return self.session_handle.findById(element).text
+
+        except Exception as e:
+            raise exceptions.ActionException(f&#34;Error reading element {element}: {e}&#34;)
+
+    def visualize(self, element: str, seconds: int = 1) -&gt; None:
+        &#34;&#34;&#34;
+        draws red frame around the element
+
+        Args:
+            element (str): element to draw around
+            seconds (int): seconds to wait for
+
+        Raises:
+            ActionException: Error visualizing element
+        &#34;&#34;&#34;
+
+        try:
+            self.session_handle.findById(element).Visualize(1)
+            sleep(seconds)
+
+        except Exception as e:
+            raise exceptions.ActionException(
+                f&#34;Error visualizing element {element}: {e}&#34;
+            )
+
+    def send_v_key(
+        self,
+        element: str = &#34;wnd[0]&#34;,
+        *,
+        focus_element: str | None = None,
+        value: int = 0,
+    ) -&gt; None:
+        &#34;&#34;&#34;
+        Sends VKey to the window, this works for certaion fields
+        If more elements are present, optional focus_element can be used to focus on one of them.
+        Example use is a pick button, that opens POP-UP window that is otherwise not visible as a separate element.
+
+        Args:
+            element (str): element to draw around, default: wnd[0]
+            focus_element (str | None): optional, element to focus on, default: None
+            value (int): number of VKey to be sent, default: 0
+
+        Raises:
+            ActionException: Error focusing or send VKey to element
+
+        Example:
+            ```
+            window.send_v_key(focus_element=&#34;wnd[0]/usr/ctxtCITYC-LOW&#34;, value=4)
+            ```
+        &#34;&#34;&#34;
+        try:
+            if focus_element is not None:
+                self.session_handle.findById(focus_element).SetFocus()
+
+            self.session_handle.findById(element).sendVKey(value)
+
+        except Exception as e:
+            raise exceptions.ActionException(
+                f&#34;Error visualizing element {element}: {e}&#34;
+            )
+
+    def read_html_viewer(self, element: str) -&gt; str:
+        &#34;&#34;&#34;
+        Read the HTML content of the specified HTMLViewer element.
+
+        Parameters:
+            element (str): The identifier of the element to read.
+
+        Returns:
+            str: The inner HTML content of the specified element.
+
+        Raises:
+            ActionException: If an error occurs while reading the element.
+
+        Example:
+            ```
+            html_content = main_window.read_html_viewer(&#34;wnd[0]/usr/cntlGRID1/shellcont[0]/shell&#34;)
+            ```
+        &#34;&#34;&#34;
+        try:
+            return self.session_handle.findById(
+                element
+            ).BrowserHandle.Document.documentElement.innerHTML
+
+        except Exception as e:
+            raise exceptions.ActionException(f&#34;Error reading element {element}: {e}&#34;)
+
+    def read_shell_table(self, element: str, load_table: bool = True) -&gt; ShellTable:
+        &#34;&#34;&#34;
+        Read the table of the specified ShellTable element.
+        Args:
+            element (str): The identifier of the element to read.
+            load_table (bool): Whether to load the table data. Default True
+
+        Returns:
+            ShellTable: The ShellTable object with the table data and methods to manage it.
+
+        Example:
+            ```
+            table = main_window.read_shell_table(&#34;wnd[0]/usr/cntlGRID1/shellcont[0]/shell&#34;)
+            rows = table.rows
+            for row in table:
+                print(row[&#34;COL1&#34;])
+            table.to_pandas()
+            ```
+        &#34;&#34;&#34;
+        return ShellTable(self.session_handle, element, load_table)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="pysapscript.window.Window.close_window"><code class="name flex">
+<span>def <span class="ident">close_window</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Closes this sap window</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def close_window(self) -&gt; None:
+    &#34;&#34;&#34;
+    Closes this sap window
+    &#34;&#34;&#34;
+    self.session_handle.findById(&#34;wnd[0]&#34;).close()</code></pre>
+</details>
+</dd>
+<dt id="pysapscript.window.Window.maximize"><code class="name flex">
+<span>def <span class="ident">maximize</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Maximizes this sap window</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def maximize(self) -&gt; None:
+    &#34;&#34;&#34;
+    Maximizes this sap window
+    &#34;&#34;&#34;
+    self.session_handle.findById(&#34;wnd[0]&#34;).maximize()</code></pre>
+</details>
+</dd>
+<dt id="pysapscript.window.Window.navigate"><code class="name flex">
+<span>def <span class="ident">navigate</span></span>(<span>self, action: <a title="pysapscript.types_.types.NavigateAction" href="types_/types.html#pysapscript.types_.types.NavigateAction">NavigateAction</a>) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Navigates SAP: enter, back, end, cancel, save</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>action</code></strong> :&ensp;<code>NavigateAction</code></dt>
+<dd>enter, back, end, cancel, save</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ActionException</code></dt>
+<dd>wrong navigation action</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>main_window.navigate(NavigateAction.enter)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def navigate(self, action: NavigateAction) -&gt; None:
+    &#34;&#34;&#34;
+    Navigates SAP: enter, back, end, cancel, save
+
+    Args:
+        action (NavigateAction): enter, back, end, cancel, save
+
+    Raises:
+        ActionException: wrong navigation action
+
+    Example:
+        ```
+        main_window.navigate(NavigateAction.enter)
+        ```
+    &#34;&#34;&#34;
+    if action == NavigateAction.enter:
+        el = &#34;wnd[0]/tbar[0]/btn[0]&#34;
+    elif action == NavigateAction.back:
+        el = &#34;wnd[0]/tbar[0]/btn[3]&#34;
+    elif action == NavigateAction.end:
+        el = &#34;wnd[0]/tbar[0]/btn[15]&#34;
+    elif action == NavigateAction.cancel:
+        el = &#34;wnd[0]/tbar[0]/btn[12]&#34;
+    elif action == NavigateAction.save:
+        el = &#34;wnd[0]/tbar[0]/btn[13]&#34;
+    else:
+        raise exceptions.ActionException(&#34;Wrong navigation action!&#34;)
+
+    self.session_handle.findById(el).press()</code></pre>
+</details>
+</dd>
+<dt id="pysapscript.window.Window.press"><code class="name flex">
+<span>def <span class="ident">press</span></span>(<span>self, element: str) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Presses element</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>element</code></strong> :&ensp;<code>str</code></dt>
+<dd>element to press</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ActionException</code></dt>
+<dd>error clicking element</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>main_window.press(&quot;wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03&quot;)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def press(self, element: str) -&gt; None:
+    &#34;&#34;&#34;
+    Presses element
+
+    Args:
+        element (str): element to press
+
+    Raises:
+        ActionException: error clicking element
+
+    Example:
+        ```
+        main_window.press(&#34;wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03&#34;)
+        ```
+    &#34;&#34;&#34;
+    try:
+        self.session_handle.findById(element).press()
+
+    except Exception as ex:
+        raise exceptions.ActionException(f&#34;Error clicking element {element}: {ex}&#34;)</code></pre>
+</details>
+</dd>
+<dt id="pysapscript.window.Window.read"><code class="name flex">
+<span>def <span class="ident">read</span></span>(<span>self, element: str) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Reads text property</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>element</code></strong> :&ensp;<code>str</code></dt>
+<dd>element to read</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ActionException</code></dt>
+<dd>Error reading element</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>value = main_window.read(&quot;wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03&quot;)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read(self, element: str) -&gt; str:
+    &#34;&#34;&#34;
+    Reads text property
+
+    Args:
+        element (str): element to read
+
+    Raises:
+        ActionException: Error reading element
+
+    Example:
+        ```
+        value = main_window.read(&#34;wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03&#34;)
+        ```
+    &#34;&#34;&#34;
+    try:
+        return self.session_handle.findById(element).text
+
+    except Exception as e:
+        raise exceptions.ActionException(f&#34;Error reading element {element}: {e}&#34;)</code></pre>
+</details>
+</dd>
+<dt id="pysapscript.window.Window.read_html_viewer"><code class="name flex">
+<span>def <span class="ident">read_html_viewer</span></span>(<span>self, element: str) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Read the HTML content of the specified HTMLViewer element.</p>
+<h2 id="parameters">Parameters</h2>
+<p>element (str): The identifier of the element to read.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>The inner HTML content of the specified element.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ActionException</code></dt>
+<dd>If an error occurs while reading the element.</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>html_content = main_window.read_html_viewer(&quot;wnd[0]/usr/cntlGRID1/shellcont[0]/shell&quot;)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_html_viewer(self, element: str) -&gt; str:
+    &#34;&#34;&#34;
+    Read the HTML content of the specified HTMLViewer element.
+
+    Parameters:
+        element (str): The identifier of the element to read.
+
+    Returns:
+        str: The inner HTML content of the specified element.
+
+    Raises:
+        ActionException: If an error occurs while reading the element.
+
+    Example:
+        ```
+        html_content = main_window.read_html_viewer(&#34;wnd[0]/usr/cntlGRID1/shellcont[0]/shell&#34;)
+        ```
+    &#34;&#34;&#34;
+    try:
+        return self.session_handle.findById(
+            element
+        ).BrowserHandle.Document.documentElement.innerHTML
+
+    except Exception as e:
+        raise exceptions.ActionException(f&#34;Error reading element {element}: {e}&#34;)</code></pre>
+</details>
+</dd>
+<dt id="pysapscript.window.Window.read_shell_table"><code class="name flex">
+<span>def <span class="ident">read_shell_table</span></span>(<span>self, element: str, load_table: bool = True) ‑> <a title="pysapscript.shell_table.ShellTable" href="shell_table.html#pysapscript.shell_table.ShellTable">ShellTable</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Read the table of the specified ShellTable element.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>element</code></strong> :&ensp;<code>str</code></dt>
+<dd>The identifier of the element to read.</dd>
+<dt><strong><code>load_table</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Whether to load the table data. Default True</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>ShellTable</code></dt>
+<dd>The ShellTable object with the table data and methods to manage it.</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>table = main_window.read_shell_table(&quot;wnd[0]/usr/cntlGRID1/shellcont[0]/shell&quot;)
+rows = table.rows
+for row in table:
+    print(row[&quot;COL1&quot;])
+table.to_pandas()
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_shell_table(self, element: str, load_table: bool = True) -&gt; ShellTable:
+    &#34;&#34;&#34;
+    Read the table of the specified ShellTable element.
+    Args:
+        element (str): The identifier of the element to read.
+        load_table (bool): Whether to load the table data. Default True
+
+    Returns:
+        ShellTable: The ShellTable object with the table data and methods to manage it.
+
+    Example:
+        ```
+        table = main_window.read_shell_table(&#34;wnd[0]/usr/cntlGRID1/shellcont[0]/shell&#34;)
+        rows = table.rows
+        for row in table:
+            print(row[&#34;COL1&#34;])
+        table.to_pandas()
+        ```
+    &#34;&#34;&#34;
+    return ShellTable(self.session_handle, element, load_table)</code></pre>
+</details>
+</dd>
+<dt id="pysapscript.window.Window.restore"><code class="name flex">
+<span>def <span class="ident">restore</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Restores sap window to its default size, resp. before maximization</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def restore(self) -&gt; None:
+    &#34;&#34;&#34;
+    Restores sap window to its default size, resp. before maximization
+    &#34;&#34;&#34;
+    self.session_handle.findById(&#34;wnd[0]&#34;).restore()</code></pre>
+</details>
+</dd>
+<dt id="pysapscript.window.Window.select"><code class="name flex">
+<span>def <span class="ident">select</span></span>(<span>self, element: str) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Selects element or menu item</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>element</code></strong> :&ensp;<code>str</code></dt>
+<dd>element to select - tabs, menu items</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ActionException</code></dt>
+<dd>error selecting element</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>main_window.select(&quot;wnd[2]/tbar[0]/btn[1]&quot;)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def select(self, element: str) -&gt; None:
+    &#34;&#34;&#34;
+    Selects element or menu item
+
+    Args:
+        element (str): element to select - tabs, menu items
+
+    Raises:
+        ActionException: error selecting element
+
+    Example:
+        ```
+        main_window.select(&#34;wnd[2]/tbar[0]/btn[1]&#34;)
+        ```
+    &#34;&#34;&#34;
+    try:
+        self.session_handle.findById(element).select()
+
+    except Exception as ex:
+        raise exceptions.ActionException(f&#34;Error clicking element {element}: {ex}&#34;)</code></pre>
+</details>
+</dd>
+<dt id="pysapscript.window.Window.send_v_key"><code class="name flex">
+<span>def <span class="ident">send_v_key</span></span>(<span>self, element: str = 'wnd[0]', *, focus_element: str | None = None, value: int = 0) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sends VKey to the window, this works for certaion fields
+If more elements are present, optional focus_element can be used to focus on one of them.
+Example use is a pick button, that opens POP-UP window that is otherwise not visible as a separate element.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>element</code></strong> :&ensp;<code>str</code></dt>
+<dd>element to draw around, default: wnd[0]</dd>
+<dt>focus_element (str | None): optional, element to focus on, default: None</dt>
+<dt><strong><code>value</code></strong> :&ensp;<code>int</code></dt>
+<dd>number of VKey to be sent, default: 0</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ActionException</code></dt>
+<dd>Error focusing or send VKey to element</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>window.send_v_key(focus_element=&quot;wnd[0]/usr/ctxtCITYC-LOW&quot;, value=4)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def send_v_key(
+    self,
+    element: str = &#34;wnd[0]&#34;,
+    *,
+    focus_element: str | None = None,
+    value: int = 0,
+) -&gt; None:
+    &#34;&#34;&#34;
+    Sends VKey to the window, this works for certaion fields
+    If more elements are present, optional focus_element can be used to focus on one of them.
+    Example use is a pick button, that opens POP-UP window that is otherwise not visible as a separate element.
+
+    Args:
+        element (str): element to draw around, default: wnd[0]
+        focus_element (str | None): optional, element to focus on, default: None
+        value (int): number of VKey to be sent, default: 0
+
+    Raises:
+        ActionException: Error focusing or send VKey to element
+
+    Example:
+        ```
+        window.send_v_key(focus_element=&#34;wnd[0]/usr/ctxtCITYC-LOW&#34;, value=4)
+        ```
+    &#34;&#34;&#34;
+    try:
+        if focus_element is not None:
+            self.session_handle.findById(focus_element).SetFocus()
+
+        self.session_handle.findById(element).sendVKey(value)
+
+    except Exception as e:
+        raise exceptions.ActionException(
+            f&#34;Error visualizing element {element}: {e}&#34;
+        )</code></pre>
+</details>
+</dd>
+<dt id="pysapscript.window.Window.set_checkbox"><code class="name flex">
+<span>def <span class="ident">set_checkbox</span></span>(<span>self, element: str, selected: bool) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Selects checkbox element</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>element</code></strong> :&ensp;<code>str</code></dt>
+<dd>checkbox element</dd>
+<dt><strong><code>selected</code></strong> :&ensp;<code>bool</code></dt>
+<dd>selected state - True for checked, False for unchecked</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ActionException</code></dt>
+<dd>error checking checkbox element</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>main_window.set_checkbox(&quot;wnd[0]/usr/chkPA_CHCK&quot;, True)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_checkbox(self, element: str, selected: bool) -&gt; None:
+    &#34;&#34;&#34;
+    Selects checkbox element
+
+    Args:
+        element (str): checkbox element
+        selected (bool): selected state - True for checked, False for unchecked
+
+    Raises:
+        ActionException: error checking checkbox element
+
+    Example:
+        ```
+        main_window.set_checkbox(&#34;wnd[0]/usr/chkPA_CHCK&#34;, True)
+        ```
+    &#34;&#34;&#34;
+    try:
+        self.session_handle.findById(element).selected = selected
+
+    except Exception as ex:
+        raise exceptions.ActionException(f&#34;Error clicking element {element}: {ex}&#34;)</code></pre>
+</details>
+</dd>
+<dt id="pysapscript.window.Window.start_transaction"><code class="name flex">
+<span>def <span class="ident">start_transaction</span></span>(<span>self, transaction: str) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Starts transaction</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>transaction</code></strong> :&ensp;<code>str</code></dt>
+<dd>transaction name</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def start_transaction(self, transaction: str) -&gt; None:
+    &#34;&#34;&#34;
+    Starts transaction
+
+    Args:
+        transaction (str): transaction name
+    &#34;&#34;&#34;
+    self.write(&#34;wnd[0]/tbar[0]/okcd&#34;, transaction)
+    self.navigate(NavigateAction.enter)</code></pre>
+</details>
+</dd>
+<dt id="pysapscript.window.Window.visualize"><code class="name flex">
+<span>def <span class="ident">visualize</span></span>(<span>self, element: str, seconds: int = 1) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>draws red frame around the element</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>element</code></strong> :&ensp;<code>str</code></dt>
+<dd>element to draw around</dd>
+<dt><strong><code>seconds</code></strong> :&ensp;<code>int</code></dt>
+<dd>seconds to wait for</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ActionException</code></dt>
+<dd>Error visualizing element</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def visualize(self, element: str, seconds: int = 1) -&gt; None:
+    &#34;&#34;&#34;
+    draws red frame around the element
+
+    Args:
+        element (str): element to draw around
+        seconds (int): seconds to wait for
+
+    Raises:
+        ActionException: Error visualizing element
+    &#34;&#34;&#34;
+
+    try:
+        self.session_handle.findById(element).Visualize(1)
+        sleep(seconds)
+
+    except Exception as e:
+        raise exceptions.ActionException(
+            f&#34;Error visualizing element {element}: {e}&#34;
+        )</code></pre>
+</details>
+</dd>
+<dt id="pysapscript.window.Window.write"><code class="name flex">
+<span>def <span class="ident">write</span></span>(<span>self, element: str, text: str) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sets text property of an element</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>element</code></strong> :&ensp;<code>str</code></dt>
+<dd>element to accept a value</dd>
+<dt><strong><code>text</code></strong> :&ensp;<code>str</code></dt>
+<dd>value to set</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ActionException</code></dt>
+<dd>Error writing to element</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>main_window.write(&quot;wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03&quot;, &quot;VALUE&quot;)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def write(self, element: str, text: str) -&gt; None:
+    &#34;&#34;&#34;
+    Sets text property of an element
+
+    Args:
+        element (str): element to accept a value
+        text (str): value to set
+
+    Raises:
+        ActionException: Error writing to element
+
+    Example:
+        ```
+        main_window.write(&#34;wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03&#34;, &#34;VALUE&#34;)
+        ```
+    &#34;&#34;&#34;
+    try:
+        self.session_handle.findById(element).text = text
+
+    except Exception as ex:
+        raise exceptions.ActionException(
+            f&#34;Error writing to element {element}: {ex}&#34;
+        )</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pysapscript" href="index.html">pysapscript</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pysapscript.window.Window" href="#pysapscript.window.Window">Window</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pysapscript.window.Window.close_window" href="#pysapscript.window.Window.close_window">close_window</a></code></li>
+<li><code><a title="pysapscript.window.Window.maximize" href="#pysapscript.window.Window.maximize">maximize</a></code></li>
+<li><code><a title="pysapscript.window.Window.navigate" href="#pysapscript.window.Window.navigate">navigate</a></code></li>
+<li><code><a title="pysapscript.window.Window.press" href="#pysapscript.window.Window.press">press</a></code></li>
+<li><code><a title="pysapscript.window.Window.read" href="#pysapscript.window.Window.read">read</a></code></li>
+<li><code><a title="pysapscript.window.Window.read_html_viewer" href="#pysapscript.window.Window.read_html_viewer">read_html_viewer</a></code></li>
+<li><code><a title="pysapscript.window.Window.read_shell_table" href="#pysapscript.window.Window.read_shell_table">read_shell_table</a></code></li>
+<li><code><a title="pysapscript.window.Window.restore" href="#pysapscript.window.Window.restore">restore</a></code></li>
+<li><code><a title="pysapscript.window.Window.select" href="#pysapscript.window.Window.select">select</a></code></li>
+<li><code><a title="pysapscript.window.Window.send_v_key" href="#pysapscript.window.Window.send_v_key">send_v_key</a></code></li>
+<li><code><a title="pysapscript.window.Window.set_checkbox" href="#pysapscript.window.Window.set_checkbox">set_checkbox</a></code></li>
+<li><code><a title="pysapscript.window.Window.start_transaction" href="#pysapscript.window.Window.start_transaction">start_transaction</a></code></li>
+<li><code><a title="pysapscript.window.Window.visualize" href="#pysapscript.window.Window.visualize">visualize</a></code></li>
+<li><code><a title="pysapscript.window.Window.write" href="#pysapscript.window.Window.write">write</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

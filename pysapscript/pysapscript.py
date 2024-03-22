@@ -11,15 +11,31 @@ from pysapscript.types_ import exceptions
 
 
 class Sapscript:
-    def __init__(self, default_window_title: str = "SAP Easy Access"):
+    def __init__(self, default_window_title: str = "SAP Easy Access") -> None:
+        """
+        Args:
+            default_window_title (str): default SAP window title
+
+        Example:
+            sapscript = Sapscript()
+            main_window = sapscript.attach_window(0, 0)
+            main_window.write("wnd[0]/tbar[0]/okcd", "ZLOGON")
+            main_window.press("wnd[0]/tbar[0]/btn[0]")
+        """
         self._sap_gui_auto = None
         self._application = None
         self.default_window_title = default_window_title
 
+    def __repr__(self) -> str:
+        return f"Sapscript(default_window_title={self.default_window_title})"
+
+    def __str__(self) -> str:
+        return f"Sapscript(default_window_title={self.default_window_title})"
+
     def launch_sap(self, *, root_sap_dir: Path = Path(r"C:\Program Files (x86)\SAP\FrontEnd\SAPgui"), 
                    sid: str, client: str, 
                    user: str, password: str, 
-                   maximise: bool = True, quit_auto: bool = True):
+                   maximise: bool = True, quit_auto: bool = True) -> None:
         """
         Launches SAP and waits for it to load
 
@@ -45,7 +61,6 @@ class Sapscript:
             )
             ```
         """
-
         self._launch(
             root_sap_dir, 
             sid, 
@@ -59,11 +74,10 @@ class Sapscript:
         if quit_auto:
             atexit.register(self.quit)
 
-    def quit(self):
+    def quit(self) -> None:
         """
         Tries to close the sap normal way (from main window), then kills the process
         """
-
         try:
             main_window = self.attach_window(0, 0)
             main_window.select("wnd[0]/mbar/menu[4]/menu[12]")
@@ -95,7 +109,6 @@ class Sapscript:
             main_window = pss.attach_window(0, 0)
             ```
         """
-
         if not isinstance(connection, int):
             raise AttributeError("Wrong connection argument!")
 
@@ -127,7 +140,7 @@ class Sapscript:
             session_handle=session_handle,
         )
 
-    def open_new_window(self, window_to_handle_opening: window.Window):
+    def open_new_window(self, window_to_handle_opening: window.Window) -> None:
         """
         Opens new sap window
 
@@ -147,13 +160,12 @@ class Sapscript:
             pss.open_new_window(main_window)
             ```
         """
-
         window_to_handle_opening.session_handle.createSession()
 
         utils.wait_for_window_title(self.default_window_title)
 
     def _launch(self, working_dir: Path, sid: str, client: str, 
-                user: str, password: str, maximise: bool):
+                user: str, password: str, maximise: bool) -> None:
         """
         launches sap from sapshcut.exe
         """

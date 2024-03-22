@@ -4,4 +4,6 @@
 
 from .pysapscript import Sapscript
 from .window import Window
-from .window import NavigateAction
+from .shell_table import ShellTable
+from .types_.types import NavigateAction
+from .types_ import exceptions
