@@ -6,7 +6,7 @@ Can perform different actions in SAP GUI client on Windows.
 
 # Documentation
 
-[https://kamildemocko.github.io/PySapScript/pysapscript.html](https://kamildemocko.github.io/PySapScript/pysapscript.html)
+[https://kamildemocko.github.io/PySapScript/pysapscript.html](https://kamildemocko.github.io/PySapScript/)
 
 # Installation
 
