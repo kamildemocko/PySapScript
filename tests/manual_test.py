@@ -8,7 +8,6 @@ from pysapscript.types_.types import NavigateAction
 class TestRuns:
     def __init__(self):
         self.pss = Sapscript()
-
         pwd = os.getenv("sap_sq8_006_robot01_pwd")
 
         # Turns on
@@ -43,10 +42,16 @@ class TestRuns:
         # Table
         self.window.write("wnd[0]/usr/txtMAX_SEL", "20")
         self.window.press("wnd[0]/tbar[1]/btn[8]")
-        table = self.window.read_shell_table("wnd[0]/usr/cntlGRID1/shellcont/shell")
-        print(table.head())
 
-        self.window.select_shell_rows("wnd[0]/usr/cntlGRID1/shellcont/shell", [1, 3, 5])
+        table = self.window.read_shell_table("wnd[0]/usr/cntlGRID1/shellcont/shell")
+        print(f"str: {str(table)}, repr: {repr(table)}")
+        print(f"rows: {table.rows}, columns: {table.columns()}")
+        print(f"polars: {type(table.to_polars_dataframe())}, "
+              f"pandas: {type(table.to_pandas_dataframe())}, "
+              f"dict: {type(table.to_dict())}")
+        print(f"column names: {table.get_column_names()}")
+
+        table.select_rows([1, 3, 5])
 
         self.window.navigate(NavigateAction.back)
         self.window.navigate(NavigateAction.back)
