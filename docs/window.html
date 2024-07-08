@@ -163,6 +163,30 @@ class Window:
         except Exception as ex:
             raise exceptions.ActionException(f&#34;Error clicking element {element}: {ex}&#34;)
 
+    def is_selected(self, element: str) -&gt; bool:
+        &#34;&#34;&#34;
+        Gets status of select element
+
+        Args:
+            element (str): element select
+
+        Returns:
+            bool: selected state
+
+        Raises:
+            ActionException: error selecting element
+
+        Example:
+            ```
+            main_window.is_selected(&#34;wnd[2]/tbar[0]/field[1]&#34;)
+            ```
+        &#34;&#34;&#34;
+        try:
+            return self.session_handle.findById(element).selected
+
+        except Exception as ex:
+            raise exceptions.ActionException(f&#34;Error getting status of element {element}: {ex}&#34;)
+
     def set_checkbox(self, element: str, selected: bool) -&gt; None:
         &#34;&#34;&#34;
         Selects checkbox element
@@ -482,6 +506,30 @@ class Window:
         except Exception as ex:
             raise exceptions.ActionException(f&#34;Error clicking element {element}: {ex}&#34;)
 
+    def is_selected(self, element: str) -&gt; bool:
+        &#34;&#34;&#34;
+        Gets status of select element
+
+        Args:
+            element (str): element select
+
+        Returns:
+            bool: selected state
+
+        Raises:
+            ActionException: error selecting element
+
+        Example:
+            ```
+            main_window.is_selected(&#34;wnd[2]/tbar[0]/field[1]&#34;)
+            ```
+        &#34;&#34;&#34;
+        try:
+            return self.session_handle.findById(element).selected
+
+        except Exception as ex:
+            raise exceptions.ActionException(f&#34;Error getting status of element {element}: {ex}&#34;)
+
     def set_checkbox(self, element: str, selected: bool) -&gt; None:
         &#34;&#34;&#34;
         Selects checkbox element
@@ -669,6 +717,58 @@ class Window:
     Closes this sap window
     &#34;&#34;&#34;
     self.session_handle.findById(&#34;wnd[0]&#34;).close()</code></pre>
+</details>
+</dd>
+<dt id="pysapscript.window.Window.is_selected"><code class="name flex">
+<span>def <span class="ident">is_selected</span></span>(<span>self, element: str) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets status of select element</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>element</code></strong> :&ensp;<code>str</code></dt>
+<dd>element select</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>selected state</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ActionException</code></dt>
+<dd>error selecting element</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>main_window.is_selected(&quot;wnd[2]/tbar[0]/field[1]&quot;)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_selected(self, element: str) -&gt; bool:
+    &#34;&#34;&#34;
+    Gets status of select element
+
+    Args:
+        element (str): element select
+
+    Returns:
+        bool: selected state
+
+    Raises:
+        ActionException: error selecting element
+
+    Example:
+        ```
+        main_window.is_selected(&#34;wnd[2]/tbar[0]/field[1]&#34;)
+        ```
+    &#34;&#34;&#34;
+    try:
+        return self.session_handle.findById(element).selected
+
+    except Exception as ex:
+        raise exceptions.ActionException(f&#34;Error getting status of element {element}: {ex}&#34;)</code></pre>
 </details>
 </dd>
 <dt id="pysapscript.window.Window.maximize"><code class="name flex">
@@ -1239,6 +1339,7 @@ Example use is a pick button, that opens POP-UP window that is otherwise not vis
 <h4><code><a title="pysapscript.window.Window" href="#pysapscript.window.Window">Window</a></code></h4>
 <ul class="two-column">
 <li><code><a title="pysapscript.window.Window.close_window" href="#pysapscript.window.Window.close_window">close_window</a></code></li>
+<li><code><a title="pysapscript.window.Window.is_selected" href="#pysapscript.window.Window.is_selected">is_selected</a></code></li>
 <li><code><a title="pysapscript.window.Window.maximize" href="#pysapscript.window.Window.maximize">maximize</a></code></li>
 <li><code><a title="pysapscript.window.Window.navigate" href="#pysapscript.window.Window.navigate">navigate</a></code></li>
 <li><code><a title="pysapscript.window.Window.press" href="#pysapscript.window.Window.press">press</a></code></li>

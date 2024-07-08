@@ -135,6 +135,30 @@ class Window:
         except Exception as ex:
             raise exceptions.ActionException(f"Error clicking element {element}: {ex}")
 
+    def is_selected(self, element: str) -> bool:
+        """
+        Gets status of select element
+
+        Args:
+            element (str): element select
+
+        Returns:
+            bool: selected state
+
+        Raises:
+            ActionException: error selecting element
+
+        Example:
+            ```
+            main_window.is_selected("wnd[2]/tbar[0]/field[1]")
+            ```
+        """
+        try:
+            return self.session_handle.findById(element).selected
+
+        except Exception as ex:
+            raise exceptions.ActionException(f"Error getting status of element {element}: {ex}")
+
     def set_checkbox(self, element: str, selected: bool) -> None:
         """
         Selects checkbox element
