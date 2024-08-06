@@ -41,6 +41,7 @@ additional parameters:
 
 `root_sap_dir = Path(r"C:\Program Files (x86)\SAP\FrontEnd\SAPgui")`  
 `maximise = True`  
+`language = "de"`  
 `quit_auto = True`
 
 ## Attach to an already opened window:
