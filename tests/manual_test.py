@@ -16,7 +16,8 @@ class TestRuns:
             client="006",
             user="robot01_t",
             password=str(pwd),
-            quit_auto=False
+            quit_auto=False,
+            language="sk"
         )
 
         self.window = self.pss.attach_window(0, 0)
@@ -69,7 +70,6 @@ class TestRuns:
         window2.start_transaction("SQVI")
         window2.close_window()
 
-        # Quitting
         self.pss.quit()
 
 
