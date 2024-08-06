@@ -26,7 +26,7 @@
 <p>SAP scripting for use in Python.<br>
 Can perform different actions in SAP GUI client on Windows.</p>
 <h1 id="documentation">Documentation</h1>
-<p><a href="https://kamildemocko.github.io/PySapScript/pysapscript.html">https://kamildemocko.github.io/PySapScript/pysapscript.html</a></p>
+<p><a href="https://kamildemocko.github.io/PySapScript/">https://kamildemocko.github.io/PySapScript/</a></p>
 <h1 id="installation">Installation</h1>
 <pre><code class="language-pip">pip install pysapscript
 </code></pre>
@@ -77,6 +77,7 @@ window.write(element, value)
 window.press(element)
 window.send_v_key(value[, focus_element=True, value=0])
 window.select(element)
+selected = window.is_selected(element)
 window.read(element)
 window.set_checkbox(value)
 window.visualize(element[, seconds=1])

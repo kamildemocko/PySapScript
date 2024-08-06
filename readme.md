@@ -41,6 +41,7 @@ additional parameters:
 
 `root_sap_dir = Path(r"C:\Program Files (x86)\SAP\FrontEnd\SAPgui")`  
 `maximise = True`  
+`language = "de"`  
 `quit_auto = True`
 
 ## Attach to an already opened window:
@@ -78,6 +79,7 @@ window.write(element, value)
 window.press(element)
 window.send_v_key(value[, focus_element=True, value=0])
 window.select(element)
+selected = window.is_selected(element)
 window.read(element)
 window.set_checkbox(value)
 window.visualize(element[, seconds=1])

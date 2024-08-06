@@ -16,7 +16,7 @@ Documentation = "https://kamildemocko.github.io/pysapscript/"
 
 [tool.poetry]
 name = "pysapscript"
-version = "3.0.1"
+version = "3.0.3"
 description = "Automate SAP with python!"
 authors = ["Kamil Democko <kamil.democko@gmail.com>"]
 readme = "README.md"

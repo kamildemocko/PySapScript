@@ -16,7 +16,8 @@ class TestRuns:
             client="006",
             user="robot01_t",
             password=str(pwd),
-            quit_auto=False
+            quit_auto=False,
+            language="sk"
         )
 
         self.window = self.pss.attach_window(0, 0)
@@ -43,9 +44,10 @@ class TestRuns:
         self.window.write("wnd[0]/usr/txtMAX_SEL", "20")
         self.window.press("wnd[0]/tbar[1]/btn[8]")
 
+        # IF NOT AVL-GRID, switch manually
         table = self.window.read_shell_table("wnd[0]/usr/cntlGRID1/shellcont/shell")
         print(f"str: {str(table)}, repr: {repr(table)}")
-        print(f"rows: {table.rows}, columns: {table.columns()}")
+        print(f"rows: {table.rows}, columns: {table.columns}")
         print(f"polars: {type(table.to_polars_dataframe())}, "
               f"pandas: {type(table.to_pandas_dataframe())}, "
               f"dict: {type(table.to_dict())}")
@@ -57,6 +59,10 @@ class TestRuns:
         self.window.navigate(NavigateAction.back)
         self.window.navigate(NavigateAction.back)
 
+        self.window.start_transaction("YGIDESENDDK")
+        selected = self.window.is_selected("wnd[0]/usr/radP_SPOL1")
+        print(f"Selected: {selected}")
+
         # New window
         self.pss.open_new_window(window_to_handle_opening=self.window)
         sleep(2)  # ! This will not await the window as other window is opened with same title
@@ -64,7 +70,6 @@ class TestRuns:
         window2.start_transaction("SQVI")
         window2.close_window()
 
-        # Quitting
         self.pss.quit()
 
 
