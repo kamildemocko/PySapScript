@@ -83,6 +83,7 @@ selected = window.is_selected(element)
 window.read(element)
 window.set_checkbox(value)
 window.visualize(element[, seconds=1])
+window.exists(element)
 
 table: ShellTable = window.read_shell_table(element)
 html_content = window.read_html_viewer(element)
