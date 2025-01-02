@@ -247,6 +247,24 @@ class Window:
                 f"Error visualizing element {element}: {e}"
             )
 
+    def exists(self, element: str) -> bool:
+        """
+        checks if element exists by trying to access it
+
+        Args:
+            element (str): element to check
+
+        Returns:
+            bool: True if element exists, False otherwise
+        """
+
+        try:
+            self.session_handle.findById(element)
+            return True
+
+        except Exception:
+            return False
+
     def send_v_key(
         self,
         element: str = "wnd[0]",
