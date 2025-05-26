@@ -1,33 +1,24 @@
-[build-system]
-requires = ["wheel"]
-
 [project]
-authors = [
-	{name = "Kamil Democko", email = "kamil.democko@gmail.com"}
-]
-description = "Automate SAP with python!"
-readme = {file = "README.md", content-type = "text/markdown"}
-licence = {file = "licence.txt", content-type = "text"}
-keywords = ["sap", "sap script", "sapscript", "automation", "robot"]
-
-[project.urls]
-Repository = "https://github.com/kamildemocko/pysapscript"
-Documentation = "https://kamildemocko.github.io/pysapscript/"
-
-[tool.poetry]
 name = "pysapscript"
-version = "3.1.0"
+version = "3.2.0"
 description = "Automate SAP with python!"
-authors = ["Kamil Democko <kamil.democko@gmail.com>"]
 readme = "README.md"
+authors = [
+    { name = "Kamil Democko", email = "democko_kamil@vseholding.sk" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "polars>=1.30.0",
+    "pyarrow>=20.0.0",
+    "pywin32>=310",
+    "pandas>=2.2.3",
+]
 
-[tool.poetry.dependencies]
-python = "^3.9"
-pywin32 = "^306"
-polars = "^0.20.16"
-pyarrow = "^15.0.2"
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.poetry.group.dev.dependencies]
-pandas = "^2.2.1"
-pdoc3 = "^0.10.0"
-
+[dependency-groups]
+dev = [
+    "pdoc3>=0.11.6",
+]

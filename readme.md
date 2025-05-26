@@ -8,10 +8,15 @@ Can perform different actions in SAP GUI client on Windows.
 
 [https://kamildemocko.github.io/PySapScript/](https://kamildemocko.github.io/PySapScript/)
 
+```cmd
+pdoc --html --output-dir docs .\src\pysapscript\
+```
+
 # Installation
 
-```pip
-pip install pysapscript
+```cmd
+uv sync
+uv pip install -e .
 ```
 
 # Usage

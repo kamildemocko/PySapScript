@@ -32,7 +32,7 @@ class Window:
 
         return False
 
-    def __hash__(self) -> hash:
+    def __hash__(self) -> int:
         return hash(f"{self.connection_handle}{self.session_handle}")
 
     def maximize(self) -> None:
