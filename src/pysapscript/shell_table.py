@@ -91,7 +91,7 @@ class ShellTable:
         try:
             shell = self._session_handle.findById(self.table_element)
 
-            if shell.ColumnOrder is None:
+            if hasattr(shell, "ColumnOrder") is False or hasattr(shell, "RowCount") is False:
                 return pl.DataFrame()
 
             columns = shell.ColumnOrder
@@ -100,6 +100,8 @@ class ShellTable:
             if rows_count == 0:
                 return pl.DataFrame()
 
+            self.data_present = True
+
             if load_table:
                 self.load()
 
@@ -107,8 +109,6 @@ class ShellTable:
                 {column: shell.GetCellValue(i, column) for column in columns}
                 for i in range(rows_count)
             ]
-
-            self.data_present = True
 
             return pl.DataFrame(data)
 

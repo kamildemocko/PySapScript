@@ -61,7 +61,15 @@ class TestRuns:
 
         self.window.start_transaction("YGIDESENDDK")
         selected = self.window.is_selected("wnd[0]/usr/radP_SPOL1")
+        self.window.navigate(NavigateAction.back)
         print(f"Selected: {selected}")
+
+        # Non data shell
+        self.window.start_transaction("EEDM02")
+        nondatashell = self.window.read_shell_table("wnd[0]/usr/subFULLSCREEN_SS:SAPLEEDM_DLG_FRAME:0200/subSUBSCREEN_TREE:SAPLEEDM_TREESELECT:0200/cntlTREE_CONTAINER/shellcont/shell/shellcont[0]/shell")
+        nondatashell.press_button("REFRESH_TREE")
+        self.window.navigate(NavigateAction.back)
+
 
         # New window
         self.pss.open_new_window(window_to_handle_opening=self.window)
