@@ -200,6 +200,7 @@ name = "pysapscript"
 version = "3.2.0"
 source = { editable = "." }
 dependencies = [
+    { name = "pandas" },
     { name = "polars" },
     { name = "pyarrow" },
     { name = "pywin32" },
@@ -207,22 +208,19 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
-    { name = "pandas" },
     { name = "pdoc3" },
 ]
 
 [package.metadata]
 requires-dist = [
+    { name = "pandas", specifier = ">=2.2.3" },
     { name = "polars", specifier = ">=1.30.0" },
     { name = "pyarrow", specifier = ">=20.0.0" },
     { name = "pywin32", specifier = ">=310" },
 ]
 
 [package.metadata.requires-dev]
-dev = [
-    { name = "pandas", specifier = ">=2.2.3" },
-    { name = "pdoc3", specifier = ">=0.11.6" },
-]
+dev = [{ name = "pdoc3", specifier = ">=0.11.6" }]
 
 [[package]]
 name = "python-dateutil"

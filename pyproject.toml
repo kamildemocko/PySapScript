@@ -11,6 +11,7 @@ dependencies = [
     "polars>=1.30.0",
     "pyarrow>=20.0.0",
     "pywin32>=310",
+    "pandas>=2.2.3",
 ]
 
 [build-system]
@@ -19,6 +20,5 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
-    "pandas>=2.2.3",
     "pdoc3>=0.11.6",
 ]
