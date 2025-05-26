@@ -17,6 +17,8 @@ class ShellTable:
 
     def __init__(self, session_handle: win32com.client.CDispatch, element: str, load_table: bool = True) -> None:
         """
+        Usually table contains a table of data, but it can also be a non-data shell table, that holds toolbar
+
         Args:
             session_handle (win32com.client.CDispatch): SAP session handle
             element (str): SAP table element
@@ -27,6 +29,7 @@ class ShellTable:
         """
         self.table_element = element
         self._session_handle = session_handle
+        self.data_present = False
         self.data = self._read_shell_table(load_table)
         self.rows = self.data.shape[0]
         self.columns = self.data.shape[1]
@@ -46,7 +49,10 @@ class ShellTable:
     def __hash__(self) -> int:
         return hash(f"{self._session_handle}{self.table_element}{self.data.shape}")
 
-    def __getitem__(self, item) -> dict[str, Any] | list[dict[str, Any]]:
+    def __getitem__(self, item: object) -> dict[str, Any] | list[dict[str, Any]]:
+        if self.data_present is False:
+            raise ValueError("Data was be found in shell table")
+
         if isinstance(item, int):
             return self.data.row(item, named=True)
         elif isinstance(item, slice):
@@ -85,6 +91,9 @@ class ShellTable:
         try:
             shell = self._session_handle.findById(self.table_element)
 
+            if shell.ColumnOrder is None:
+                return pl.DataFrame()
+
             columns = shell.ColumnOrder
             rows_count = shell.RowCount
 
@@ -99,6 +108,8 @@ class ShellTable:
                 for i in range(rows_count)
             ]
 
+            self.data_present = True
+
             return pl.DataFrame(data)
 
         except Exception as ex:
@@ -111,6 +122,9 @@ class ShellTable:
         Returns:
             polars.DataFrame: table data
         """
+        if self.data_present is False:
+            raise ValueError("Data was be found in shell table")
+
         return self.data
 
     def to_pandas_dataframe(self) -> pandas.DataFrame:
@@ -120,6 +134,9 @@ class ShellTable:
         Returns:
             pandas.DataFrame: table data
         """
+        if self.data_present is False:
+            raise ValueError("Data was be found in shell table")
+
         return self.data.to_pandas()
 
     def to_dict(self) -> dict[str, Any]:
@@ -129,6 +146,9 @@ class ShellTable:
         Returns:
             dict[str, Any]: table data in named dictionary - column names as keys
         """
+        if self.data_present is False:
+            raise ValueError("Data was be found in shell table")
+        
         return self.data.to_dict(as_series=False)
 
     def to_dicts(self) -> list[dict[str, Any]]:
@@ -138,6 +158,9 @@ class ShellTable:
         Returns:
             list[dict[str, Any]]: table data in list of named dictionaries - rows
         """
+        if self.data_present is False:
+            raise ValueError("Data was be found in shell table")
+
         return self.data.to_dicts()
 
     def get_column_names(self) -> list[str]:
@@ -147,6 +170,9 @@ class ShellTable:
         Returns:
             list[str]: column names in the table
         """
+        if self.data_present is False:
+            raise ValueError("Data was be found in shell table")
+
         return self.data.columns
 
     @overload
@@ -168,6 +194,9 @@ class ShellTable:
         Returns:
             Any: cell value
         """
+        if self.data_present is False:
+            raise ValueError("Data was be found in shell table")
+
         return self.data.item(row, column)
 
     def load(self, move_by: int = 20, move_by_table_end: int = 2) -> None:
@@ -181,6 +210,9 @@ class ShellTable:
         Raises:
             ActionException: error finding table
         """
+        if self.data_present is False:
+            raise ValueError("Data was be found in shell table")
+
         row_position = 0
 
         try:
@@ -250,6 +282,9 @@ class ShellTable:
             main_window.select_shell_rows("wnd[0]/usr/shellContent/shell", [0, 1, 2])
             ```
         """
+        if self.data_present is False:
+            raise ValueError("Data was be found in shell table")
+
         try:
             value = ",".join([str(n) for n in indexes])
             self._session_handle.findById(self.table_element).selectedRows = value
@@ -275,6 +310,9 @@ class ShellTable:
             main_window.change_shell_checkbox("wnd[0]/usr/cntlALV_CONT/shellcont/shell/rows[1]", "%CHBX", True)
             ```
         """
+        if self.data_present is False:
+            raise ValueError("Data was be found in shell table")
+
         try:
             self._session_handle.findById(self.table_element).changeCheckbox(checkbox, "1", flag)
 
