@@ -1,3 +1,4 @@
+from ast import Not
 from typing import Self, Any, ClassVar
 from typing import overload
 
@@ -37,9 +38,12 @@ class ShellTable:
         return str(self.data)
 
     def __eq__(self, other: object) -> bool:
-        return self.data == other
+        if isinstance(other, ShellTable):
+            return self.data.equals(other.data)
+        else:
+            raise NotImplementedError(f"Cannot compare ShellTable with {type(other)}")
 
-    def __hash__(self) -> hash:
+    def __hash__(self) -> int:
         return hash(f"{self._session_handle}{self.table_element}{self.data.shape}")
 
     def __getitem__(self, item) -> dict[str, Any] | list[dict[str, Any]]:
@@ -54,7 +58,7 @@ class ShellTable:
         else:
             raise ValueError("Incorrect type of index")
 
-    def __iter__(self) -> Self:
+    def __iter__(self) -> "ShellTableRowIterator":
         return ShellTableRowIterator(self.data)
 
     def _read_shell_table(self, load_table: bool = True) -> pl.DataFrame:
