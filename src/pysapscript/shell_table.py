@@ -1,5 +1,4 @@
-from ast import Not
-from typing import Self, Any, ClassVar
+from typing import Self, Any
 from typing import overload
 
 import win32com.client
@@ -51,7 +50,7 @@ class ShellTable:
 
     def __getitem__(self, item: object) -> dict[str, Any] | list[dict[str, Any]]:
         if self.data_present is False:
-            raise ValueError("Data was be found in shell table")
+            raise ValueError("Data was not found in shell table")
 
         if isinstance(item, int):
             return self.data.row(item, named=True)
@@ -123,7 +122,7 @@ class ShellTable:
             polars.DataFrame: table data
         """
         if self.data_present is False:
-            raise ValueError("Data was be found in shell table")
+            raise ValueError("Data was not found in shell table")
 
         return self.data
 
@@ -135,7 +134,7 @@ class ShellTable:
             pandas.DataFrame: table data
         """
         if self.data_present is False:
-            raise ValueError("Data was be found in shell table")
+            raise ValueError("Data was not found in shell table")
 
         return self.data.to_pandas()
 
@@ -147,7 +146,7 @@ class ShellTable:
             dict[str, Any]: table data in named dictionary - column names as keys
         """
         if self.data_present is False:
-            raise ValueError("Data was be found in shell table")
+            raise ValueError("Data was not found in shell table")
         
         return self.data.to_dict(as_series=False)
 
@@ -159,7 +158,7 @@ class ShellTable:
             list[dict[str, Any]]: table data in list of named dictionaries - rows
         """
         if self.data_present is False:
-            raise ValueError("Data was be found in shell table")
+            raise ValueError("Data was not found in shell table")
 
         return self.data.to_dicts()
 
@@ -171,7 +170,7 @@ class ShellTable:
             list[str]: column names in the table
         """
         if self.data_present is False:
-            raise ValueError("Data was be found in shell table")
+            raise ValueError("Data was not found in shell table")
 
         return self.data.columns
 
@@ -195,7 +194,7 @@ class ShellTable:
             Any: cell value
         """
         if self.data_present is False:
-            raise ValueError("Data was be found in shell table")
+            raise ValueError("Data was not found in shell table")
 
         return self.data.item(row, column)
 
@@ -211,7 +210,7 @@ class ShellTable:
             ActionException: error finding table
         """
         if self.data_present is False:
-            raise ValueError("Data was be found in shell table")
+            raise ValueError("Data was not found in shell table")
 
         row_position = 0
 
@@ -283,7 +282,7 @@ class ShellTable:
             ```
         """
         if self.data_present is False:
-            raise ValueError("Data was be found in shell table")
+            raise ValueError("Data was not found in shell table")
 
         try:
             value = ",".join([str(n) for n in indexes])
@@ -338,9 +337,6 @@ class ShellTable:
             main_window.change_shell_checkbox("wnd[0]/usr/cntlALV_CONT/shellcont/shell/rows[1]", "%CHBX", True)
             ```
         """
-        if self.data_present is False:
-            raise ValueError("Data was be found in shell table")
-
         try:
             self._session_handle.findById(self.table_element).changeCheckbox(checkbox, "1", flag)
 
