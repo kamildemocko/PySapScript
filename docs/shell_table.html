@@ -314,7 +314,7 @@ el.replaceWith(d);
 
     def select_rows(self, indexes: list[int]) -&gt; None:
         &#34;&#34;&#34;
-        Presses button that is in a shell table
+        Selects rows (visual) is in a shell table
 
         Args:
             indexes (list[int]): indexes of rows to select, starting with 0
@@ -338,6 +338,34 @@ el.replaceWith(d);
             raise exceptions.ActionException(
                 f&#34;Error selecting rows with indexes {indexes}: {e}&#34;
             )
+
+    def select_row(self, index: int) -&gt; None:
+        &#34;&#34;&#34;
+        Selects row and set it as active in a shell table
+
+        Args:
+            indexes (int): indexe of row to select, starting with 0
+
+        Raises:
+            ActionException: error selecting shell row
+
+        Example:
+            ```
+            main_window.select_shell_row(&#34;wnd[0]/usr/shellContent/shell&#34;, 1)
+            ```
+        &#34;&#34;&#34;
+        if self.data_present is False:
+            raise ValueError(&#34;Data was be found in shell table&#34;)
+
+        try:
+            self._session_handle.findById(self.table_element).currentCellRow = index
+            self._session_handle.findById(self.table_element).selectedRows = index
+
+        except Exception as e:
+            raise exceptions.ActionException(
+                f&#34;Error selecting row with index {index}: {e}&#34;
+            )
+
 
     def change_checkbox(self, checkbox: str, flag: bool) -&gt; None:
         &#34;&#34;&#34;
@@ -610,6 +638,56 @@ el.replaceWith(d);
 <pre><code>main_window.press_shell_button(&quot;wnd[0]/usr/shellContent/shell&quot;, &quot;%OPENDWN&quot;)
 </code></pre></div>
 </dd>
+<dt id="pysapscript.shell_table.ShellTable.select_row"><code class="name flex">
+<span>def <span class="ident">select_row</span></span>(<span>self, index: int) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def select_row(self, index: int) -&gt; None:
+    &#34;&#34;&#34;
+    Selects row and set it as active in a shell table
+
+    Args:
+        indexes (int): indexe of row to select, starting with 0
+
+    Raises:
+        ActionException: error selecting shell row
+
+    Example:
+        ```
+        main_window.select_shell_row(&#34;wnd[0]/usr/shellContent/shell&#34;, 1)
+        ```
+    &#34;&#34;&#34;
+    if self.data_present is False:
+        raise ValueError(&#34;Data was be found in shell table&#34;)
+
+    try:
+        self._session_handle.findById(self.table_element).currentCellRow = index
+        self._session_handle.findById(self.table_element).selectedRows = index
+
+    except Exception as e:
+        raise exceptions.ActionException(
+            f&#34;Error selecting row with index {index}: {e}&#34;
+        )</code></pre>
+</details>
+<div class="desc"><p>Selects row and set it as active in a shell table</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>indexes</code></strong> :&ensp;<code>int</code></dt>
+<dd>indexe of row to select, starting with 0</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ActionException</code></dt>
+<dd>error selecting shell row</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>main_window.select_shell_row(&quot;wnd[0]/usr/shellContent/shell&quot;, 1)
+</code></pre></div>
+</dd>
 <dt id="pysapscript.shell_table.ShellTable.select_rows"><code class="name flex">
 <span>def <span class="ident">select_rows</span></span>(<span>self, indexes: list[int]) ‑> None</span>
 </code></dt>
@@ -620,7 +698,7 @@ el.replaceWith(d);
 </summary>
 <pre><code class="python">def select_rows(self, indexes: list[int]) -&gt; None:
     &#34;&#34;&#34;
-    Presses button that is in a shell table
+    Selects rows (visual) is in a shell table
 
     Args:
         indexes (list[int]): indexes of rows to select, starting with 0
@@ -645,7 +723,7 @@ el.replaceWith(d);
             f&#34;Error selecting rows with indexes {indexes}: {e}&#34;
         )</code></pre>
 </details>
-<div class="desc"><p>Presses button that is in a shell table</p>
+<div class="desc"><p>Selects rows (visual) is in a shell table</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>indexes</code></strong> :&ensp;<code>list[int]</code></dt>
@@ -824,6 +902,7 @@ el.replaceWith(d);
 <li><code><a title="pysapscript.shell_table.ShellTable.get_column_names" href="#pysapscript.shell_table.ShellTable.get_column_names">get_column_names</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.load" href="#pysapscript.shell_table.ShellTable.load">load</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.press_button" href="#pysapscript.shell_table.ShellTable.press_button">press_button</a></code></li>
+<li><code><a title="pysapscript.shell_table.ShellTable.select_row" href="#pysapscript.shell_table.ShellTable.select_row">select_row</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.select_rows" href="#pysapscript.shell_table.ShellTable.select_rows">select_rows</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.to_dict" href="#pysapscript.shell_table.ShellTable.to_dict">to_dict</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.to_dicts" href="#pysapscript.shell_table.ShellTable.to_dicts">to_dicts</a></code></li>

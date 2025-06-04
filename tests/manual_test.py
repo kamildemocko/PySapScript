@@ -54,6 +54,7 @@ class TestRuns:
         print(f"column names: {table.get_column_names()}")
 
         table.select_rows([1, 3, 5])
+        table.select_row(2)
 
         self.window.navigate(NavigateAction.back)
         self.window.navigate(NavigateAction.back)
