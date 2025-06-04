@@ -269,7 +269,7 @@ class ShellTable:
 
     def select_rows(self, indexes: list[int]) -> None:
         """
-        Presses button that is in a shell table
+        Selects rows (visual) is in a shell table
 
         Args:
             indexes (list[int]): indexes of rows to select, starting with 0
@@ -293,6 +293,34 @@ class ShellTable:
             raise exceptions.ActionException(
                 f"Error selecting rows with indexes {indexes}: {e}"
             )
+
+    def select_row(self, index: int) -> None:
+        """
+        Selects rows and set as active row is in a shell table
+
+        Args:
+            indexes (int): indexe of row to select, starting with 0
+
+        Raises:
+            ActionException: error selecting shell row
+
+        Example:
+            ```
+            main_window.select_shell_row("wnd[0]/usr/shellContent/shell", 1)
+            ```
+        """
+        if self.data_present is False:
+            raise ValueError("Data was be found in shell table")
+
+        try:
+            self._session_handle.findById(self.table_element).currentCellRow = index
+            self._session_handle.findById(self.table_element).selectedRows = index
+
+        except Exception as e:
+            raise exceptions.ActionException(
+                f"Error selecting row with index {index}: {e}"
+            )
+
 
     def change_checkbox(self, checkbox: str, flag: bool) -> None:
         """
