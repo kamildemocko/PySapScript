@@ -117,5 +117,6 @@ table.get_column_names()
 table.load()
 table.press_button(value)
 table.select_rows([0, 1, 2])
+table.select_row(1)
 table.change_checkbox(element, value)
 ```
