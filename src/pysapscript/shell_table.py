@@ -296,7 +296,7 @@ class ShellTable:
 
     def select_row(self, index: int) -> None:
         """
-        Selects rows and set as active row is in a shell table
+        Selects row and set it as active in a shell table
 
         Args:
             indexes (int): indexe of row to select, starting with 0
