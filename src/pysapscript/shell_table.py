@@ -1,4 +1,4 @@
-from typing import Self, Any
+from typing import Self, Any, Literal
 from typing import overload
 
 import win32com.client
@@ -342,6 +342,32 @@ class ShellTable:
 
         except Exception as e:
             raise exceptions.ActionException(f"Error setting element {self.table_element}: {e}")
+    
+    def press_context_menu_item(self, value: str, item_type: Literal["func_code", "text"] = "func_code"):
+        """
+        Presses menu item in context menu of a shell
+
+        Args:
+            value (str): name of function code or text of item based on item type
+            item_type (literal): func_code (internal name) or text (label)
+
+        Raises:
+            NotImplementedError: bad item_type
+
+        Example:
+            ```
+            main_window.press_context_menu_item("Excel File...", item_type="text")
+            ```
+        """
+        self._session_handle.findById(self.table_element).contextMenu()
+
+        match item_type:
+            case "func_code":
+                self._session_handle.findById(self.table_element).selectContextMenuItem(value)
+            case "text":
+                self._session_handle.findById(self.table_element).selectContextMenuItemByText(value)
+            case _:
+                raise NotImplementedError
 
 
 class ShellTableRowIterator:
