@@ -85,10 +85,13 @@ window.press(element)
 window.send_v_key(value[, focus_element=True, value=0])
 window.select(element)
 selected = window.is_selected(element)
-window.read(element)
 window.set_checkbox(value)
+window.read(element)
 window.visualize(element[, seconds=1])
 window.exists(element)
+
+window.set_dropdown(element, "02")
+window.set_dropdown(element, "Excel File XLSX", value_type="text")
 
 table: ShellTable = window.read_shell_table(element)
 html_content = window.read_html_viewer(element)
@@ -119,4 +122,7 @@ table.press_button(value)
 table.select_rows([0, 1, 2])
 table.select_row(1)
 table.change_checkbox(element, value)
+
+table.press_context_menu_item("%XXL")
+table.press_context_menu_item("Excel File...", item_type="text")
 ```
