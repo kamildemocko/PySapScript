@@ -1,3 +1,4 @@
+from typing import Literal
 from time import sleep
 
 import win32com.client
@@ -180,6 +181,50 @@ class Window:
 
         except Exception as ex:
             raise exceptions.ActionException(f"Error clicking element {element}: {ex}")
+
+    def set_dropdown(self, element: str, value: str, value_type: Literal["key", "text"] = "key") -> None:
+        """
+        Sets value of a dropdown menu
+
+        Args:
+            element (str): checkbox element
+            value (str): key or text based on value_type
+            value_type (Literal): key (internal name) or text (label)
+
+        Raises:
+            NotImplementedError: invalid value type
+
+        Example:
+            ```
+            main_window.set_dropdown("wnd[0]/usr/chkPA_CHCK", "Excel File", "text")
+            ```
+        """
+        try:
+            match value_type:
+                case "key":
+                    self.session_handle.findById(element).Key = value
+                case "text":
+                    dd_el = self.session_handle.findById(element)
+                    available = []
+
+                    for i in range(0, dd_el.Entries.Count - 1):
+                        if dd_el.Entries(i).Value not in value:
+                            available.append(dd_el.Entries(i).Value)
+                            continue
+                            
+                        dd_el.Key = dd_el.Entries(i).Key
+                        break
+
+                    else:
+                        raise ValueError(
+                            f"Value {value} not found in the dropdown element {element}, avilable elements: {", ".join(available)}"
+                        )
+                case _:
+                    raise NotImplementedError
+
+        except Exception as ex:
+            raise exceptions.ActionException(f"Error clicking element {element}: {ex}")
+
 
     def write(self, element: str, text: str) -> None:
         """
