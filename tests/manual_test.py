@@ -56,6 +56,9 @@ class TestRuns:
         table.select_rows([1, 3, 5])
         table.select_row(2)
 
+        # export with dropdown
+        table.press_context_menu_item("Tabuľková kalkulácia...", item_type="text")
+
         self.window.navigate(NavigateAction.back)
         self.window.navigate(NavigateAction.back)
         self.window.navigate(NavigateAction.back)
