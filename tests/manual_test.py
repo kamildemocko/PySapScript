@@ -58,6 +58,12 @@ class TestRuns:
 
         # export with dropdown
         table.press_context_menu_item("Tabuľková kalkulácia...", item_type="text")
+        self.window.set_dropdown(
+            "wnd[1]/usr/cmbG_LISTBOX", 
+            "10 Excel (vo formáte Office 2007 XLSX)",
+            value_type="text",
+        )
+        self.window.press("wnd[1]/tbar[0]/btn[12]")
 
         self.window.navigate(NavigateAction.back)
         self.window.navigate(NavigateAction.back)
