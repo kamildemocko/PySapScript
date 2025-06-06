@@ -54,7 +54,8 @@ class Node:
         self._shell_tree.CollapseNode(self.key)
 
     def double_click(self) -> None:
-        ...
+        self.select()
+        self._shell_tree.DoubleClickNode(self.key)
 
 
 class ShellTree:

@@ -69,6 +69,23 @@ class TestRuns:
         sleep(1)
         tree.unselect_all()
 
+        folder = tree.get_node_by_label("Prípady k objasneniu z dávky platieb")
+        assert folder is not None
+        assert folder.is_folder is True
+        assert folder.children_count > 0
+
+        folder.collapse()
+        sleep(1)
+        folder.expand()
+
+        node = tree.get_node_by_label("Hodnota výberu 2")
+        assert node is not None
+        node.select()
+        sleep(1)
+        node.unselect()
+
+        node.double_click()
+
         self.window.navigate(NavigateAction.back)
         self.pss.quit()
 
