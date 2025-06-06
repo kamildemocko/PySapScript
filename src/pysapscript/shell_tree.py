@@ -16,6 +16,13 @@ class Node:
     children_count: int
 
     def get_children(self) -> "list[Node]":
+        """
+        Get all children of the node.
+        This method retrieves all child nodes of the current node if it is a folder.
+
+        Returns:
+            list[Node]: A list of Node objects representing the children of the current node.
+        """
         if not self.is_folder:
             raise exceptions.ActionException(
                 f"node with key: {self.key}, label: {self.label} has no children"
@@ -42,18 +49,49 @@ class Node:
         return children
 
     def select(self) -> None:
+        """
+        Select this node.
+        """
         self._shell_tree.SelectNode(self.key)
 
     def unselect(self) -> None:
+        """
+        Unselect this node.
+        """
         self._shell_tree.UnselectNode(self.key)
 
     def expand(self) -> None:
+        """
+        Expand this node if it is a folder.
+
+        Raises:
+            ActionException: If the node is not a folder.
+        """
+        if not self.is_folder:
+            raise exceptions.ActionException(
+                f"node with key: {self.key}, label: {self.label} is not a folder"
+            )
+
         self._shell_tree.ExpandNode(self.key)
 
     def collapse(self) -> None:
+        """
+        Collapse this node if it is a folder.
+
+        Raises:
+            ActionException: If the node is not a folder.
+        """
+        if not self.is_folder:
+            raise exceptions.ActionException(
+                f"node with key: {self.key}, label: {self.label} is not a folder"
+            )
+
         self._shell_tree.CollapseNode(self.key)
 
     def double_click(self) -> None:
+        """
+        Double-click this node.
+        """
         self.select()
         self._shell_tree.DoubleClickNode(self.key)
 
@@ -125,6 +163,16 @@ class ShellTree:
         shell: win32com.client.CDispatch,
         key: str,
     ) -> Node:
+        """
+        Parse a node from the list of nodes in the shell tree.
+
+        Args:
+            shell (win32com.client.CDispatch): The shell tree object.
+            key (str): The key of the node to parse.
+
+        Returns:
+            Node: A Node object containing the parsed information.
+        """
         label = shell.GetNodeTextByKey(key)
         expandable = shell.IsFolderExpandable(key)
         expanded = shell.IsFolderExpanded(key)
@@ -143,6 +191,12 @@ class ShellTree:
         )
 
     def _read_shell_tree(self) -> list[Node]:
+        """
+        Read the shell tree and return a list of Node objects.
+
+        Returns:
+            list[Node]: A list of Node objects representing the shell tree.
+        """
         content = []
 
         shell = self._session_handle.findById(self.tree_element)
@@ -154,6 +208,15 @@ class ShellTree:
         return content
 
     def get_node_by_key(self, key: str) -> Node | None:
+        """
+        Get a node by its key.
+
+        Args:
+            key (str): The key of the node to retrieve. Example: "          7"
+
+        Returns:
+            Node | None: The Node object if found, otherwise None.
+        """
         key_match = [n for n in self._nodes if n.key == key]
         if not key_match:
             return None
@@ -161,6 +224,15 @@ class ShellTree:
         return key_match[0]
 
     def get_node_by_label(self, label: str) -> Node | None:
+        """
+        Get a node by its label.
+
+        Args:
+            label (str): The label of the node to retrieve. Example: "Hodnota výberu 2"
+
+        Returns:
+            Node | None: The Node object if found, otherwise None.
+        """
         label_match = [n for n in self._nodes if n.label == label]
         if not label_match:
             return None
@@ -168,26 +240,59 @@ class ShellTree:
         return label_match[0]
     
     def get_nodes(self) -> list[Node]:
+        """
+        Get all nodes in the shell tree.
+
+        Returns:
+            list[Node]: A list of Node objects representing all nodes in the shell tree.
+        """
         return self._nodes
     
     def get_node_folders(self) -> list[Node]:
+        """
+        Get all folder nodes in the shell tree.
+
+        Returns:
+            list[Node]: A list of Node objects that are folders.
+        """
         return [n for n in self._nodes if n.is_folder]
 
     def get_node_not_folders(self) -> list[Node]:
+        """
+        Get all nodes that are not folders in the shell tree.
+        
+        Returns:
+            list[Node]: A list of Node objects that are not folders.
+        """
         return [n for n in self._nodes if not n.is_folder]
 
     def select_all(self) -> None:
+        """
+        Select all nodes in the shell tree.
+        This method iterates through all nodes that are not folders and selects them.
+        """
         for node in self.get_node_not_folders():
             node.select()
 
     def unselect_all(self) -> None:
+        """
+        Unselect all nodes in the shell tree.
+        """
         shell = self._session_handle.findById(self.tree_element)
         shell.UnselectAll()
 
     def expand_all(self) -> None:
+        """
+        Expand all folder nodes in the shell tree.
+        This method iterates through all folder nodes and expands them.
+        """
         for folder in self.get_node_folders():
             folder.expand()
 
     def collapse_all(self) -> None:
+        """
+         Collapse all folder nodes in the shell tree.
+         This method iterates through all folder nodes and collapses them.
+         """
         for folder in self.get_node_folders():
             folder.collapse()
