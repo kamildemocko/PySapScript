@@ -76,8 +76,6 @@ class ShellTree:
         self.tree_element = element
         self._session_handle = session_handle
         self._nodes = self._read_shell_tree()
-        self._folders = self._filter_node_folders()
-        self._not_folders = self._filter_node_not_folders()
 
     def __repr__(self) -> str:
         return repr(self._nodes)
@@ -95,11 +93,26 @@ class ShellTree:
         return hash(f"{self._session_handle}{self.tree_element}{len(self._nodes)}")
 
     def __getitem__(self, item: object) -> list[Node] | Node:
+        """
+        Get a node or slice of nodes from the tree.
+        
+        Args:
+            item: An integer index or a slice object
+            
+        Returns:
+            A single Node when indexed with an integer, or
+            a list of Nodes when indexed with a slice
+            
+        Raises:
+            ValueError: If the item type is not an integer or slice
+            IndexError: If index is out of range
+        """
         if isinstance(item, int):
             return self._nodes[item]
 
         elif isinstance(item, slice):
             return self._nodes[item.start:item.stop:item.step]
+
         else:
             raise ValueError("Incorrect type of index")
     
@@ -139,33 +152,31 @@ class ShellTree:
         
         return content
 
-    def _filter_node_folders(self) -> list[Node]:
-        if not self._nodes:
-            return []
+    def get_node_by_key(self, key: str) -> Node | None:
+        key_match = [n for n in self._nodes if n.key == key]
+        if not key_match:
+            return None
         
-        return [n for n in self._nodes if n.is_folder]
+        return key_match[0]
 
-    def _filter_node_not_folders(self) -> list[Node]:
-        if not self._nodes:
-            return []
+    def get_node_by_label(self, label: str) -> Node | None:
+        label_match = [n for n in self._nodes if n.label == label]
+        if not label_match:
+            return None
         
-        return [n for n in self._nodes if not n.is_folder]
-
-
-    def get_node_by_key(self, key: str) -> Node:
-        ...
-
-    def get_node_by_label(self, label: str) -> Node:
-        ...
+        return label_match[0]
     
     def get_nodes(self) -> list[Node]:
-        ...
+        return self._nodes
     
     def get_node_folders(self) -> list[Node]:
-        ...
+        return [n for n in self._nodes if n.is_folder]
+
+    def get_node_not_folders(self) -> list[Node]:
+        return [n for n in self._nodes if not n.is_folder]
 
     def select_all(self) -> None:
-        for node in self._not_folders:
+        for node in self.get_node_not_folders():
             node.select()
 
     def unselect_all(self) -> None:
@@ -173,9 +184,9 @@ class ShellTree:
         shell.UnselectAll()
 
     def expand_all(self) -> None:
-        for folder in self._folders:
+        for folder in self.get_node_folders():
             folder.expand()
 
     def collapse_all(self) -> None:
-        for folder in self._folders:
+        for folder in self.get_node_folders():
             folder.collapse()

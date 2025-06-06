@@ -4,6 +4,7 @@ from pprint import pprint
 
 from pysapscript.pysapscript import Sapscript
 from pysapscript.types_.types import NavigateAction
+from pysapscript.shell_tree import Node
 
 
 class TestRuns:
@@ -28,9 +29,35 @@ class TestRuns:
 
         tree = self.window.read_shell_tree("wnd[0]/shellcont/shellcont/shell/shellcont[0]/shell")
         pprint(f"str: {tree}")
-        pprint(f"index 5: {tree[5]}")
-        pprint(f"slice 5:7 {tree[5:7]}")
-        print(f"len: {len(tree)}")
+
+        print("slicing")
+        node = tree[5]
+        assert isinstance(node, Node)
+        assert  node.label =="2. typ výberu"
+
+        nodes_slice = tree[5:7]
+        assert isinstance(nodes_slice, list)
+        assert len(nodes_slice) == 2
+
+        empty_slice = tree[100:1001]
+        assert isinstance(empty_slice, list)
+        assert len(empty_slice) == 0
+
+        print("gets")
+        nodes = tree.get_nodes()
+        assert isinstance(nodes, list)
+        assert len(nodes) > 0
+
+        node = tree.get_node_by_label("Hodnota výberu 2")
+        assert node is not None
+        assert node.key == "          7"
+
+        node = tree.get_node_by_key("          7")
+        assert node is not None
+        assert node.label == "Hodnota výberu 2"
+
+        node = tree.get_node_by_label("Does not exist")
+        assert node is None
 
         print("collapse and expland folders")
         tree.collapse_all()
