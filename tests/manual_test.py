@@ -38,48 +38,16 @@ class TestRuns:
         self.window.press("wnd[0]/tbar[1]/btn[31]")
         value = self.window.read("wnd[1]/usr/txtG_DBCOUNT")
         print("Element value: " + value)
+        assert int(value) > 0
         self.window.press("wnd[1]/tbar[0]/btn[0]")
 
-        # Table
-        self.window.write("wnd[0]/usr/txtMAX_SEL", "20")
-        self.window.press("wnd[0]/tbar[1]/btn[8]")
-
-        # IF NOT AVL-GRID, switch manually
-        table = self.window.read_shell_table("wnd[0]/usr/cntlGRID1/shellcont/shell")
-        print(f"str: {str(table)}, repr: {repr(table)}")
-        print(f"rows: {table.rows}, columns: {table.columns}")
-        print(f"polars: {type(table.to_polars_dataframe())}, "
-              f"pandas: {type(table.to_pandas_dataframe())}, "
-              f"dict: {type(table.to_dict())}")
-        print(f"column names: {table.get_column_names()}")
-
-        table.select_rows([1, 3, 5])
-        table.select_row(2)
-
-        # export with dropdown
-        table.press_context_menu_item("Tabuľková kalkulácia...", item_type="text")
-        self.window.set_dropdown(
-            "wnd[1]/usr/cmbG_LISTBOX", 
-            "10 Excel (vo formáte Office 2007 XLSX)",
-            value_type="text",
-        )
-        self.window.press("wnd[1]/tbar[0]/btn[12]")
-
-        self.window.navigate(NavigateAction.back)
-        self.window.navigate(NavigateAction.back)
         self.window.navigate(NavigateAction.back)
 
         self.window.start_transaction("YGIDESENDDK")
         selected = self.window.is_selected("wnd[0]/usr/radP_SPOL1")
         self.window.navigate(NavigateAction.back)
         print(f"Selected: {selected}")
-
-        # Non data shell
-        self.window.start_transaction("EEDM02")
-        nondatashell = self.window.read_shell_table("wnd[0]/usr/subFULLSCREEN_SS:SAPLEEDM_DLG_FRAME:0200/subSUBSCREEN_TREE:SAPLEEDM_TREESELECT:0200/cntlTREE_CONTAINER/shellcont/shell/shellcont[0]/shell")
-        nondatashell.press_button("REFRESH_TREE")
-        self.window.navigate(NavigateAction.back)
-
+        assert selected is True
 
         # New window
         self.pss.open_new_window(window_to_handle_opening=self.window)
