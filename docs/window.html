@@ -438,7 +438,32 @@ el.replaceWith(d);
             table.to_pandas()
             ```
         &#34;&#34;&#34;
-        return ShellTable(self.session_handle, element, load_table)</code></pre>
+        return ShellTable(self.session_handle, element, load_table)
+
+    def read_shell_tree(self, element: str) -&gt; ShellTree:
+        &#34;&#34;&#34;
+        Read the tree of the specified ShellTree element.
+        Args:
+            element (str): The identifier of the element to read.
+
+        Returns:
+            ShellTree: The ShellTree object with the tree data and methods to manage it.
+
+        Example:
+            ```
+            tree = main_window.read_shell_tree(&#34;wnd[0]/shellcont/shellcont/shell&#34;)
+            tree[&#34;Sell&#34;].select()
+
+            node = tree.get_node_by_label(&#34;Sell&#34;)
+            node.double_click()
+
+            node_folders = tree.get_node_folders()
+            for node in node_folders:
+                node.expand()
+            tree.collapse_all()
+            ```
+        &#34;&#34;&#34;
+        return ShellTree(self.session_handle, element)</code></pre>
 </details>
 <div class="desc"></div>
 <h3>Methods</h3>
@@ -805,6 +830,63 @@ rows = table.rows
 for row in table:
     print(row[&quot;COL1&quot;])
 table.to_pandas()
+</code></pre></div>
+</dd>
+<dt id="pysapscript.window.Window.read_shell_tree"><code class="name flex">
+<span>def <span class="ident">read_shell_tree</span></span>(<span>self, element: str) ‑> <a title="pysapscript.shell_tree.ShellTree" href="shell_tree.html#pysapscript.shell_tree.ShellTree">ShellTree</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_shell_tree(self, element: str) -&gt; ShellTree:
+    &#34;&#34;&#34;
+    Read the tree of the specified ShellTree element.
+    Args:
+        element (str): The identifier of the element to read.
+
+    Returns:
+        ShellTree: The ShellTree object with the tree data and methods to manage it.
+
+    Example:
+        ```
+        tree = main_window.read_shell_tree(&#34;wnd[0]/shellcont/shellcont/shell&#34;)
+        tree[&#34;Sell&#34;].select()
+
+        node = tree.get_node_by_label(&#34;Sell&#34;)
+        node.double_click()
+
+        node_folders = tree.get_node_folders()
+        for node in node_folders:
+            node.expand()
+        tree.collapse_all()
+        ```
+    &#34;&#34;&#34;
+    return ShellTree(self.session_handle, element)</code></pre>
+</details>
+<div class="desc"><p>Read the tree of the specified ShellTree element.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>element</code></strong> :&ensp;<code>str</code></dt>
+<dd>The identifier of the element to read.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>ShellTree</code></dt>
+<dd>The ShellTree object with the tree data and methods to manage it.</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>tree = main_window.read_shell_tree(&quot;wnd[0]/shellcont/shellcont/shell&quot;)
+tree[&quot;Sell&quot;].select()
+
+node = tree.get_node_by_label(&quot;Sell&quot;)
+node.double_click()
+
+node_folders = tree.get_node_folders()
+for node in node_folders:
+    node.expand()
+tree.collapse_all()
 </code></pre></div>
 </dd>
 <dt id="pysapscript.window.Window.restore"><code class="name flex">
@@ -1195,6 +1277,7 @@ Example use is a pick button, that opens POP-UP window that is otherwise not vis
 <li><code><a title="pysapscript.window.Window.read" href="#pysapscript.window.Window.read">read</a></code></li>
 <li><code><a title="pysapscript.window.Window.read_html_viewer" href="#pysapscript.window.Window.read_html_viewer">read_html_viewer</a></code></li>
 <li><code><a title="pysapscript.window.Window.read_shell_table" href="#pysapscript.window.Window.read_shell_table">read_shell_table</a></code></li>
+<li><code><a title="pysapscript.window.Window.read_shell_tree" href="#pysapscript.window.Window.read_shell_tree">read_shell_tree</a></code></li>
 <li><code><a title="pysapscript.window.Window.restore" href="#pysapscript.window.Window.restore">restore</a></code></li>
 <li><code><a title="pysapscript.window.Window.select" href="#pysapscript.window.Window.select">select</a></code></li>
 <li><code><a title="pysapscript.window.Window.send_v_key" href="#pysapscript.window.Window.send_v_key">send_v_key</a></code></li>

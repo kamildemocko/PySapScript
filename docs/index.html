@@ -105,17 +105,21 @@ window.set_dropdown(element, &quot;02&quot;)
 window.set_dropdown(element, &quot;Excel File XLSX&quot;, value_type=&quot;text&quot;)
 
 table: ShellTable = window.read_shell_table(element)
+tree: TreeTable = window.read_shell_tree(element)
 html_content = window.read_html_viewer(element)
 </code></pre>
 <h2 id="table-actions">Table actions</h2>
 <p>ShellTable uses polars, but can also be return pandas or dictionary</p>
+<h3 id="shelltable">ShellTable</h3>
 <pre><code class="language-python">from pysapscript.shell_table import ShellTable
 
 table: ShellTable = window.read_shell_table()
 
+# shape
 table.rows
 table.columns
 
+# getters
 table.to_dict()
 table.to_dicts()
 table.to_polars_dataframe()
@@ -124,6 +128,7 @@ table.to_pandas_dataframe()
 table.cell(row_value, col_value_or_name)
 table.get_column_names()
 
+# actions
 table.load()
 table.press_button(value)
 table.select_rows([0, 1, 2])
@@ -132,6 +137,41 @@ table.change_checkbox(element, value)
 
 table.press_context_menu_item(&quot;%XXL&quot;)
 table.press_context_menu_item(&quot;Excel File...&quot;, item_type=&quot;text&quot;)
+</code></pre>
+<h2 id="tree-actions">Tree actions</h2>
+<p>Holds data in a list of <em>Node</em></p>
+<h3 id="shelltree">ShellTree</h3>
+<pre><code class="language-python">tree: ShellTree = window.read_shell_tree()
+
+# slicing
+tree[index]
+tree[start:stop:step]
+
+# getters
+node = tree.get_node_by_key(&quot;         7&quot;)
+node = tree.get_node_by_label(&quot;Name 1&quot;)
+list_of_nodes = tree.get_nodes()
+list_of_node_folders = tree.get_node_folders()
+list_of_node_not_foldres = tree.get_node_not_folders()
+
+# other
+tree.select_all()
+tree.unselect_all()
+
+tree.expand_all()
+tree.collapse_all()
+</code></pre>
+<h3 id="node">Node</h3>
+<pre><code class="language-python">node = tree.get_node_by_label(&quot;Name 1&quot;)
+
+children_nodes = node.get_children()
+
+node.select()
+node.unselect()
+node.expand()
+node.collapse()
+
+node.double_click()
 </code></pre>
 </section>
 <section>
@@ -142,6 +182,10 @@ table.press_context_menu_item(&quot;Excel File...&quot;, item_type=&quot;text&qu
 <div class="desc"></div>
 </dd>
 <dt><code class="name"><a title="pysapscript.shell_table" href="shell_table.html">pysapscript.shell_table</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="pysapscript.shell_tree" href="shell_tree.html">pysapscript.shell_tree</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -177,7 +221,15 @@ table.press_context_menu_item(&quot;Excel File...&quot;, item_type=&quot;text&qu
 <li><a href="#attach-to-an-already-opened-window">Attach to an already opened window:</a></li>
 <li><a href="#quitting-sap">Quitting SAP:</a></li>
 <li><a href="#performing-action">Performing action:</a></li>
-<li><a href="#table-actions">Table actions</a></li>
+<li><a href="#table-actions">Table actions</a><ul>
+<li><a href="#shelltable">ShellTable</a></li>
+</ul>
+</li>
+<li><a href="#tree-actions">Tree actions</a><ul>
+<li><a href="#shelltree">ShellTree</a></li>
+<li><a href="#node">Node</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -187,6 +239,7 @@ table.press_context_menu_item(&quot;Excel File...&quot;, item_type=&quot;text&qu
 <ul>
 <li><code><a title="pysapscript.pysapscript" href="pysapscript.html">pysapscript.pysapscript</a></code></li>
 <li><code><a title="pysapscript.shell_table" href="shell_table.html">pysapscript.shell_table</a></code></li>
+<li><code><a title="pysapscript.shell_tree" href="shell_tree.html">pysapscript.shell_tree</a></code></li>
 <li><code><a title="pysapscript.types_" href="types_/index.html">pysapscript.types_</a></code></li>
 <li><code><a title="pysapscript.utils" href="utils/index.html">pysapscript.utils</a></code></li>
 <li><code><a title="pysapscript.window" href="window.html">pysapscript.window</a></code></li>
