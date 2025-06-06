@@ -1,0 +1,838 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pysapscript.shell_tree API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pysapscript.shell_tree</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pysapscript.shell_tree.Node"><code class="flex name class">
+<span>class <span class="ident">Node</span></span>
+<span>(</span><span>_shell_tree: win32com.client.CDispatch,<br>key: str,<br>label: str,<br>is_expanded: bool,<br>is_disabled: bool,<br>is_folder: bool,<br>children_count: int)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class Node:
+    _shell_tree: win32com.client.CDispatch
+    key: str
+    label: str
+    is_expanded: bool
+    is_disabled: bool
+    is_folder: bool
+    children_count: int
+
+    def get_children(self) -&gt; &#34;list[Node]&#34;:
+        &#34;&#34;&#34;
+        Get all children of the node.
+        This method retrieves all child nodes of the current node if it is a folder.
+
+        Returns:
+            list[Node]: A list of Node objects representing the children of the current node.
+        &#34;&#34;&#34;
+        if not self.is_folder:
+            raise exceptions.ActionException(
+                f&#34;node with key: {self.key}, label: {self.label} has no children&#34;
+            )
+
+        nodes = self._shell_tree.GetAllNodeKeys()
+        correct_dir = False
+        children = []
+
+        for key in nodes:
+            node = ShellTree._parse_node_from_list_of_nodes(self._shell_tree, key)
+
+            if node.is_folder and key != self.key:
+                correct_dir = False
+                continue
+
+            if node.is_folder and key == self.key:
+                correct_dir = True
+                continue
+            
+            if correct_dir:
+                children.append(node)
+
+        return children
+
+    def select(self) -&gt; None:
+        &#34;&#34;&#34;
+        Select this node.
+        &#34;&#34;&#34;
+        self._shell_tree.SelectNode(self.key)
+
+    def unselect(self) -&gt; None:
+        &#34;&#34;&#34;
+        Unselect this node.
+        &#34;&#34;&#34;
+        self._shell_tree.UnselectNode(self.key)
+
+    def expand(self) -&gt; None:
+        &#34;&#34;&#34;
+        Expand this node if it is a folder.
+
+        Raises:
+            ActionException: If the node is not a folder.
+        &#34;&#34;&#34;
+        if not self.is_folder:
+            raise exceptions.ActionException(
+                f&#34;node with key: {self.key}, label: {self.label} is not a folder&#34;
+            )
+
+        self._shell_tree.ExpandNode(self.key)
+
+    def collapse(self) -&gt; None:
+        &#34;&#34;&#34;
+        Collapse this node if it is a folder.
+
+        Raises:
+            ActionException: If the node is not a folder.
+        &#34;&#34;&#34;
+        if not self.is_folder:
+            raise exceptions.ActionException(
+                f&#34;node with key: {self.key}, label: {self.label} is not a folder&#34;
+            )
+
+        self._shell_tree.CollapseNode(self.key)
+
+    def double_click(self) -&gt; None:
+        &#34;&#34;&#34;
+        Double-click this node.
+        &#34;&#34;&#34;
+        self.select()
+        self._shell_tree.DoubleClickNode(self.key)</code></pre>
+</details>
+<div class="desc"><p>Node(_shell_tree: win32com.client.CDispatch, key: str, label: str, is_expanded: bool, is_disabled: bool, is_folder: bool, children_count: int)</p></div>
+<h3>Instance variables</h3>
+<dl>
+<dt id="pysapscript.shell_tree.Node.children_count"><code class="name">var <span class="ident">children_count</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pysapscript.shell_tree.Node.is_disabled"><code class="name">var <span class="ident">is_disabled</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pysapscript.shell_tree.Node.is_expanded"><code class="name">var <span class="ident">is_expanded</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pysapscript.shell_tree.Node.is_folder"><code class="name">var <span class="ident">is_folder</span> : bool</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pysapscript.shell_tree.Node.key"><code class="name">var <span class="ident">key</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pysapscript.shell_tree.Node.label"><code class="name">var <span class="ident">label</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pysapscript.shell_tree.Node.collapse"><code class="name flex">
+<span>def <span class="ident">collapse</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def collapse(self) -&gt; None:
+    &#34;&#34;&#34;
+    Collapse this node if it is a folder.
+
+    Raises:
+        ActionException: If the node is not a folder.
+    &#34;&#34;&#34;
+    if not self.is_folder:
+        raise exceptions.ActionException(
+            f&#34;node with key: {self.key}, label: {self.label} is not a folder&#34;
+        )
+
+    self._shell_tree.CollapseNode(self.key)</code></pre>
+</details>
+<div class="desc"><p>Collapse this node if it is a folder.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ActionException</code></dt>
+<dd>If the node is not a folder.</dd>
+</dl></div>
+</dd>
+<dt id="pysapscript.shell_tree.Node.double_click"><code class="name flex">
+<span>def <span class="ident">double_click</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def double_click(self) -&gt; None:
+    &#34;&#34;&#34;
+    Double-click this node.
+    &#34;&#34;&#34;
+    self.select()
+    self._shell_tree.DoubleClickNode(self.key)</code></pre>
+</details>
+<div class="desc"><p>Double-click this node.</p></div>
+</dd>
+<dt id="pysapscript.shell_tree.Node.expand"><code class="name flex">
+<span>def <span class="ident">expand</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def expand(self) -&gt; None:
+    &#34;&#34;&#34;
+    Expand this node if it is a folder.
+
+    Raises:
+        ActionException: If the node is not a folder.
+    &#34;&#34;&#34;
+    if not self.is_folder:
+        raise exceptions.ActionException(
+            f&#34;node with key: {self.key}, label: {self.label} is not a folder&#34;
+        )
+
+    self._shell_tree.ExpandNode(self.key)</code></pre>
+</details>
+<div class="desc"><p>Expand this node if it is a folder.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ActionException</code></dt>
+<dd>If the node is not a folder.</dd>
+</dl></div>
+</dd>
+<dt id="pysapscript.shell_tree.Node.get_children"><code class="name flex">
+<span>def <span class="ident">get_children</span></span>(<span>self) ‑> list[<a title="pysapscript.shell_tree.Node" href="#pysapscript.shell_tree.Node">Node</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_children(self) -&gt; &#34;list[Node]&#34;:
+    &#34;&#34;&#34;
+    Get all children of the node.
+    This method retrieves all child nodes of the current node if it is a folder.
+
+    Returns:
+        list[Node]: A list of Node objects representing the children of the current node.
+    &#34;&#34;&#34;
+    if not self.is_folder:
+        raise exceptions.ActionException(
+            f&#34;node with key: {self.key}, label: {self.label} has no children&#34;
+        )
+
+    nodes = self._shell_tree.GetAllNodeKeys()
+    correct_dir = False
+    children = []
+
+    for key in nodes:
+        node = ShellTree._parse_node_from_list_of_nodes(self._shell_tree, key)
+
+        if node.is_folder and key != self.key:
+            correct_dir = False
+            continue
+
+        if node.is_folder and key == self.key:
+            correct_dir = True
+            continue
+        
+        if correct_dir:
+            children.append(node)
+
+    return children</code></pre>
+</details>
+<div class="desc"><p>Get all children of the node.
+This method retrieves all child nodes of the current node if it is a folder.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[<a title="pysapscript.shell_tree.Node" href="#pysapscript.shell_tree.Node">Node</a>]</code></dt>
+<dd>A list of Node objects representing the children of the current node.</dd>
+</dl></div>
+</dd>
+<dt id="pysapscript.shell_tree.Node.select"><code class="name flex">
+<span>def <span class="ident">select</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def select(self) -&gt; None:
+    &#34;&#34;&#34;
+    Select this node.
+    &#34;&#34;&#34;
+    self._shell_tree.SelectNode(self.key)</code></pre>
+</details>
+<div class="desc"><p>Select this node.</p></div>
+</dd>
+<dt id="pysapscript.shell_tree.Node.unselect"><code class="name flex">
+<span>def <span class="ident">unselect</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def unselect(self) -&gt; None:
+    &#34;&#34;&#34;
+    Unselect this node.
+    &#34;&#34;&#34;
+    self._shell_tree.UnselectNode(self.key)</code></pre>
+</details>
+<div class="desc"><p>Unselect this node.</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pysapscript.shell_tree.ShellTree"><code class="flex name class">
+<span>class <span class="ident">ShellTree</span></span>
+<span>(</span><span>session_handle: win32com.client.CDispatch, element: str)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ShellTree:
+    &#34;&#34;&#34;
+    A class representing a shell table
+    &#34;&#34;&#34;
+
+    def __init__(self, session_handle: win32com.client.CDispatch, element: str) -&gt; None:
+        &#34;&#34;&#34;
+        Usually table contains a list that can be selected and clicked
+
+        Args:
+            session_handle (win32com.client.CDispatch): SAP session handle
+            element (str): SAP table element
+
+        Raises:
+            ActionException: error reading tree data
+        &#34;&#34;&#34;
+        self.tree_element = element
+        self._session_handle = session_handle
+        self._nodes = self._read_shell_tree()
+
+    def __repr__(self) -&gt; str:
+        return repr(self._nodes)
+
+    def __str__(self) -&gt; str:
+        return str(self._nodes)
+
+    def __eq__(self, other: object) -&gt; bool:
+        if isinstance(other, ShellTree):
+            return self._nodes == other._nodes
+        else:
+            raise NotImplementedError(f&#34;Cannot compare ShellTable with {type(other)}&#34;)
+
+    def __hash__(self) -&gt; int:
+        return hash(f&#34;{self._session_handle}{self.tree_element}{len(self._nodes)}&#34;)
+
+    def __getitem__(self, item: object) -&gt; list[Node] | Node:
+        &#34;&#34;&#34;
+        Get a node or slice of nodes from the tree.
+        
+        Args:
+            item: An integer index or a slice object
+            
+        Returns:
+            A single Node when indexed with an integer, or
+            a list of Nodes when indexed with a slice
+            
+        Raises:
+            ValueError: If the item type is not an integer or slice
+            IndexError: If index is out of range
+        &#34;&#34;&#34;
+        if isinstance(item, int):
+            return self._nodes[item]
+
+        elif isinstance(item, slice):
+            return self._nodes[item.start:item.stop:item.step]
+
+        else:
+            raise ValueError(&#34;Incorrect type of index&#34;)
+    
+    def __len__(self) -&gt; int:
+        return len(self._nodes)
+
+    @staticmethod
+    def _parse_node_from_list_of_nodes(
+        shell: win32com.client.CDispatch,
+        key: str,
+    ) -&gt; Node:
+        &#34;&#34;&#34;
+        Parse a node from the list of nodes in the shell tree.
+
+        Args:
+            shell (win32com.client.CDispatch): The shell tree object.
+            key (str): The key of the node to parse.
+
+        Returns:
+            Node: A Node object containing the parsed information.
+        &#34;&#34;&#34;
+        label = shell.GetNodeTextByKey(key)
+        expandable = shell.IsFolderExpandable(key)
+        expanded = shell.IsFolderExpanded(key)
+        disabled = shell.GetIsDisabled(key, &#34;Text&#34;)
+        folder = expanded or expandable
+        children_count = shell.GetNodeChildrenCount(key) if folder else 0
+
+        return Node(
+            _shell_tree=shell, 
+            key=key, 
+            label=label, 
+            is_expanded=expanded, 
+            is_disabled=disabled,
+            is_folder=folder,
+            children_count=children_count,
+        )
+
+    def _read_shell_tree(self) -&gt; list[Node]:
+        &#34;&#34;&#34;
+        Read the shell tree and return a list of Node objects.
+
+        Returns:
+            list[Node]: A list of Node objects representing the shell tree.
+        &#34;&#34;&#34;
+        content = []
+
+        shell = self._session_handle.findById(self.tree_element)
+        nodes = shell.GetAllNodeKeys()
+
+        for key in nodes:
+            content.append(self._parse_node_from_list_of_nodes(shell, key))
+        
+        return content
+
+    def get_node_by_key(self, key: str) -&gt; Node | None:
+        &#34;&#34;&#34;
+        Get a node by its key.
+
+        Args:
+            key (str): The key of the node to retrieve. Example: &#34;          7&#34;
+
+        Returns:
+            Node | None: The Node object if found, otherwise None.
+        &#34;&#34;&#34;
+        key_match = [n for n in self._nodes if n.key == key]
+        if not key_match:
+            return None
+        
+        return key_match[0]
+
+    def get_node_by_label(self, label: str) -&gt; Node | None:
+        &#34;&#34;&#34;
+        Get a node by its label.
+
+        Args:
+            label (str): The label of the node to retrieve. Example: &#34;Hodnota výberu 2&#34;
+
+        Returns:
+            Node | None: The Node object if found, otherwise None.
+        &#34;&#34;&#34;
+        label_match = [n for n in self._nodes if n.label == label]
+        if not label_match:
+            return None
+        
+        return label_match[0]
+    
+    def get_nodes(self) -&gt; list[Node]:
+        &#34;&#34;&#34;
+        Get all nodes in the shell tree.
+
+        Returns:
+            list[Node]: A list of Node objects representing all nodes in the shell tree.
+        &#34;&#34;&#34;
+        return self._nodes
+    
+    def get_node_folders(self) -&gt; list[Node]:
+        &#34;&#34;&#34;
+        Get all folder nodes in the shell tree.
+
+        Returns:
+            list[Node]: A list of Node objects that are folders.
+        &#34;&#34;&#34;
+        return [n for n in self._nodes if n.is_folder]
+
+    def get_node_not_folders(self) -&gt; list[Node]:
+        &#34;&#34;&#34;
+        Get all nodes that are not folders in the shell tree.
+        
+        Returns:
+            list[Node]: A list of Node objects that are not folders.
+        &#34;&#34;&#34;
+        return [n for n in self._nodes if not n.is_folder]
+
+    def select_all(self) -&gt; None:
+        &#34;&#34;&#34;
+        Select all nodes in the shell tree.
+        This method iterates through all nodes that are not folders and selects them.
+        &#34;&#34;&#34;
+        for node in self.get_node_not_folders():
+            node.select()
+
+    def unselect_all(self) -&gt; None:
+        &#34;&#34;&#34;
+        Unselect all nodes in the shell tree.
+        &#34;&#34;&#34;
+        shell = self._session_handle.findById(self.tree_element)
+        shell.UnselectAll()
+
+    def expand_all(self) -&gt; None:
+        &#34;&#34;&#34;
+        Expand all folder nodes in the shell tree.
+        This method iterates through all folder nodes and expands them.
+        &#34;&#34;&#34;
+        for folder in self.get_node_folders():
+            folder.expand()
+
+    def collapse_all(self) -&gt; None:
+        &#34;&#34;&#34;
+         Collapse all folder nodes in the shell tree.
+         This method iterates through all folder nodes and collapses them.
+         &#34;&#34;&#34;
+        for folder in self.get_node_folders():
+            folder.collapse()</code></pre>
+</details>
+<div class="desc"><p>A class representing a shell table</p>
+<p>Usually table contains a list that can be selected and clicked</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>session_handle</code></strong> :&ensp;<code>win32com.client.CDispatch</code></dt>
+<dd>SAP session handle</dd>
+<dt><strong><code>element</code></strong> :&ensp;<code>str</code></dt>
+<dd>SAP table element</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ActionException</code></dt>
+<dd>error reading tree data</dd>
+</dl></div>
+<h3>Methods</h3>
+<dl>
+<dt id="pysapscript.shell_tree.ShellTree.collapse_all"><code class="name flex">
+<span>def <span class="ident">collapse_all</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def collapse_all(self) -&gt; None:
+    &#34;&#34;&#34;
+     Collapse all folder nodes in the shell tree.
+     This method iterates through all folder nodes and collapses them.
+     &#34;&#34;&#34;
+    for folder in self.get_node_folders():
+        folder.collapse()</code></pre>
+</details>
+<div class="desc"><p>Collapse all folder nodes in the shell tree.
+This method iterates through all folder nodes and collapses them.</p></div>
+</dd>
+<dt id="pysapscript.shell_tree.ShellTree.expand_all"><code class="name flex">
+<span>def <span class="ident">expand_all</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def expand_all(self) -&gt; None:
+    &#34;&#34;&#34;
+    Expand all folder nodes in the shell tree.
+    This method iterates through all folder nodes and expands them.
+    &#34;&#34;&#34;
+    for folder in self.get_node_folders():
+        folder.expand()</code></pre>
+</details>
+<div class="desc"><p>Expand all folder nodes in the shell tree.
+This method iterates through all folder nodes and expands them.</p></div>
+</dd>
+<dt id="pysapscript.shell_tree.ShellTree.get_node_by_key"><code class="name flex">
+<span>def <span class="ident">get_node_by_key</span></span>(<span>self, key: str) ‑> <a title="pysapscript.shell_tree.Node" href="#pysapscript.shell_tree.Node">Node</a> | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_node_by_key(self, key: str) -&gt; Node | None:
+    &#34;&#34;&#34;
+    Get a node by its key.
+
+    Args:
+        key (str): The key of the node to retrieve. Example: &#34;          7&#34;
+
+    Returns:
+        Node | None: The Node object if found, otherwise None.
+    &#34;&#34;&#34;
+    key_match = [n for n in self._nodes if n.key == key]
+    if not key_match:
+        return None
+    
+    return key_match[0]</code></pre>
+</details>
+<div class="desc"><p>Get a node by its key.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>key</code></strong> :&ensp;<code>str</code></dt>
+<dd>The key of the node to retrieve. Example: "
+7"</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Node | None</code></dt>
+<dd>The Node object if found, otherwise None.</dd>
+</dl></div>
+</dd>
+<dt id="pysapscript.shell_tree.ShellTree.get_node_by_label"><code class="name flex">
+<span>def <span class="ident">get_node_by_label</span></span>(<span>self, label: str) ‑> <a title="pysapscript.shell_tree.Node" href="#pysapscript.shell_tree.Node">Node</a> | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_node_by_label(self, label: str) -&gt; Node | None:
+    &#34;&#34;&#34;
+    Get a node by its label.
+
+    Args:
+        label (str): The label of the node to retrieve. Example: &#34;Hodnota výberu 2&#34;
+
+    Returns:
+        Node | None: The Node object if found, otherwise None.
+    &#34;&#34;&#34;
+    label_match = [n for n in self._nodes if n.label == label]
+    if not label_match:
+        return None
+    
+    return label_match[0]</code></pre>
+</details>
+<div class="desc"><p>Get a node by its label.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>label</code></strong> :&ensp;<code>str</code></dt>
+<dd>The label of the node to retrieve. Example: "Hodnota výberu 2"</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Node | None</code></dt>
+<dd>The Node object if found, otherwise None.</dd>
+</dl></div>
+</dd>
+<dt id="pysapscript.shell_tree.ShellTree.get_node_folders"><code class="name flex">
+<span>def <span class="ident">get_node_folders</span></span>(<span>self) ‑> list[<a title="pysapscript.shell_tree.Node" href="#pysapscript.shell_tree.Node">Node</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_node_folders(self) -&gt; list[Node]:
+    &#34;&#34;&#34;
+    Get all folder nodes in the shell tree.
+
+    Returns:
+        list[Node]: A list of Node objects that are folders.
+    &#34;&#34;&#34;
+    return [n for n in self._nodes if n.is_folder]</code></pre>
+</details>
+<div class="desc"><p>Get all folder nodes in the shell tree.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[<a title="pysapscript.shell_tree.Node" href="#pysapscript.shell_tree.Node">Node</a>]</code></dt>
+<dd>A list of Node objects that are folders.</dd>
+</dl></div>
+</dd>
+<dt id="pysapscript.shell_tree.ShellTree.get_node_not_folders"><code class="name flex">
+<span>def <span class="ident">get_node_not_folders</span></span>(<span>self) ‑> list[<a title="pysapscript.shell_tree.Node" href="#pysapscript.shell_tree.Node">Node</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_node_not_folders(self) -&gt; list[Node]:
+    &#34;&#34;&#34;
+    Get all nodes that are not folders in the shell tree.
+    
+    Returns:
+        list[Node]: A list of Node objects that are not folders.
+    &#34;&#34;&#34;
+    return [n for n in self._nodes if not n.is_folder]</code></pre>
+</details>
+<div class="desc"><p>Get all nodes that are not folders in the shell tree.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[<a title="pysapscript.shell_tree.Node" href="#pysapscript.shell_tree.Node">Node</a>]</code></dt>
+<dd>A list of Node objects that are not folders.</dd>
+</dl></div>
+</dd>
+<dt id="pysapscript.shell_tree.ShellTree.get_nodes"><code class="name flex">
+<span>def <span class="ident">get_nodes</span></span>(<span>self) ‑> list[<a title="pysapscript.shell_tree.Node" href="#pysapscript.shell_tree.Node">Node</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_nodes(self) -&gt; list[Node]:
+    &#34;&#34;&#34;
+    Get all nodes in the shell tree.
+
+    Returns:
+        list[Node]: A list of Node objects representing all nodes in the shell tree.
+    &#34;&#34;&#34;
+    return self._nodes</code></pre>
+</details>
+<div class="desc"><p>Get all nodes in the shell tree.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[<a title="pysapscript.shell_tree.Node" href="#pysapscript.shell_tree.Node">Node</a>]</code></dt>
+<dd>A list of Node objects representing all nodes in the shell tree.</dd>
+</dl></div>
+</dd>
+<dt id="pysapscript.shell_tree.ShellTree.select_all"><code class="name flex">
+<span>def <span class="ident">select_all</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def select_all(self) -&gt; None:
+    &#34;&#34;&#34;
+    Select all nodes in the shell tree.
+    This method iterates through all nodes that are not folders and selects them.
+    &#34;&#34;&#34;
+    for node in self.get_node_not_folders():
+        node.select()</code></pre>
+</details>
+<div class="desc"><p>Select all nodes in the shell tree.
+This method iterates through all nodes that are not folders and selects them.</p></div>
+</dd>
+<dt id="pysapscript.shell_tree.ShellTree.unselect_all"><code class="name flex">
+<span>def <span class="ident">unselect_all</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def unselect_all(self) -&gt; None:
+    &#34;&#34;&#34;
+    Unselect all nodes in the shell tree.
+    &#34;&#34;&#34;
+    shell = self._session_handle.findById(self.tree_element)
+    shell.UnselectAll()</code></pre>
+</details>
+<div class="desc"><p>Unselect all nodes in the shell tree.</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pysapscript" href="index.html">pysapscript</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pysapscript.shell_tree.Node" href="#pysapscript.shell_tree.Node">Node</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pysapscript.shell_tree.Node.children_count" href="#pysapscript.shell_tree.Node.children_count">children_count</a></code></li>
+<li><code><a title="pysapscript.shell_tree.Node.collapse" href="#pysapscript.shell_tree.Node.collapse">collapse</a></code></li>
+<li><code><a title="pysapscript.shell_tree.Node.double_click" href="#pysapscript.shell_tree.Node.double_click">double_click</a></code></li>
+<li><code><a title="pysapscript.shell_tree.Node.expand" href="#pysapscript.shell_tree.Node.expand">expand</a></code></li>
+<li><code><a title="pysapscript.shell_tree.Node.get_children" href="#pysapscript.shell_tree.Node.get_children">get_children</a></code></li>
+<li><code><a title="pysapscript.shell_tree.Node.is_disabled" href="#pysapscript.shell_tree.Node.is_disabled">is_disabled</a></code></li>
+<li><code><a title="pysapscript.shell_tree.Node.is_expanded" href="#pysapscript.shell_tree.Node.is_expanded">is_expanded</a></code></li>
+<li><code><a title="pysapscript.shell_tree.Node.is_folder" href="#pysapscript.shell_tree.Node.is_folder">is_folder</a></code></li>
+<li><code><a title="pysapscript.shell_tree.Node.key" href="#pysapscript.shell_tree.Node.key">key</a></code></li>
+<li><code><a title="pysapscript.shell_tree.Node.label" href="#pysapscript.shell_tree.Node.label">label</a></code></li>
+<li><code><a title="pysapscript.shell_tree.Node.select" href="#pysapscript.shell_tree.Node.select">select</a></code></li>
+<li><code><a title="pysapscript.shell_tree.Node.unselect" href="#pysapscript.shell_tree.Node.unselect">unselect</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pysapscript.shell_tree.ShellTree" href="#pysapscript.shell_tree.ShellTree">ShellTree</a></code></h4>
+<ul class="">
+<li><code><a title="pysapscript.shell_tree.ShellTree.collapse_all" href="#pysapscript.shell_tree.ShellTree.collapse_all">collapse_all</a></code></li>
+<li><code><a title="pysapscript.shell_tree.ShellTree.expand_all" href="#pysapscript.shell_tree.ShellTree.expand_all">expand_all</a></code></li>
+<li><code><a title="pysapscript.shell_tree.ShellTree.get_node_by_key" href="#pysapscript.shell_tree.ShellTree.get_node_by_key">get_node_by_key</a></code></li>
+<li><code><a title="pysapscript.shell_tree.ShellTree.get_node_by_label" href="#pysapscript.shell_tree.ShellTree.get_node_by_label">get_node_by_label</a></code></li>
+<li><code><a title="pysapscript.shell_tree.ShellTree.get_node_folders" href="#pysapscript.shell_tree.ShellTree.get_node_folders">get_node_folders</a></code></li>
+<li><code><a title="pysapscript.shell_tree.ShellTree.get_node_not_folders" href="#pysapscript.shell_tree.ShellTree.get_node_not_folders">get_node_not_folders</a></code></li>
+<li><code><a title="pysapscript.shell_tree.ShellTree.get_nodes" href="#pysapscript.shell_tree.ShellTree.get_nodes">get_nodes</a></code></li>
+<li><code><a title="pysapscript.shell_tree.ShellTree.select_all" href="#pysapscript.shell_tree.ShellTree.select_all">select_all</a></code></li>
+<li><code><a title="pysapscript.shell_tree.ShellTree.unselect_all" href="#pysapscript.shell_tree.ShellTree.unselect_all">unselect_all</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

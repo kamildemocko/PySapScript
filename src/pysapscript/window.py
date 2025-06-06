@@ -6,6 +6,7 @@ import win32com.client
 from pysapscript.types_ import exceptions
 from pysapscript.types_.types import NavigateAction
 from pysapscript.shell_table import ShellTable
+from pysapscript.shell_tree import ShellTree
 
 
 class Window:
@@ -392,3 +393,28 @@ class Window:
             ```
         """
         return ShellTable(self.session_handle, element, load_table)
+
+    def read_shell_tree(self, element: str) -> ShellTree:
+        """
+        Read the tree of the specified ShellTree element.
+        Args:
+            element (str): The identifier of the element to read.
+
+        Returns:
+            ShellTree: The ShellTree object with the tree data and methods to manage it.
+
+        Example:
+            ```
+            tree = main_window.read_shell_tree("wnd[0]/shellcont/shellcont/shell")
+            tree["Sell"].select()
+
+            node = tree.get_node_by_label("Sell")
+            node.double_click()
+
+            node_folders = tree.get_node_folders()
+            for node in node_folders:
+                node.expand()
+            tree.collapse_all()
+            ```
+        """
+        return ShellTree(self.session_handle, element)

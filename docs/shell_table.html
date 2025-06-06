@@ -96,7 +96,7 @@ el.replaceWith(d);
 
     def __getitem__(self, item: object) -&gt; dict[str, Any] | list[dict[str, Any]]:
         if self.data_present is False:
-            raise ValueError(&#34;Data was be found in shell table&#34;)
+            raise ValueError(&#34;Data was not found in shell table&#34;)
 
         if isinstance(item, int):
             return self.data.row(item, named=True)
@@ -168,7 +168,7 @@ el.replaceWith(d);
             polars.DataFrame: table data
         &#34;&#34;&#34;
         if self.data_present is False:
-            raise ValueError(&#34;Data was be found in shell table&#34;)
+            raise ValueError(&#34;Data was not found in shell table&#34;)
 
         return self.data
 
@@ -180,7 +180,7 @@ el.replaceWith(d);
             pandas.DataFrame: table data
         &#34;&#34;&#34;
         if self.data_present is False:
-            raise ValueError(&#34;Data was be found in shell table&#34;)
+            raise ValueError(&#34;Data was not found in shell table&#34;)
 
         return self.data.to_pandas()
 
@@ -192,7 +192,7 @@ el.replaceWith(d);
             dict[str, Any]: table data in named dictionary - column names as keys
         &#34;&#34;&#34;
         if self.data_present is False:
-            raise ValueError(&#34;Data was be found in shell table&#34;)
+            raise ValueError(&#34;Data was not found in shell table&#34;)
         
         return self.data.to_dict(as_series=False)
 
@@ -204,7 +204,7 @@ el.replaceWith(d);
             list[dict[str, Any]]: table data in list of named dictionaries - rows
         &#34;&#34;&#34;
         if self.data_present is False:
-            raise ValueError(&#34;Data was be found in shell table&#34;)
+            raise ValueError(&#34;Data was not found in shell table&#34;)
 
         return self.data.to_dicts()
 
@@ -216,7 +216,7 @@ el.replaceWith(d);
             list[str]: column names in the table
         &#34;&#34;&#34;
         if self.data_present is False:
-            raise ValueError(&#34;Data was be found in shell table&#34;)
+            raise ValueError(&#34;Data was not found in shell table&#34;)
 
         return self.data.columns
 
@@ -240,7 +240,7 @@ el.replaceWith(d);
             Any: cell value
         &#34;&#34;&#34;
         if self.data_present is False:
-            raise ValueError(&#34;Data was be found in shell table&#34;)
+            raise ValueError(&#34;Data was not found in shell table&#34;)
 
         return self.data.item(row, column)
 
@@ -256,7 +256,7 @@ el.replaceWith(d);
             ActionException: error finding table
         &#34;&#34;&#34;
         if self.data_present is False:
-            raise ValueError(&#34;Data was be found in shell table&#34;)
+            raise ValueError(&#34;Data was not found in shell table&#34;)
 
         row_position = 0
 
@@ -328,7 +328,7 @@ el.replaceWith(d);
             ```
         &#34;&#34;&#34;
         if self.data_present is False:
-            raise ValueError(&#34;Data was be found in shell table&#34;)
+            raise ValueError(&#34;Data was not found in shell table&#34;)
 
         try:
             value = &#34;,&#34;.join([str(n) for n in indexes])
@@ -383,14 +383,37 @@ el.replaceWith(d);
             main_window.change_shell_checkbox(&#34;wnd[0]/usr/cntlALV_CONT/shellcont/shell/rows[1]&#34;, &#34;%CHBX&#34;, True)
             ```
         &#34;&#34;&#34;
-        if self.data_present is False:
-            raise ValueError(&#34;Data was be found in shell table&#34;)
-
         try:
             self._session_handle.findById(self.table_element).changeCheckbox(checkbox, &#34;1&#34;, flag)
 
         except Exception as e:
-            raise exceptions.ActionException(f&#34;Error setting element {self.table_element}: {e}&#34;)</code></pre>
+            raise exceptions.ActionException(f&#34;Error setting element {self.table_element}: {e}&#34;)
+    
+    def press_context_menu_item(self, value: str, item_type: Literal[&#34;func_code&#34;, &#34;text&#34;] = &#34;func_code&#34;):
+        &#34;&#34;&#34;
+        Presses menu item in context menu of a shell
+
+        Args:
+            value (str): name of function code or text of item based on item type
+            item_type (literal): func_code (internal name) or text (label)
+
+        Raises:
+            NotImplementedError: bad item_type
+
+        Example:
+            ```
+            main_window.press_context_menu_item(&#34;Excel File...&#34;, item_type=&#34;text&#34;)
+            ```
+        &#34;&#34;&#34;
+        self._session_handle.findById(self.table_element).contextMenu()
+
+        match item_type:
+            case &#34;func_code&#34;:
+                self._session_handle.findById(self.table_element).selectContextMenuItem(value)
+            case &#34;text&#34;:
+                self._session_handle.findById(self.table_element).selectContextMenuItemByText(value)
+            case _:
+                raise NotImplementedError</code></pre>
 </details>
 <div class="desc"><p>A class representing a shell table</p>
 <p>Usually table contains a table of data, but it can also be a non-data shell table, that holds toolbar</p>
@@ -430,7 +453,7 @@ el.replaceWith(d);
         Any: cell value
     &#34;&#34;&#34;
     if self.data_present is False:
-        raise ValueError(&#34;Data was be found in shell table&#34;)
+        raise ValueError(&#34;Data was not found in shell table&#34;)
 
     return self.data.item(row, column)</code></pre>
 </details>
@@ -472,9 +495,6 @@ el.replaceWith(d);
         main_window.change_shell_checkbox(&#34;wnd[0]/usr/cntlALV_CONT/shellcont/shell/rows[1]&#34;, &#34;%CHBX&#34;, True)
         ```
     &#34;&#34;&#34;
-    if self.data_present is False:
-        raise ValueError(&#34;Data was be found in shell table&#34;)
-
     try:
         self._session_handle.findById(self.table_element).changeCheckbox(checkbox, &#34;1&#34;, flag)
 
@@ -514,7 +534,7 @@ el.replaceWith(d);
         list[str]: column names in the table
     &#34;&#34;&#34;
     if self.data_present is False:
-        raise ValueError(&#34;Data was be found in shell table&#34;)
+        raise ValueError(&#34;Data was not found in shell table&#34;)
 
     return self.data.columns</code></pre>
 </details>
@@ -545,7 +565,7 @@ el.replaceWith(d);
         ActionException: error finding table
     &#34;&#34;&#34;
     if self.data_present is False:
-        raise ValueError(&#34;Data was be found in shell table&#34;)
+        raise ValueError(&#34;Data was not found in shell table&#34;)
 
     row_position = 0
 
@@ -638,6 +658,57 @@ el.replaceWith(d);
 <pre><code>main_window.press_shell_button(&quot;wnd[0]/usr/shellContent/shell&quot;, &quot;%OPENDWN&quot;)
 </code></pre></div>
 </dd>
+<dt id="pysapscript.shell_table.ShellTable.press_context_menu_item"><code class="name flex">
+<span>def <span class="ident">press_context_menu_item</span></span>(<span>self, value: str, item_type: Literal['func_code', 'text'] = 'func_code')</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def press_context_menu_item(self, value: str, item_type: Literal[&#34;func_code&#34;, &#34;text&#34;] = &#34;func_code&#34;):
+    &#34;&#34;&#34;
+    Presses menu item in context menu of a shell
+
+    Args:
+        value (str): name of function code or text of item based on item type
+        item_type (literal): func_code (internal name) or text (label)
+
+    Raises:
+        NotImplementedError: bad item_type
+
+    Example:
+        ```
+        main_window.press_context_menu_item(&#34;Excel File...&#34;, item_type=&#34;text&#34;)
+        ```
+    &#34;&#34;&#34;
+    self._session_handle.findById(self.table_element).contextMenu()
+
+    match item_type:
+        case &#34;func_code&#34;:
+            self._session_handle.findById(self.table_element).selectContextMenuItem(value)
+        case &#34;text&#34;:
+            self._session_handle.findById(self.table_element).selectContextMenuItemByText(value)
+        case _:
+            raise NotImplementedError</code></pre>
+</details>
+<div class="desc"><p>Presses menu item in context menu of a shell</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>value</code></strong> :&ensp;<code>str</code></dt>
+<dd>name of function code or text of item based on item type</dd>
+<dt><strong><code>item_type</code></strong> :&ensp;<code>literal</code></dt>
+<dd>func_code (internal name) or text (label)</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>NotImplementedError</code></dt>
+<dd>bad item_type</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>main_window.press_context_menu_item(&quot;Excel File...&quot;, item_type=&quot;text&quot;)
+</code></pre></div>
+</dd>
 <dt id="pysapscript.shell_table.ShellTable.select_row"><code class="name flex">
 <span>def <span class="ident">select_row</span></span>(<span>self, index: int) ‑> None</span>
 </code></dt>
@@ -712,7 +783,7 @@ el.replaceWith(d);
         ```
     &#34;&#34;&#34;
     if self.data_present is False:
-        raise ValueError(&#34;Data was be found in shell table&#34;)
+        raise ValueError(&#34;Data was not found in shell table&#34;)
 
     try:
         value = &#34;,&#34;.join([str(n) for n in indexes])
@@ -754,7 +825,7 @@ el.replaceWith(d);
         dict[str, Any]: table data in named dictionary - column names as keys
     &#34;&#34;&#34;
     if self.data_present is False:
-        raise ValueError(&#34;Data was be found in shell table&#34;)
+        raise ValueError(&#34;Data was not found in shell table&#34;)
     
     return self.data.to_dict(as_series=False)</code></pre>
 </details>
@@ -781,7 +852,7 @@ el.replaceWith(d);
         list[dict[str, Any]]: table data in list of named dictionaries - rows
     &#34;&#34;&#34;
     if self.data_present is False:
-        raise ValueError(&#34;Data was be found in shell table&#34;)
+        raise ValueError(&#34;Data was not found in shell table&#34;)
 
     return self.data.to_dicts()</code></pre>
 </details>
@@ -808,7 +879,7 @@ el.replaceWith(d);
         pandas.DataFrame: table data
     &#34;&#34;&#34;
     if self.data_present is False:
-        raise ValueError(&#34;Data was be found in shell table&#34;)
+        raise ValueError(&#34;Data was not found in shell table&#34;)
 
     return self.data.to_pandas()</code></pre>
 </details>
@@ -835,7 +906,7 @@ el.replaceWith(d);
         polars.DataFrame: table data
     &#34;&#34;&#34;
     if self.data_present is False:
-        raise ValueError(&#34;Data was be found in shell table&#34;)
+        raise ValueError(&#34;Data was not found in shell table&#34;)
 
     return self.data</code></pre>
 </details>
@@ -896,12 +967,13 @@ el.replaceWith(d);
 <ul>
 <li>
 <h4><code><a title="pysapscript.shell_table.ShellTable" href="#pysapscript.shell_table.ShellTable">ShellTable</a></code></h4>
-<ul class="two-column">
+<ul class="">
 <li><code><a title="pysapscript.shell_table.ShellTable.cell" href="#pysapscript.shell_table.ShellTable.cell">cell</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.change_checkbox" href="#pysapscript.shell_table.ShellTable.change_checkbox">change_checkbox</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.get_column_names" href="#pysapscript.shell_table.ShellTable.get_column_names">get_column_names</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.load" href="#pysapscript.shell_table.ShellTable.load">load</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.press_button" href="#pysapscript.shell_table.ShellTable.press_button">press_button</a></code></li>
+<li><code><a title="pysapscript.shell_table.ShellTable.press_context_menu_item" href="#pysapscript.shell_table.ShellTable.press_context_menu_item">press_context_menu_item</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.select_row" href="#pysapscript.shell_table.ShellTable.select_row">select_row</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.select_rows" href="#pysapscript.shell_table.ShellTable.select_rows">select_rows</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.to_dict" href="#pysapscript.shell_table.ShellTable.to_dict">to_dict</a></code></li>

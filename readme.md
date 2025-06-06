@@ -94,6 +94,7 @@ window.set_dropdown(element, "02")
 window.set_dropdown(element, "Excel File XLSX", value_type="text")
 
 table: ShellTable = window.read_shell_table(element)
+tree: TreeTable = window.read_shell_tree(element)
 html_content = window.read_html_viewer(element)
 ```
 
@@ -101,14 +102,18 @@ html_content = window.read_html_viewer(element)
 
 ShellTable uses polars, but can also be return pandas or dictionary
 
+### ShellTable
+
 ```python
 from pysapscript.shell_table import ShellTable
 
 table: ShellTable = window.read_shell_table()
 
+# shape
 table.rows
 table.columns
 
+# getters
 table.to_dict()
 table.to_dicts()
 table.to_polars_dataframe()
@@ -117,6 +122,7 @@ table.to_pandas_dataframe()
 table.cell(row_value, col_value_or_name)
 table.get_column_names()
 
+# actions
 table.load()
 table.press_button(value)
 table.select_rows([0, 1, 2])
@@ -125,4 +131,47 @@ table.change_checkbox(element, value)
 
 table.press_context_menu_item("%XXL")
 table.press_context_menu_item("Excel File...", item_type="text")
+```
+
+## Tree actions
+
+Holds data in a list of *Node*
+
+### ShellTree
+
+```python
+tree: ShellTree = window.read_shell_tree()
+
+# slicing
+tree[index]
+tree[start:stop:step]
+
+# getters
+node = tree.get_node_by_key("         7")
+node = tree.get_node_by_label("Name 1")
+list_of_nodes = tree.get_nodes()
+list_of_node_folders = tree.get_node_folders()
+list_of_node_not_foldres = tree.get_node_not_folders()
+
+# other
+tree.select_all()
+tree.unselect_all()
+
+tree.expand_all()
+tree.collapse_all()
+```
+
+### Node
+
+```python
+node = tree.get_node_by_label("Name 1")
+
+children_nodes = node.get_children()
+
+node.select()
+node.unselect()
+node.expand()
+node.collapse()
+
+node.double_click()
 ```

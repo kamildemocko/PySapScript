@@ -229,6 +229,50 @@ el.replaceWith(d);
         except Exception as ex:
             raise exceptions.ActionException(f&#34;Error clicking element {element}: {ex}&#34;)
 
+    def set_dropdown(self, element: str, value: str, value_type: Literal[&#34;key&#34;, &#34;text&#34;] = &#34;key&#34;) -&gt; None:
+        &#34;&#34;&#34;
+        Sets value of a dropdown menu
+
+        Args:
+            element (str): checkbox element
+            value (str): key or text based on value_type
+            value_type (Literal): key (internal name) or text (label)
+
+        Raises:
+            NotImplementedError: invalid value type
+
+        Example:
+            ```
+            main_window.set_dropdown(&#34;wnd[0]/usr/chkPA_CHCK&#34;, &#34;Excel File&#34;, &#34;text&#34;)
+            ```
+        &#34;&#34;&#34;
+        try:
+            match value_type:
+                case &#34;key&#34;:
+                    self.session_handle.findById(element).Key = value
+                case &#34;text&#34;:
+                    dd_el = self.session_handle.findById(element)
+                    available = []
+
+                    for i in range(0, dd_el.Entries.Count - 1):
+                        if dd_el.Entries(i).Value not in value:
+                            available.append(dd_el.Entries(i).Value)
+                            continue
+                            
+                        dd_el.Key = dd_el.Entries(i).Key
+                        break
+
+                    else:
+                        raise ValueError(
+                            f&#34;Value {value} not found in the dropdown element {element}, avilable elements: {&#34;, &#34;.join(available)}&#34;
+                        )
+                case _:
+                    raise NotImplementedError
+
+        except Exception as ex:
+            raise exceptions.ActionException(f&#34;Error clicking element {element}: {ex}&#34;)
+
+
     def write(self, element: str, text: str) -&gt; None:
         &#34;&#34;&#34;
         Sets text property of an element
@@ -394,7 +438,32 @@ el.replaceWith(d);
             table.to_pandas()
             ```
         &#34;&#34;&#34;
-        return ShellTable(self.session_handle, element, load_table)</code></pre>
+        return ShellTable(self.session_handle, element, load_table)
+
+    def read_shell_tree(self, element: str) -&gt; ShellTree:
+        &#34;&#34;&#34;
+        Read the tree of the specified ShellTree element.
+        Args:
+            element (str): The identifier of the element to read.
+
+        Returns:
+            ShellTree: The ShellTree object with the tree data and methods to manage it.
+
+        Example:
+            ```
+            tree = main_window.read_shell_tree(&#34;wnd[0]/shellcont/shellcont/shell&#34;)
+            tree[&#34;Sell&#34;].select()
+
+            node = tree.get_node_by_label(&#34;Sell&#34;)
+            node.double_click()
+
+            node_folders = tree.get_node_folders()
+            for node in node_folders:
+                node.expand()
+            tree.collapse_all()
+            ```
+        &#34;&#34;&#34;
+        return ShellTree(self.session_handle, element)</code></pre>
 </details>
 <div class="desc"></div>
 <h3>Methods</h3>
@@ -763,6 +832,63 @@ for row in table:
 table.to_pandas()
 </code></pre></div>
 </dd>
+<dt id="pysapscript.window.Window.read_shell_tree"><code class="name flex">
+<span>def <span class="ident">read_shell_tree</span></span>(<span>self, element: str) ‑> <a title="pysapscript.shell_tree.ShellTree" href="shell_tree.html#pysapscript.shell_tree.ShellTree">ShellTree</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_shell_tree(self, element: str) -&gt; ShellTree:
+    &#34;&#34;&#34;
+    Read the tree of the specified ShellTree element.
+    Args:
+        element (str): The identifier of the element to read.
+
+    Returns:
+        ShellTree: The ShellTree object with the tree data and methods to manage it.
+
+    Example:
+        ```
+        tree = main_window.read_shell_tree(&#34;wnd[0]/shellcont/shellcont/shell&#34;)
+        tree[&#34;Sell&#34;].select()
+
+        node = tree.get_node_by_label(&#34;Sell&#34;)
+        node.double_click()
+
+        node_folders = tree.get_node_folders()
+        for node in node_folders:
+            node.expand()
+        tree.collapse_all()
+        ```
+    &#34;&#34;&#34;
+    return ShellTree(self.session_handle, element)</code></pre>
+</details>
+<div class="desc"><p>Read the tree of the specified ShellTree element.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>element</code></strong> :&ensp;<code>str</code></dt>
+<dd>The identifier of the element to read.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>ShellTree</code></dt>
+<dd>The ShellTree object with the tree data and methods to manage it.</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>tree = main_window.read_shell_tree(&quot;wnd[0]/shellcont/shellcont/shell&quot;)
+tree[&quot;Sell&quot;].select()
+
+node = tree.get_node_by_label(&quot;Sell&quot;)
+node.double_click()
+
+node_folders = tree.get_node_folders()
+for node in node_folders:
+    node.expand()
+tree.collapse_all()
+</code></pre></div>
+</dd>
 <dt id="pysapscript.window.Window.restore"><code class="name flex">
 <span>def <span class="ident">restore</span></span>(<span>self) ‑> None</span>
 </code></dt>
@@ -935,6 +1061,76 @@ Example use is a pick button, that opens POP-UP window that is otherwise not vis
 <pre><code>main_window.set_checkbox(&quot;wnd[0]/usr/chkPA_CHCK&quot;, True)
 </code></pre></div>
 </dd>
+<dt id="pysapscript.window.Window.set_dropdown"><code class="name flex">
+<span>def <span class="ident">set_dropdown</span></span>(<span>self, element: str, value: str, value_type: Literal['key', 'text'] = 'key') ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_dropdown(self, element: str, value: str, value_type: Literal[&#34;key&#34;, &#34;text&#34;] = &#34;key&#34;) -&gt; None:
+    &#34;&#34;&#34;
+    Sets value of a dropdown menu
+
+    Args:
+        element (str): checkbox element
+        value (str): key or text based on value_type
+        value_type (Literal): key (internal name) or text (label)
+
+    Raises:
+        NotImplementedError: invalid value type
+
+    Example:
+        ```
+        main_window.set_dropdown(&#34;wnd[0]/usr/chkPA_CHCK&#34;, &#34;Excel File&#34;, &#34;text&#34;)
+        ```
+    &#34;&#34;&#34;
+    try:
+        match value_type:
+            case &#34;key&#34;:
+                self.session_handle.findById(element).Key = value
+            case &#34;text&#34;:
+                dd_el = self.session_handle.findById(element)
+                available = []
+
+                for i in range(0, dd_el.Entries.Count - 1):
+                    if dd_el.Entries(i).Value not in value:
+                        available.append(dd_el.Entries(i).Value)
+                        continue
+                        
+                    dd_el.Key = dd_el.Entries(i).Key
+                    break
+
+                else:
+                    raise ValueError(
+                        f&#34;Value {value} not found in the dropdown element {element}, avilable elements: {&#34;, &#34;.join(available)}&#34;
+                    )
+            case _:
+                raise NotImplementedError
+
+    except Exception as ex:
+        raise exceptions.ActionException(f&#34;Error clicking element {element}: {ex}&#34;)</code></pre>
+</details>
+<div class="desc"><p>Sets value of a dropdown menu</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>element</code></strong> :&ensp;<code>str</code></dt>
+<dd>checkbox element</dd>
+<dt><strong><code>value</code></strong> :&ensp;<code>str</code></dt>
+<dd>key or text based on value_type</dd>
+<dt><strong><code>value_type</code></strong> :&ensp;<code>Literal</code></dt>
+<dd>key (internal name) or text (label)</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>NotImplementedError</code></dt>
+<dd>invalid value type</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>main_window.set_dropdown(&quot;wnd[0]/usr/chkPA_CHCK&quot;, &quot;Excel File&quot;, &quot;text&quot;)
+</code></pre></div>
+</dd>
 <dt id="pysapscript.window.Window.start_transaction"><code class="name flex">
 <span>def <span class="ident">start_transaction</span></span>(<span>self, transaction: str) ‑> None</span>
 </code></dt>
@@ -1081,10 +1277,12 @@ Example use is a pick button, that opens POP-UP window that is otherwise not vis
 <li><code><a title="pysapscript.window.Window.read" href="#pysapscript.window.Window.read">read</a></code></li>
 <li><code><a title="pysapscript.window.Window.read_html_viewer" href="#pysapscript.window.Window.read_html_viewer">read_html_viewer</a></code></li>
 <li><code><a title="pysapscript.window.Window.read_shell_table" href="#pysapscript.window.Window.read_shell_table">read_shell_table</a></code></li>
+<li><code><a title="pysapscript.window.Window.read_shell_tree" href="#pysapscript.window.Window.read_shell_tree">read_shell_tree</a></code></li>
 <li><code><a title="pysapscript.window.Window.restore" href="#pysapscript.window.Window.restore">restore</a></code></li>
 <li><code><a title="pysapscript.window.Window.select" href="#pysapscript.window.Window.select">select</a></code></li>
 <li><code><a title="pysapscript.window.Window.send_v_key" href="#pysapscript.window.Window.send_v_key">send_v_key</a></code></li>
 <li><code><a title="pysapscript.window.Window.set_checkbox" href="#pysapscript.window.Window.set_checkbox">set_checkbox</a></code></li>
+<li><code><a title="pysapscript.window.Window.set_dropdown" href="#pysapscript.window.Window.set_dropdown">set_dropdown</a></code></li>
 <li><code><a title="pysapscript.window.Window.start_transaction" href="#pysapscript.window.Window.start_transaction">start_transaction</a></code></li>
 <li><code><a title="pysapscript.window.Window.visualize" href="#pysapscript.window.Window.visualize">visualize</a></code></li>
 <li><code><a title="pysapscript.window.Window.write" href="#pysapscript.window.Window.write">write</a></code></li>
