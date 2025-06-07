@@ -1,22 +1,34 @@
-[Github - https://github.com/kamildemocko/PySapScript](https://github.com/kamildemocko/PySapScript)
-
 SAP scripting for use in Python.  
 Can perform different actions in SAP GUI client on Windows.
 
+[Github - https://github.com/kamildemocko/PySapScript](https://github.com/kamildemocko/PySapScript)
+
+# Installation
+
+## PyPI
+
+```cmd
+pip install pysapscript  # pip
+uv add pysapscript       # uv
+```
+
+## Local
+
+```cmd
+git clone https://github.com/kamildemocko/PySapScript
+cd PySapScript
+uv sync
+uv pip install -e .
+```
 
 # Documentation
 
 [https://kamildemocko.github.io/PySapScript/](https://kamildemocko.github.io/PySapScript/)
 
+## Local
+
 ```cmd
 pdoc --html --output-dir docs .\src\pysapscript\
-```
-
-# Installation
-
-```cmd
-uv sync
-uv pip install -e .
 ```
 
 # Usage
