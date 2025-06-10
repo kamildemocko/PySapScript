@@ -33,6 +33,10 @@ class TestRuns:
         self.window.press("wnd[0]/tbar[1]/btn[8]")
 
         # IF NOT AVL-GRID, switch manually
+        table_no_load = self.window.read_shell_table("wnd[0]/usr/cntlGRID1/shellcont/shell", False)
+        assert table_no_load.rows > 0
+        assert table_no_load.columns > 0
+
         table = self.window.read_shell_table("wnd[0]/usr/cntlGRID1/shellcont/shell")
         print(f"str: {str(table)}, repr: {repr(table)}")
         print(f"rows: {table.rows}, columns: {table.columns}")
@@ -43,6 +47,8 @@ class TestRuns:
 
         table.select_rows([1, 3, 5])
         table.select_row(2)
+        table.select_all()
+        table.clear_selection()
 
         # export with dropdown
         table.press_context_menu_item("Tabuľková kalkulácia...", item_type="text")

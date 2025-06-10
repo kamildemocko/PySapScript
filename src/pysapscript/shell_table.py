@@ -14,7 +14,12 @@ class ShellTable:
     A class representing a shell table
     """
 
-    def __init__(self, session_handle: win32com.client.CDispatch, element: str, load_table: bool = True) -> None:
+    def __init__(
+        self, 
+        session_handle: win32com.client.CDispatch, 
+        element: str, 
+        load_table: bool = True,
+    ) -> None:
         """
         Usually table contains a table of data, but it can also be a non-data shell table, that holds toolbar
 
@@ -22,6 +27,7 @@ class ShellTable:
             session_handle (win32com.client.CDispatch): SAP session handle
             element (str): SAP table element
             load_table (bool): loads table if True, default True
+            read_data (bool): reads data from the table if True, default True, this ignores load_table parameter
 
         Raises:
             ActionException: error reading table data
@@ -29,9 +35,15 @@ class ShellTable:
         self.table_element = element
         self._session_handle = session_handle
         self.data_present = False
-        self.data = self._read_shell_table(load_table)
-        self.rows = self.data.shape[0]
-        self.columns = self.data.shape[1]
+
+        if load_table:
+            self.data = self._read_shell_table()
+        else:
+            self.data = pl.DataFrame()
+
+        shape = self._read_shape()
+        self.rows = shape[0]
+        self.columns = shape[1]
 
     def __repr__(self) -> str:
         return repr(self.data)
@@ -65,8 +77,25 @@ class ShellTable:
 
     def __iter__(self) -> "ShellTableRowIterator":
         return ShellTableRowIterator(self.data)
+    
+    def _read_shape(self) -> tuple[int, int]:
+        """
+        Reads shape of the shell table
 
-    def _read_shell_table(self, load_table: bool = True) -> pl.DataFrame:
+        Returns:
+            tuple[int, int]: number of rows and columns in the table
+        """
+        try:
+            shell = self._session_handle.findById(self.table_element)
+            rows_count = shell.RowCount
+            columns_count = len(shell.ColumnOrder)
+
+            return rows_count, columns_count
+        
+        except Exception as e:
+            raise exceptions.ActionException(f"Error reading shape of element {self.table_element}: {e}")
+
+    def _read_shell_table(self) -> pl.DataFrame:
         """
         Reads table of shell table
 
@@ -101,8 +130,7 @@ class ShellTable:
 
             self.data_present = True
 
-            if load_table:
-                self.load()
+            self.load()
 
             data = [
                 {column: shell.GetCellValue(i, column) for column in columns}
@@ -319,6 +347,48 @@ class ShellTable:
             raise exceptions.ActionException(
                 f"Error selecting row with index {index}: {e}"
             )
+    
+    def select_all(self) -> None:
+        """
+        Selects all rows in a shell table
+
+        Raises:
+            ActionException: error selecting all shell rows
+
+        Example:
+            ```
+            main_window.select_all_shell_rows("wnd[0]/usr/shellContent/shell")
+            ```
+        """
+        if self.data_present is False:
+            raise ValueError("Data was not found in shell table")
+
+        try:
+            self._session_handle.findById(self.table_element).selectAll()
+
+        except Exception as e:
+            raise exceptions.ActionException(f"Error selecting all rows: {e}")
+    
+    def clear_selection(self) -> None:
+        """
+        Clears selection in a shell table
+
+        Raises:
+            ActionException: error clearing shell selection
+
+        Example:
+            ```
+            main_window.clear_shell_selection("wnd[0]/usr/shellContent/shell")
+            ```
+        """
+        if self.data_present is False:
+            raise ValueError("Data was not found in shell table")
+
+        try:
+            self._session_handle.findById(self.table_element).clearSelection()
+
+        except Exception as e:
+            raise exceptions.ActionException(f"Error clearing selection: {e}")
 
 
     def change_checkbox(self, checkbox: str, flag: bool) -> None:
