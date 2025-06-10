@@ -168,7 +168,7 @@ class Sapscript:
             pss.open_new_window(main_window)
             ```
         """
-        window_to_handle_opening.session_handle.createSession()
+        window_to_handle_opening._session_handle.createSession()
 
         utils.wait_for_window_title(self.default_window_title)
 
