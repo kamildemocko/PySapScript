@@ -59,6 +59,7 @@ additional parameters:
 `root_sap_dir = Path(r"C:\Program Files (x86)\SAP\FrontEnd\SAPgui")`  
 `maximise = True`  
 `language = "de"`  
+`timeout = 30`  
 `quit_auto = True`
 
 ## Attach to an already opened window:
@@ -91,9 +92,12 @@ window.close()
 window.start_transaction(value)
 window.navigate(NavigateAction.enter)
 window.navigate(NavigateAction.back)
+status = window.read_statusbar()
 
 window.write(element, value)
 window.press(element)
+window.press_tab([focus_element="wnd[0]", backwards=False])
+window.focus(element)
 window.send_v_key(value[, focus_element=True, value=0])
 window.select(element)
 selected = window.is_selected(element)
@@ -104,6 +108,8 @@ window.exists(element)
 
 window.set_dropdown(element, "02")
 window.set_dropdown(element, "Excel File XLSX", value_type="text")
+
+window.show_msgbox(title, message)
 
 table: ShellTable = window.read_shell_table(element)
 tree: TreeTable = window.read_shell_tree(element)
@@ -139,6 +145,8 @@ table.load()
 table.press_button(value)
 table.select_rows([0, 1, 2])
 table.select_row(1)
+table.select_all()
+table.clear_selection()
 table.change_checkbox(element, value)
 
 table.press_context_menu_item("%XXL")

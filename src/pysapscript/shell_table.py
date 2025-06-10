@@ -27,7 +27,6 @@ class ShellTable:
             session_handle (win32com.client.CDispatch): SAP session handle
             element (str): SAP table element
             load_table (bool): loads table if True, default True
-            read_data (bool): reads data from the table if True, default True, this ignores load_table parameter
 
         Raises:
             ActionException: error reading table data

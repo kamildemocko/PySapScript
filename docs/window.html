@@ -64,9 +64,9 @@ el.replaceWith(d);
         session_handle: win32com.client.CDispatch,
     ) -&gt; None:
         self.connection = connection
-        self.connection_handle = connection_handle
+        self._connection_handle = connection_handle
         self.session = session
-        self.session_handle = session_handle
+        self._session_handle = session_handle
 
     def __repr__(self) -&gt; str:
         return f&#34;Window(connection={self.connection}, session={self.session})&#34;
@@ -81,25 +81,25 @@ el.replaceWith(d);
         return False
 
     def __hash__(self) -&gt; int:
-        return hash(f&#34;{self.connection_handle}{self.session_handle}&#34;)
+        return hash(f&#34;{self._connection_handle}{self._session_handle}&#34;)
 
     def maximize(self) -&gt; None:
         &#34;&#34;&#34;
         Maximizes this sap window
         &#34;&#34;&#34;
-        self.session_handle.findById(&#34;wnd[0]&#34;).maximize()
+        self._session_handle.findById(&#34;wnd[0]&#34;).maximize()
 
     def restore(self) -&gt; None:
         &#34;&#34;&#34;
         Restores sap window to its default size, resp. before maximization
         &#34;&#34;&#34;
-        self.session_handle.findById(&#34;wnd[0]&#34;).restore()
+        self._session_handle.findById(&#34;wnd[0]&#34;).restore()
 
     def close_window(self) -&gt; None:
         &#34;&#34;&#34;
         Closes this sap window
         &#34;&#34;&#34;
-        self.session_handle.findById(&#34;wnd[0]&#34;).close()
+        self._session_handle.findById(&#34;wnd[0]&#34;).close()
 
     def navigate(self, action: NavigateAction) -&gt; None:
         &#34;&#34;&#34;
@@ -129,7 +129,7 @@ el.replaceWith(d);
         else:
             raise exceptions.ActionException(&#34;Wrong navigation action!&#34;)
 
-        self.session_handle.findById(el).press()
+        self._session_handle.findById(el).press()
 
     def start_transaction(self, transaction: str) -&gt; None:
         &#34;&#34;&#34;
@@ -140,6 +140,20 @@ el.replaceWith(d);
         &#34;&#34;&#34;
         self.write(&#34;wnd[0]/tbar[0]/okcd&#34;, transaction)
         self.navigate(NavigateAction.enter)
+    
+    def read_statusbar(self) -&gt; str:
+        &#34;&#34;&#34;
+        Reads status bar text
+
+        Returns:
+            str: status bar text
+
+        Example:
+            ```
+            status = main_window.read_statusbar()
+            ```
+        &#34;&#34;&#34;
+        return self.read(&#34;wnd[0]/sbar/pane[0]&#34;)
 
     def press(self, element: str) -&gt; None:
         &#34;&#34;&#34;
@@ -157,7 +171,7 @@ el.replaceWith(d);
             ```
         &#34;&#34;&#34;
         try:
-            self.session_handle.findById(element).press()
+            self._session_handle.findById(element).press()
 
         except Exception as ex:
             raise exceptions.ActionException(f&#34;Error clicking element {element}: {ex}&#34;)
@@ -178,7 +192,7 @@ el.replaceWith(d);
             ```
         &#34;&#34;&#34;
         try:
-            self.session_handle.findById(element).select()
+            self._session_handle.findById(element).select()
 
         except Exception as ex:
             raise exceptions.ActionException(f&#34;Error clicking element {element}: {ex}&#34;)
@@ -202,7 +216,7 @@ el.replaceWith(d);
             ```
         &#34;&#34;&#34;
         try:
-            return self.session_handle.findById(element).selected
+            return self._session_handle.findById(element).selected
 
         except Exception as ex:
             raise exceptions.ActionException(f&#34;Error getting status of element {element}: {ex}&#34;)
@@ -224,7 +238,7 @@ el.replaceWith(d);
             ```
         &#34;&#34;&#34;
         try:
-            self.session_handle.findById(element).selected = selected
+            self._session_handle.findById(element).selected = selected
 
         except Exception as ex:
             raise exceptions.ActionException(f&#34;Error clicking element {element}: {ex}&#34;)
@@ -249,9 +263,9 @@ el.replaceWith(d);
         try:
             match value_type:
                 case &#34;key&#34;:
-                    self.session_handle.findById(element).Key = value
+                    self._session_handle.findById(element).Key = value
                 case &#34;text&#34;:
-                    dd_el = self.session_handle.findById(element)
+                    dd_el = self._session_handle.findById(element)
                     available = []
 
                     for i in range(0, dd_el.Entries.Count - 1):
@@ -290,7 +304,7 @@ el.replaceWith(d);
             ```
         &#34;&#34;&#34;
         try:
-            self.session_handle.findById(element).text = text
+            self._session_handle.findById(element).text = text
 
         except Exception as ex:
             raise exceptions.ActionException(
@@ -313,7 +327,7 @@ el.replaceWith(d);
             ```
         &#34;&#34;&#34;
         try:
-            return self.session_handle.findById(element).text
+            return self._session_handle.findById(element).text
 
         except Exception as e:
             raise exceptions.ActionException(f&#34;Error reading element {element}: {e}&#34;)
@@ -331,13 +345,63 @@ el.replaceWith(d);
         &#34;&#34;&#34;
 
         try:
-            self.session_handle.findById(element).Visualize(1)
+            self._session_handle.findById(element).Visualize(1)
             sleep(seconds)
 
         except Exception as e:
             raise exceptions.ActionException(
                 f&#34;Error visualizing element {element}: {e}&#34;
             )
+
+    def focus(self, element: str) -&gt; None:
+        &#34;&#34;&#34;
+        Sets focus on the element
+
+        Args:
+            element (str): element to focus on
+
+        Raises:
+            ActionException: Error focusing on element
+
+        Example:
+            ```
+            main_window.set_focus(&#34;wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03&#34;)
+            ```
+        &#34;&#34;&#34;
+        try:
+            self._session_handle.findById(element).SetFocus()
+
+        except Exception as e:
+            raise exceptions.ActionException(f&#34;Error focusing on element {element}: {e}&#34;)
+
+    def press_tab(self, focus_element: str = &#34;wnd[0]&#34;, backwards: bool = False) -&gt; None:
+        &#34;&#34;&#34;
+        Moves the focus to the next tab in the current window.
+
+        Args:
+            focus_element (str): The identifier of the element to tab forwards from. Default is &#34;wnd[0]&#34;.
+            backwards (bool): If True, tabs backwards instead of forwards. Default is False.
+
+        Raises:
+            ActionException: If an error occurs while tabbing forwards.
+
+        Example:
+            ```
+            main_window.press_tab(&#34;wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03&#34;, backwards=True)
+            ```
+        &#34;&#34;&#34;
+        try:
+            self.focus(focus_element)
+
+            if backwards:
+                self._session_handle.findById(&#34;wnd[0]&#34;).TabBackward()
+            else:
+                self._session_handle.findById(&#34;wnd[0]&#34;).TabForward()
+
+            sleep(0.2)
+
+        except Exception as e:
+            raise exceptions.ActionException(f&#34;Error tabbing forwards on element {focus_element}: {e}&#34;)
 
     def exists(self, element: str) -&gt; bool:
         &#34;&#34;&#34;
@@ -351,7 +415,7 @@ el.replaceWith(d);
         &#34;&#34;&#34;
 
         try:
-            self.session_handle.findById(element)
+            self._session_handle.findById(element)
             return True
 
         except Exception:
@@ -383,16 +447,43 @@ el.replaceWith(d);
             ```
         &#34;&#34;&#34;
         try:
-            if focus_element is not None:
-                self.session_handle.findById(focus_element).SetFocus()
+            if self._session_handle.findById(element).IsVKeyAllowed(value) is False:
+                raise exceptions.ActionException(
+                    f&#34;VKey {value} is not allowed for element {element}&#34;
+                )
 
-            self.session_handle.findById(element).sendVKey(value)
+            if focus_element is not None:
+                self._session_handle.findById(focus_element).SetFocus()
+
+            self._session_handle.findById(element).sendVKey(value)
 
         except Exception as e:
             raise exceptions.ActionException(
                 f&#34;Error visualizing element {element}: {e}&#34;
             )
+    
+    def show_msgbox(self, title: str, message: str) -&gt; None:
+        &#34;&#34;&#34;
+        Shows a message box with the specified title and message.
 
+        Args:
+            title (str): The title of the message box.
+            message (str): The message to display in the message box.
+
+        Raises:
+            ActionException: If an error occurs while showing the message box.
+
+        Example:
+            ```
+            main_window.show_msgbox(&#34;Info&#34;, &#34;This is a message.&#34;)
+            ```
+        &#34;&#34;&#34;
+        try:
+            self._session_handle.findById(&#34;wnd[0]&#34;).ShowMessageBox(title, message, 0, 0)
+
+        except Exception as e:
+            raise exceptions.ActionException(f&#34;Error showing message box: {e}&#34;)
+    
     def read_html_viewer(self, element: str) -&gt; str:
         &#34;&#34;&#34;
         Read the HTML content of the specified HTMLViewer element.
@@ -412,7 +503,7 @@ el.replaceWith(d);
             ```
         &#34;&#34;&#34;
         try:
-            return self.session_handle.findById(
+            return self._session_handle.findById(
                 element
             ).BrowserHandle.Document.documentElement.innerHTML
 
@@ -438,7 +529,7 @@ el.replaceWith(d);
             table.to_pandas()
             ```
         &#34;&#34;&#34;
-        return ShellTable(self.session_handle, element, load_table)
+        return ShellTable(self._session_handle, element, load_table)
 
     def read_shell_tree(self, element: str) -&gt; ShellTree:
         &#34;&#34;&#34;
@@ -463,7 +554,7 @@ el.replaceWith(d);
             tree.collapse_all()
             ```
         &#34;&#34;&#34;
-        return ShellTree(self.session_handle, element)</code></pre>
+        return ShellTree(self._session_handle, element)</code></pre>
 </details>
 <div class="desc"></div>
 <h3>Methods</h3>
@@ -480,7 +571,7 @@ el.replaceWith(d);
     &#34;&#34;&#34;
     Closes this sap window
     &#34;&#34;&#34;
-    self.session_handle.findById(&#34;wnd[0]&#34;).close()</code></pre>
+    self._session_handle.findById(&#34;wnd[0]&#34;).close()</code></pre>
 </details>
 <div class="desc"><p>Closes this sap window</p></div>
 </dd>
@@ -504,7 +595,7 @@ el.replaceWith(d);
     &#34;&#34;&#34;
 
     try:
-        self.session_handle.findById(element)
+        self._session_handle.findById(element)
         return True
 
     except Exception:
@@ -521,6 +612,50 @@ el.replaceWith(d);
 <dt><code>bool</code></dt>
 <dd>True if element exists, False otherwise</dd>
 </dl></div>
+</dd>
+<dt id="pysapscript.window.Window.focus"><code class="name flex">
+<span>def <span class="ident">focus</span></span>(<span>self, element: str) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def focus(self, element: str) -&gt; None:
+    &#34;&#34;&#34;
+    Sets focus on the element
+
+    Args:
+        element (str): element to focus on
+
+    Raises:
+        ActionException: Error focusing on element
+
+    Example:
+        ```
+        main_window.set_focus(&#34;wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03&#34;)
+        ```
+    &#34;&#34;&#34;
+    try:
+        self._session_handle.findById(element).SetFocus()
+
+    except Exception as e:
+        raise exceptions.ActionException(f&#34;Error focusing on element {element}: {e}&#34;)</code></pre>
+</details>
+<div class="desc"><p>Sets focus on the element</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>element</code></strong> :&ensp;<code>str</code></dt>
+<dd>element to focus on</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ActionException</code></dt>
+<dd>Error focusing on element</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>main_window.set_focus(&quot;wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03&quot;)
+</code></pre></div>
 </dd>
 <dt id="pysapscript.window.Window.is_selected"><code class="name flex">
 <span>def <span class="ident">is_selected</span></span>(<span>self, element: str) ‑> bool</span>
@@ -549,7 +684,7 @@ el.replaceWith(d);
         ```
     &#34;&#34;&#34;
     try:
-        return self.session_handle.findById(element).selected
+        return self._session_handle.findById(element).selected
 
     except Exception as ex:
         raise exceptions.ActionException(f&#34;Error getting status of element {element}: {ex}&#34;)</code></pre>
@@ -586,7 +721,7 @@ el.replaceWith(d);
     &#34;&#34;&#34;
     Maximizes this sap window
     &#34;&#34;&#34;
-    self.session_handle.findById(&#34;wnd[0]&#34;).maximize()</code></pre>
+    self._session_handle.findById(&#34;wnd[0]&#34;).maximize()</code></pre>
 </details>
 <div class="desc"><p>Maximizes this sap window</p></div>
 </dd>
@@ -626,7 +761,7 @@ el.replaceWith(d);
     else:
         raise exceptions.ActionException(&#34;Wrong navigation action!&#34;)
 
-    self.session_handle.findById(el).press()</code></pre>
+    self._session_handle.findById(el).press()</code></pre>
 </details>
 <div class="desc"><p>Navigates SAP: enter, back, end, cancel, save</p>
 <h2 id="args">Args</h2>
@@ -667,7 +802,7 @@ el.replaceWith(d);
         ```
     &#34;&#34;&#34;
     try:
-        self.session_handle.findById(element).press()
+        self._session_handle.findById(element).press()
 
     except Exception as ex:
         raise exceptions.ActionException(f&#34;Error clicking element {element}: {ex}&#34;)</code></pre>
@@ -685,6 +820,60 @@ el.replaceWith(d);
 </dl>
 <h2 id="example">Example</h2>
 <pre><code>main_window.press(&quot;wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03&quot;)
+</code></pre></div>
+</dd>
+<dt id="pysapscript.window.Window.press_tab"><code class="name flex">
+<span>def <span class="ident">press_tab</span></span>(<span>self, focus_element: str = 'wnd[0]', backwards: bool = False) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def press_tab(self, focus_element: str = &#34;wnd[0]&#34;, backwards: bool = False) -&gt; None:
+    &#34;&#34;&#34;
+    Moves the focus to the next tab in the current window.
+
+    Args:
+        focus_element (str): The identifier of the element to tab forwards from. Default is &#34;wnd[0]&#34;.
+        backwards (bool): If True, tabs backwards instead of forwards. Default is False.
+
+    Raises:
+        ActionException: If an error occurs while tabbing forwards.
+
+    Example:
+        ```
+        main_window.press_tab(&#34;wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03&#34;, backwards=True)
+        ```
+    &#34;&#34;&#34;
+    try:
+        self.focus(focus_element)
+
+        if backwards:
+            self._session_handle.findById(&#34;wnd[0]&#34;).TabBackward()
+        else:
+            self._session_handle.findById(&#34;wnd[0]&#34;).TabForward()
+
+        sleep(0.2)
+
+    except Exception as e:
+        raise exceptions.ActionException(f&#34;Error tabbing forwards on element {focus_element}: {e}&#34;)</code></pre>
+</details>
+<div class="desc"><p>Moves the focus to the next tab in the current window.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>focus_element</code></strong> :&ensp;<code>str</code></dt>
+<dd>The identifier of the element to tab forwards from. Default is "wnd[0]".</dd>
+<dt><strong><code>backwards</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If True, tabs backwards instead of forwards. Default is False.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ActionException</code></dt>
+<dd>If an error occurs while tabbing forwards.</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>main_window.press_tab(&quot;wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03&quot;, backwards=True)
 </code></pre></div>
 </dd>
 <dt id="pysapscript.window.Window.read"><code class="name flex">
@@ -711,7 +900,7 @@ el.replaceWith(d);
         ```
     &#34;&#34;&#34;
     try:
-        return self.session_handle.findById(element).text
+        return self._session_handle.findById(element).text
 
     except Exception as e:
         raise exceptions.ActionException(f&#34;Error reading element {element}: {e}&#34;)</code></pre>
@@ -758,7 +947,7 @@ el.replaceWith(d);
         ```
     &#34;&#34;&#34;
     try:
-        return self.session_handle.findById(
+        return self._session_handle.findById(
             element
         ).BrowserHandle.Document.documentElement.innerHTML
 
@@ -809,7 +998,7 @@ el.replaceWith(d);
         table.to_pandas()
         ```
     &#34;&#34;&#34;
-    return ShellTable(self.session_handle, element, load_table)</code></pre>
+    return ShellTable(self._session_handle, element, load_table)</code></pre>
 </details>
 <div class="desc"><p>Read the table of the specified ShellTable element.</p>
 <h2 id="args">Args</h2>
@@ -863,7 +1052,7 @@ table.to_pandas()
         tree.collapse_all()
         ```
     &#34;&#34;&#34;
-    return ShellTree(self.session_handle, element)</code></pre>
+    return ShellTree(self._session_handle, element)</code></pre>
 </details>
 <div class="desc"><p>Read the tree of the specified ShellTree element.</p>
 <h2 id="args">Args</h2>
@@ -889,6 +1078,38 @@ for node in node_folders:
 tree.collapse_all()
 </code></pre></div>
 </dd>
+<dt id="pysapscript.window.Window.read_statusbar"><code class="name flex">
+<span>def <span class="ident">read_statusbar</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_statusbar(self) -&gt; str:
+    &#34;&#34;&#34;
+    Reads status bar text
+
+    Returns:
+        str: status bar text
+
+    Example:
+        ```
+        status = main_window.read_statusbar()
+        ```
+    &#34;&#34;&#34;
+    return self.read(&#34;wnd[0]/sbar/pane[0]&#34;)</code></pre>
+</details>
+<div class="desc"><p>Reads status bar text</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>status bar text</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>status = main_window.read_statusbar()
+</code></pre></div>
+</dd>
 <dt id="pysapscript.window.Window.restore"><code class="name flex">
 <span>def <span class="ident">restore</span></span>(<span>self) ‑> None</span>
 </code></dt>
@@ -901,7 +1122,7 @@ tree.collapse_all()
     &#34;&#34;&#34;
     Restores sap window to its default size, resp. before maximization
     &#34;&#34;&#34;
-    self.session_handle.findById(&#34;wnd[0]&#34;).restore()</code></pre>
+    self._session_handle.findById(&#34;wnd[0]&#34;).restore()</code></pre>
 </details>
 <div class="desc"><p>Restores sap window to its default size, resp. before maximization</p></div>
 </dd>
@@ -929,7 +1150,7 @@ tree.collapse_all()
         ```
     &#34;&#34;&#34;
     try:
-        self.session_handle.findById(element).select()
+        self._session_handle.findById(element).select()
 
     except Exception as ex:
         raise exceptions.ActionException(f&#34;Error clicking element {element}: {ex}&#34;)</code></pre>
@@ -983,10 +1204,15 @@ tree.collapse_all()
         ```
     &#34;&#34;&#34;
     try:
-        if focus_element is not None:
-            self.session_handle.findById(focus_element).SetFocus()
+        if self._session_handle.findById(element).IsVKeyAllowed(value) is False:
+            raise exceptions.ActionException(
+                f&#34;VKey {value} is not allowed for element {element}&#34;
+            )
 
-        self.session_handle.findById(element).sendVKey(value)
+        if focus_element is not None:
+            self._session_handle.findById(focus_element).SetFocus()
+
+        self._session_handle.findById(element).sendVKey(value)
 
     except Exception as e:
         raise exceptions.ActionException(
@@ -1039,7 +1265,7 @@ Example use is a pick button, that opens POP-UP window that is otherwise not vis
         ```
     &#34;&#34;&#34;
     try:
-        self.session_handle.findById(element).selected = selected
+        self._session_handle.findById(element).selected = selected
 
     except Exception as ex:
         raise exceptions.ActionException(f&#34;Error clicking element {element}: {ex}&#34;)</code></pre>
@@ -1089,9 +1315,9 @@ Example use is a pick button, that opens POP-UP window that is otherwise not vis
     try:
         match value_type:
             case &#34;key&#34;:
-                self.session_handle.findById(element).Key = value
+                self._session_handle.findById(element).Key = value
             case &#34;text&#34;:
-                dd_el = self.session_handle.findById(element)
+                dd_el = self._session_handle.findById(element)
                 available = []
 
                 for i in range(0, dd_el.Entries.Count - 1):
@@ -1129,6 +1355,53 @@ Example use is a pick button, that opens POP-UP window that is otherwise not vis
 </dl>
 <h2 id="example">Example</h2>
 <pre><code>main_window.set_dropdown(&quot;wnd[0]/usr/chkPA_CHCK&quot;, &quot;Excel File&quot;, &quot;text&quot;)
+</code></pre></div>
+</dd>
+<dt id="pysapscript.window.Window.show_msgbox"><code class="name flex">
+<span>def <span class="ident">show_msgbox</span></span>(<span>self, title: str, message: str) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_msgbox(self, title: str, message: str) -&gt; None:
+    &#34;&#34;&#34;
+    Shows a message box with the specified title and message.
+
+    Args:
+        title (str): The title of the message box.
+        message (str): The message to display in the message box.
+
+    Raises:
+        ActionException: If an error occurs while showing the message box.
+
+    Example:
+        ```
+        main_window.show_msgbox(&#34;Info&#34;, &#34;This is a message.&#34;)
+        ```
+    &#34;&#34;&#34;
+    try:
+        self._session_handle.findById(&#34;wnd[0]&#34;).ShowMessageBox(title, message, 0, 0)
+
+    except Exception as e:
+        raise exceptions.ActionException(f&#34;Error showing message box: {e}&#34;)</code></pre>
+</details>
+<div class="desc"><p>Shows a message box with the specified title and message.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>title</code></strong> :&ensp;<code>str</code></dt>
+<dd>The title of the message box.</dd>
+<dt><strong><code>message</code></strong> :&ensp;<code>str</code></dt>
+<dd>The message to display in the message box.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ActionException</code></dt>
+<dd>If an error occurs while showing the message box.</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>main_window.show_msgbox(&quot;Info&quot;, &quot;This is a message.&quot;)
 </code></pre></div>
 </dd>
 <dt id="pysapscript.window.Window.start_transaction"><code class="name flex">
@@ -1177,7 +1450,7 @@ Example use is a pick button, that opens POP-UP window that is otherwise not vis
     &#34;&#34;&#34;
 
     try:
-        self.session_handle.findById(element).Visualize(1)
+        self._session_handle.findById(element).Visualize(1)
         sleep(seconds)
 
     except Exception as e:
@@ -1224,7 +1497,7 @@ Example use is a pick button, that opens POP-UP window that is otherwise not vis
         ```
     &#34;&#34;&#34;
     try:
-        self.session_handle.findById(element).text = text
+        self._session_handle.findById(element).text = text
 
     except Exception as ex:
         raise exceptions.ActionException(
@@ -1270,19 +1543,23 @@ Example use is a pick button, that opens POP-UP window that is otherwise not vis
 <ul class="two-column">
 <li><code><a title="pysapscript.window.Window.close_window" href="#pysapscript.window.Window.close_window">close_window</a></code></li>
 <li><code><a title="pysapscript.window.Window.exists" href="#pysapscript.window.Window.exists">exists</a></code></li>
+<li><code><a title="pysapscript.window.Window.focus" href="#pysapscript.window.Window.focus">focus</a></code></li>
 <li><code><a title="pysapscript.window.Window.is_selected" href="#pysapscript.window.Window.is_selected">is_selected</a></code></li>
 <li><code><a title="pysapscript.window.Window.maximize" href="#pysapscript.window.Window.maximize">maximize</a></code></li>
 <li><code><a title="pysapscript.window.Window.navigate" href="#pysapscript.window.Window.navigate">navigate</a></code></li>
 <li><code><a title="pysapscript.window.Window.press" href="#pysapscript.window.Window.press">press</a></code></li>
+<li><code><a title="pysapscript.window.Window.press_tab" href="#pysapscript.window.Window.press_tab">press_tab</a></code></li>
 <li><code><a title="pysapscript.window.Window.read" href="#pysapscript.window.Window.read">read</a></code></li>
 <li><code><a title="pysapscript.window.Window.read_html_viewer" href="#pysapscript.window.Window.read_html_viewer">read_html_viewer</a></code></li>
 <li><code><a title="pysapscript.window.Window.read_shell_table" href="#pysapscript.window.Window.read_shell_table">read_shell_table</a></code></li>
 <li><code><a title="pysapscript.window.Window.read_shell_tree" href="#pysapscript.window.Window.read_shell_tree">read_shell_tree</a></code></li>
+<li><code><a title="pysapscript.window.Window.read_statusbar" href="#pysapscript.window.Window.read_statusbar">read_statusbar</a></code></li>
 <li><code><a title="pysapscript.window.Window.restore" href="#pysapscript.window.Window.restore">restore</a></code></li>
 <li><code><a title="pysapscript.window.Window.select" href="#pysapscript.window.Window.select">select</a></code></li>
 <li><code><a title="pysapscript.window.Window.send_v_key" href="#pysapscript.window.Window.send_v_key">send_v_key</a></code></li>
 <li><code><a title="pysapscript.window.Window.set_checkbox" href="#pysapscript.window.Window.set_checkbox">set_checkbox</a></code></li>
 <li><code><a title="pysapscript.window.Window.set_dropdown" href="#pysapscript.window.Window.set_dropdown">set_dropdown</a></code></li>
+<li><code><a title="pysapscript.window.Window.show_msgbox" href="#pysapscript.window.Window.show_msgbox">show_msgbox</a></code></li>
 <li><code><a title="pysapscript.window.Window.start_transaction" href="#pysapscript.window.Window.start_transaction">start_transaction</a></code></li>
 <li><code><a title="pysapscript.window.Window.visualize" href="#pysapscript.window.Window.visualize">visualize</a></code></li>
 <li><code><a title="pysapscript.window.Window.write" href="#pysapscript.window.Window.write">write</a></code></li>

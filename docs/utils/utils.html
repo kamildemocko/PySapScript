@@ -69,14 +69,14 @@ el.replaceWith(d);
 </dl></div>
 </dd>
 <dt id="pysapscript.utils.utils.wait_for_window_title"><code class="name flex">
-<span>def <span class="ident">wait_for_window_title</span></span>(<span>title: str, timeout_loops: int = 10)</span>
+<span>def <span class="ident">wait_for_window_title</span></span>(<span>title: str, timeout_loops: int = 30)</span>
 </code></dt>
 <dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def wait_for_window_title(title: str, timeout_loops: int = 10):
+<pre><code class="python">def wait_for_window_title(title: str, timeout_loops: int = 30):
     &#34;&#34;&#34;
     loops until title of expected window appears,
     waits for 1 second between each check

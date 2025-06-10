@@ -86,6 +86,7 @@ el.replaceWith(d);
                    root_sap_dir: Path = Path(r&#34;C:\Program Files (x86)\SAP\FrontEnd\SAPgui&#34;),
                    maximise: bool = True,
                    language: str = &#34;en&#34;,
+                   timeout: int = 30,
                    quit_auto: bool = True) -&gt; None:
         &#34;&#34;&#34;
         Launches SAP and waits for it to load
@@ -98,6 +99,7 @@ el.replaceWith(d);
             password (str): SAP password
             maximise (bool): maximises window after start if True
             language (str): SAP language
+            timeout (int): timeout in seconds to wait for SAP window to appear
             quit_auto (bool): quits automatically on SAP exit if True
 
         Raises:
@@ -120,7 +122,8 @@ el.replaceWith(d);
             user, 
             password, 
             maximise,
-            language
+            language,
+            timeout,
         )
 
         time.sleep(5)
@@ -213,12 +216,12 @@ el.replaceWith(d);
             pss.open_new_window(main_window)
             ```
         &#34;&#34;&#34;
-        window_to_handle_opening.session_handle.createSession()
+        window_to_handle_opening._session_handle.createSession()
 
         utils.wait_for_window_title(self.default_window_title)
 
     def _launch(self, working_dir: Path, sid: str, client: str, 
-                user: str, password: str, maximise: bool, language: str) -&gt; None:
+                user: str, password: str, maximise: bool, language: str, timeout: int = 30) -&gt; None:
         &#34;&#34;&#34;
         launches sap from sapshcut.exe
         &#34;&#34;&#34;
@@ -239,7 +242,7 @@ el.replaceWith(d);
             try:
                 Popen([sap_executable, *command.split(&#34; &#34;)])
 
-                utils.wait_for_window_title(self.default_window_title)
+                utils.wait_for_window_title(self.default_window_title, timeout_loops=timeout)
                 break
 
             except exceptions.WindowDidNotAppearException:
@@ -352,7 +355,7 @@ Session start with 0 and is +1 for each new window opened</p>
 </code></pre></div>
 </dd>
 <dt id="pysapscript.pysapscript.Sapscript.launch_sap"><code class="name flex">
-<span>def <span class="ident">launch_sap</span></span>(<span>self,<br>sid: str,<br>client: str,<br>user: str,<br>password: str,<br>*,<br>root_sap_dir: pathlib.Path = WindowsPath('C:/Program Files (x86)/SAP/FrontEnd/SAPgui'),<br>maximise: bool = True,<br>language: str = 'en',<br>quit_auto: bool = True) ‑> None</span>
+<span>def <span class="ident">launch_sap</span></span>(<span>self,<br>sid: str,<br>client: str,<br>user: str,<br>password: str,<br>*,<br>root_sap_dir: pathlib.Path = WindowsPath('C:/Program Files (x86)/SAP/FrontEnd/SAPgui'),<br>maximise: bool = True,<br>language: str = 'en',<br>timeout: int = 30,<br>quit_auto: bool = True) ‑> None</span>
 </code></dt>
 <dd>
 <details class="source">
@@ -368,6 +371,7 @@ Session start with 0 and is +1 for each new window opened</p>
                root_sap_dir: Path = Path(r&#34;C:\Program Files (x86)\SAP\FrontEnd\SAPgui&#34;),
                maximise: bool = True,
                language: str = &#34;en&#34;,
+               timeout: int = 30,
                quit_auto: bool = True) -&gt; None:
     &#34;&#34;&#34;
     Launches SAP and waits for it to load
@@ -380,6 +384,7 @@ Session start with 0 and is +1 for each new window opened</p>
         password (str): SAP password
         maximise (bool): maximises window after start if True
         language (str): SAP language
+        timeout (int): timeout in seconds to wait for SAP window to appear
         quit_auto (bool): quits automatically on SAP exit if True
 
     Raises:
@@ -402,7 +407,8 @@ Session start with 0 and is +1 for each new window opened</p>
         user, 
         password, 
         maximise,
-        language
+        language,
+        timeout,
     )
 
     time.sleep(5)
@@ -426,6 +432,8 @@ Session start with 0 and is +1 for each new window opened</p>
 <dd>maximises window after start if True</dd>
 <dt><strong><code>language</code></strong> :&ensp;<code>str</code></dt>
 <dd>SAP language</dd>
+<dt><strong><code>timeout</code></strong> :&ensp;<code>int</code></dt>
+<dd>timeout in seconds to wait for SAP window to appear</dd>
 <dt><strong><code>quit_auto</code></strong> :&ensp;<code>bool</code></dt>
 <dd>quits automatically on SAP exit if True</dd>
 </dl>
@@ -471,7 +479,7 @@ Session start with 0 and is +1 for each new window opened</p>
         pss.open_new_window(main_window)
         ```
     &#34;&#34;&#34;
-    window_to_handle_opening.session_handle.createSession()
+    window_to_handle_opening._session_handle.createSession()
 
     utils.wait_for_window_title(self.default_window_title)</code></pre>
 </details>
