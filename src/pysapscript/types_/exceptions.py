@@ -11,3 +11,6 @@ class AttachException(Exception):
 
 class ActionException(Exception):
     """Error performing action - click, select ..."""
+
+class ActionNotAllowedException(Exception):
+    """Action not allowed - e.g. sending VKey to a non-editable field"""
