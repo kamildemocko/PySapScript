@@ -60,7 +60,12 @@ el.replaceWith(d);
     A class representing a shell table
     &#34;&#34;&#34;
 
-    def __init__(self, session_handle: win32com.client.CDispatch, element: str, load_table: bool = True) -&gt; None:
+    def __init__(
+        self, 
+        session_handle: win32com.client.CDispatch, 
+        element: str, 
+        load_table: bool = True,
+    ) -&gt; None:
         &#34;&#34;&#34;
         Usually table contains a table of data, but it can also be a non-data shell table, that holds toolbar
 
@@ -75,9 +80,15 @@ el.replaceWith(d);
         self.table_element = element
         self._session_handle = session_handle
         self.data_present = False
-        self.data = self._read_shell_table(load_table)
-        self.rows = self.data.shape[0]
-        self.columns = self.data.shape[1]
+
+        if load_table:
+            self.data = self._read_shell_table()
+        else:
+            self.data = pl.DataFrame()
+
+        shape = self._read_shape()
+        self.rows = shape[0]
+        self.columns = shape[1]
 
     def __repr__(self) -&gt; str:
         return repr(self.data)
@@ -111,8 +122,25 @@ el.replaceWith(d);
 
     def __iter__(self) -&gt; &#34;ShellTableRowIterator&#34;:
         return ShellTableRowIterator(self.data)
+    
+    def _read_shape(self) -&gt; tuple[int, int]:
+        &#34;&#34;&#34;
+        Reads shape of the shell table
 
-    def _read_shell_table(self, load_table: bool = True) -&gt; pl.DataFrame:
+        Returns:
+            tuple[int, int]: number of rows and columns in the table
+        &#34;&#34;&#34;
+        try:
+            shell = self._session_handle.findById(self.table_element)
+            rows_count = shell.RowCount
+            columns_count = len(shell.ColumnOrder)
+
+            return rows_count, columns_count
+        
+        except Exception as e:
+            raise exceptions.ActionException(f&#34;Error reading shape of element {self.table_element}: {e}&#34;)
+
+    def _read_shell_table(self) -&gt; pl.DataFrame:
         &#34;&#34;&#34;
         Reads table of shell table
 
@@ -147,8 +175,7 @@ el.replaceWith(d);
 
             self.data_present = True
 
-            if load_table:
-                self.load()
+            self.load()
 
             data = [
                 {column: shell.GetCellValue(i, column) for column in columns}
@@ -365,6 +392,48 @@ el.replaceWith(d);
             raise exceptions.ActionException(
                 f&#34;Error selecting row with index {index}: {e}&#34;
             )
+    
+    def select_all(self) -&gt; None:
+        &#34;&#34;&#34;
+        Selects all rows in a shell table
+
+        Raises:
+            ActionException: error selecting all shell rows
+
+        Example:
+            ```
+            main_window.select_all_shell_rows(&#34;wnd[0]/usr/shellContent/shell&#34;)
+            ```
+        &#34;&#34;&#34;
+        if self.data_present is False:
+            raise ValueError(&#34;Data was not found in shell table&#34;)
+
+        try:
+            self._session_handle.findById(self.table_element).selectAll()
+
+        except Exception as e:
+            raise exceptions.ActionException(f&#34;Error selecting all rows: {e}&#34;)
+    
+    def clear_selection(self) -&gt; None:
+        &#34;&#34;&#34;
+        Clears selection in a shell table
+
+        Raises:
+            ActionException: error clearing shell selection
+
+        Example:
+            ```
+            main_window.clear_shell_selection(&#34;wnd[0]/usr/shellContent/shell&#34;)
+            ```
+        &#34;&#34;&#34;
+        if self.data_present is False:
+            raise ValueError(&#34;Data was not found in shell table&#34;)
+
+        try:
+            self._session_handle.findById(self.table_element).clearSelection()
+
+        except Exception as e:
+            raise exceptions.ActionException(f&#34;Error clearing selection: {e}&#34;)
 
 
     def change_checkbox(self, checkbox: str, flag: bool) -&gt; None:
@@ -516,6 +585,45 @@ el.replaceWith(d);
 </dl>
 <h2 id="example">Example</h2>
 <pre><code>main_window.change_shell_checkbox(&quot;wnd[0]/usr/cntlALV_CONT/shellcont/shell/rows[1]&quot;, &quot;%CHBX&quot;, True)
+</code></pre></div>
+</dd>
+<dt id="pysapscript.shell_table.ShellTable.clear_selection"><code class="name flex">
+<span>def <span class="ident">clear_selection</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def clear_selection(self) -&gt; None:
+    &#34;&#34;&#34;
+    Clears selection in a shell table
+
+    Raises:
+        ActionException: error clearing shell selection
+
+    Example:
+        ```
+        main_window.clear_shell_selection(&#34;wnd[0]/usr/shellContent/shell&#34;)
+        ```
+    &#34;&#34;&#34;
+    if self.data_present is False:
+        raise ValueError(&#34;Data was not found in shell table&#34;)
+
+    try:
+        self._session_handle.findById(self.table_element).clearSelection()
+
+    except Exception as e:
+        raise exceptions.ActionException(f&#34;Error clearing selection: {e}&#34;)</code></pre>
+</details>
+<div class="desc"><p>Clears selection in a shell table</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ActionException</code></dt>
+<dd>error clearing shell selection</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>main_window.clear_shell_selection(&quot;wnd[0]/usr/shellContent/shell&quot;)
 </code></pre></div>
 </dd>
 <dt id="pysapscript.shell_table.ShellTable.get_column_names"><code class="name flex">
@@ -707,6 +815,45 @@ el.replaceWith(d);
 </dl>
 <h2 id="example">Example</h2>
 <pre><code>main_window.press_context_menu_item(&quot;Excel File...&quot;, item_type=&quot;text&quot;)
+</code></pre></div>
+</dd>
+<dt id="pysapscript.shell_table.ShellTable.select_all"><code class="name flex">
+<span>def <span class="ident">select_all</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def select_all(self) -&gt; None:
+    &#34;&#34;&#34;
+    Selects all rows in a shell table
+
+    Raises:
+        ActionException: error selecting all shell rows
+
+    Example:
+        ```
+        main_window.select_all_shell_rows(&#34;wnd[0]/usr/shellContent/shell&#34;)
+        ```
+    &#34;&#34;&#34;
+    if self.data_present is False:
+        raise ValueError(&#34;Data was not found in shell table&#34;)
+
+    try:
+        self._session_handle.findById(self.table_element).selectAll()
+
+    except Exception as e:
+        raise exceptions.ActionException(f&#34;Error selecting all rows: {e}&#34;)</code></pre>
+</details>
+<div class="desc"><p>Selects all rows in a shell table</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ActionException</code></dt>
+<dd>error selecting all shell rows</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>main_window.select_all_shell_rows(&quot;wnd[0]/usr/shellContent/shell&quot;)
 </code></pre></div>
 </dd>
 <dt id="pysapscript.shell_table.ShellTable.select_row"><code class="name flex">
@@ -970,10 +1117,12 @@ el.replaceWith(d);
 <ul class="">
 <li><code><a title="pysapscript.shell_table.ShellTable.cell" href="#pysapscript.shell_table.ShellTable.cell">cell</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.change_checkbox" href="#pysapscript.shell_table.ShellTable.change_checkbox">change_checkbox</a></code></li>
+<li><code><a title="pysapscript.shell_table.ShellTable.clear_selection" href="#pysapscript.shell_table.ShellTable.clear_selection">clear_selection</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.get_column_names" href="#pysapscript.shell_table.ShellTable.get_column_names">get_column_names</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.load" href="#pysapscript.shell_table.ShellTable.load">load</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.press_button" href="#pysapscript.shell_table.ShellTable.press_button">press_button</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.press_context_menu_item" href="#pysapscript.shell_table.ShellTable.press_context_menu_item">press_context_menu_item</a></code></li>
+<li><code><a title="pysapscript.shell_table.ShellTable.select_all" href="#pysapscript.shell_table.ShellTable.select_all">select_all</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.select_row" href="#pysapscript.shell_table.ShellTable.select_row">select_row</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.select_rows" href="#pysapscript.shell_table.ShellTable.select_rows">select_rows</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.to_dict" href="#pysapscript.shell_table.ShellTable.to_dict">to_dict</a></code></li>

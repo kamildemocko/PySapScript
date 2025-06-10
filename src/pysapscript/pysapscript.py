@@ -41,6 +41,7 @@ class Sapscript:
                    root_sap_dir: Path = Path(r"C:\Program Files (x86)\SAP\FrontEnd\SAPgui"),
                    maximise: bool = True,
                    language: str = "en",
+                   timeout: int = 30,
                    quit_auto: bool = True) -> None:
         """
         Launches SAP and waits for it to load
@@ -53,6 +54,7 @@ class Sapscript:
             password (str): SAP password
             maximise (bool): maximises window after start if True
             language (str): SAP language
+            timeout (int): timeout in seconds to wait for SAP window to appear
             quit_auto (bool): quits automatically on SAP exit if True
 
         Raises:
@@ -75,7 +77,8 @@ class Sapscript:
             user, 
             password, 
             maximise,
-            language
+            language,
+            timeout,
         )
 
         time.sleep(5)
@@ -168,12 +171,12 @@ class Sapscript:
             pss.open_new_window(main_window)
             ```
         """
-        window_to_handle_opening.session_handle.createSession()
+        window_to_handle_opening._session_handle.createSession()
 
         utils.wait_for_window_title(self.default_window_title)
 
     def _launch(self, working_dir: Path, sid: str, client: str, 
-                user: str, password: str, maximise: bool, language: str) -> None:
+                user: str, password: str, maximise: bool, language: str, timeout: int = 30) -> None:
         """
         launches sap from sapshcut.exe
         """
@@ -194,7 +197,7 @@ class Sapscript:
             try:
                 Popen([sap_executable, *command.split(" ")])
 
-                utils.wait_for_window_title(self.default_window_title)
+                utils.wait_for_window_title(self.default_window_title, timeout_loops=timeout)
                 break
 
             except exceptions.WindowDidNotAppearException:

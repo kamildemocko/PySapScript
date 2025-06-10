@@ -16,7 +16,7 @@ def kill_process(process: str):
     os.system("taskkill /f /im %s" % process)
 
 
-def wait_for_window_title(title: str, timeout_loops: int = 10):
+def wait_for_window_title(title: str, timeout_loops: int = 30):
     """
     loops until title of expected window appears,
     waits for 1 second between each check

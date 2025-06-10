@@ -1,5 +1,6 @@
 import os
 from time import sleep
+from turtle import backward
 
 from pysapscript.pysapscript import Sapscript
 from pysapscript.types_.types import NavigateAction
@@ -17,12 +18,15 @@ class TestRuns:
             user="robot01_t",
             password=str(pwd),
             quit_auto=False,
-            language="sk"
+            language="sk",
         )
 
         self.window = self.pss.attach_window(0, 0)
 
     def test_runs(self):
+        status = self.window.read_statusbar()
+        assert "prihlásenie" in status.lower()
+
         # Maximize and Restore
         self.window.restore()
         sleep(1)
@@ -41,8 +45,23 @@ class TestRuns:
         assert int(value) > 0
         self.window.press("wnd[1]/tbar[0]/btn[0]")
 
+        # tabs
+        self.window.press_tab()
+        self.window.press_tab(focus_element="wnd[0]/usr/ctxtI4-LOW")
+        self.window.press_tab()
+        self.window.press_tab(backwards=True)
+        self.window.press_tab()
+        self.window.press_tab()
+        self.window.press_tab()
+        sleep(1)
+
+        self.window.send_v_key(focus_element="wnd[0]/usr/ctxtI4-LOW", value=2)
+        self.window.press("wnd[1]/tbar[0]/btn[12]")
+
+        self.window.navigate(NavigateAction.back)
         self.window.navigate(NavigateAction.back)
 
+        # radio button
         self.window.start_transaction("YGIDESENDDK")
         selected = self.window.is_selected("wnd[0]/usr/radP_SPOL1")
         self.window.navigate(NavigateAction.back)
@@ -55,6 +74,9 @@ class TestRuns:
         window2 = self.pss.attach_window(0, 1)
         window2.start_transaction("SQVI")
         window2.close_window()
+
+        # Message box - manual OK
+        self.window.show_msgbox("Test title", "Do this and press OK")
 
         self.pss.quit()
 

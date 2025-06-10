@@ -18,9 +18,9 @@ class Window:
         session_handle: win32com.client.CDispatch,
     ) -> None:
         self.connection = connection
-        self.connection_handle = connection_handle
+        self._connection_handle = connection_handle
         self.session = session
-        self.session_handle = session_handle
+        self._session_handle = session_handle
 
     def __repr__(self) -> str:
         return f"Window(connection={self.connection}, session={self.session})"
@@ -35,25 +35,25 @@ class Window:
         return False
 
     def __hash__(self) -> int:
-        return hash(f"{self.connection_handle}{self.session_handle}")
+        return hash(f"{self._connection_handle}{self._session_handle}")
 
     def maximize(self) -> None:
         """
         Maximizes this sap window
         """
-        self.session_handle.findById("wnd[0]").maximize()
+        self._session_handle.findById("wnd[0]").maximize()
 
     def restore(self) -> None:
         """
         Restores sap window to its default size, resp. before maximization
         """
-        self.session_handle.findById("wnd[0]").restore()
+        self._session_handle.findById("wnd[0]").restore()
 
     def close_window(self) -> None:
         """
         Closes this sap window
         """
-        self.session_handle.findById("wnd[0]").close()
+        self._session_handle.findById("wnd[0]").close()
 
     def navigate(self, action: NavigateAction) -> None:
         """
@@ -83,7 +83,7 @@ class Window:
         else:
             raise exceptions.ActionException("Wrong navigation action!")
 
-        self.session_handle.findById(el).press()
+        self._session_handle.findById(el).press()
 
     def start_transaction(self, transaction: str) -> None:
         """
@@ -94,6 +94,20 @@ class Window:
         """
         self.write("wnd[0]/tbar[0]/okcd", transaction)
         self.navigate(NavigateAction.enter)
+    
+    def read_statusbar(self) -> str:
+        """
+        Reads status bar text
+
+        Returns:
+            str: status bar text
+
+        Example:
+            ```
+            status = main_window.read_statusbar()
+            ```
+        """
+        return self.read("wnd[0]/sbar/pane[0]")
 
     def press(self, element: str) -> None:
         """
@@ -111,7 +125,7 @@ class Window:
             ```
         """
         try:
-            self.session_handle.findById(element).press()
+            self._session_handle.findById(element).press()
 
         except Exception as ex:
             raise exceptions.ActionException(f"Error clicking element {element}: {ex}")
@@ -132,7 +146,7 @@ class Window:
             ```
         """
         try:
-            self.session_handle.findById(element).select()
+            self._session_handle.findById(element).select()
 
         except Exception as ex:
             raise exceptions.ActionException(f"Error clicking element {element}: {ex}")
@@ -156,7 +170,7 @@ class Window:
             ```
         """
         try:
-            return self.session_handle.findById(element).selected
+            return self._session_handle.findById(element).selected
 
         except Exception as ex:
             raise exceptions.ActionException(f"Error getting status of element {element}: {ex}")
@@ -178,7 +192,7 @@ class Window:
             ```
         """
         try:
-            self.session_handle.findById(element).selected = selected
+            self._session_handle.findById(element).selected = selected
 
         except Exception as ex:
             raise exceptions.ActionException(f"Error clicking element {element}: {ex}")
@@ -203,9 +217,9 @@ class Window:
         try:
             match value_type:
                 case "key":
-                    self.session_handle.findById(element).Key = value
+                    self._session_handle.findById(element).Key = value
                 case "text":
-                    dd_el = self.session_handle.findById(element)
+                    dd_el = self._session_handle.findById(element)
                     available = []
 
                     for i in range(0, dd_el.Entries.Count - 1):
@@ -244,7 +258,7 @@ class Window:
             ```
         """
         try:
-            self.session_handle.findById(element).text = text
+            self._session_handle.findById(element).text = text
 
         except Exception as ex:
             raise exceptions.ActionException(
@@ -267,7 +281,7 @@ class Window:
             ```
         """
         try:
-            return self.session_handle.findById(element).text
+            return self._session_handle.findById(element).text
 
         except Exception as e:
             raise exceptions.ActionException(f"Error reading element {element}: {e}")
@@ -285,13 +299,63 @@ class Window:
         """
 
         try:
-            self.session_handle.findById(element).Visualize(1)
+            self._session_handle.findById(element).Visualize(1)
             sleep(seconds)
 
         except Exception as e:
             raise exceptions.ActionException(
                 f"Error visualizing element {element}: {e}"
             )
+
+    def focus(self, element: str) -> None:
+        """
+        Sets focus on the element
+
+        Args:
+            element (str): element to focus on
+
+        Raises:
+            ActionException: Error focusing on element
+
+        Example:
+            ```
+            main_window.set_focus("wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03")
+            ```
+        """
+        try:
+            self._session_handle.findById(element).SetFocus()
+
+        except Exception as e:
+            raise exceptions.ActionException(f"Error focusing on element {element}: {e}")
+
+    def press_tab(self, focus_element: str = "wnd[0]", backwards: bool = False) -> None:
+        """
+        Moves the focus to the next tab in the current window.
+
+        Args:
+            focus_element (str): The identifier of the element to tab forwards from. Default is "wnd[0]".
+            backwards (bool): If True, tabs backwards instead of forwards. Default is False.
+
+        Raises:
+            ActionException: If an error occurs while tabbing forwards.
+
+        Example:
+            ```
+            main_window.press_tab("wnd[0]/usr/tabsTABTC/tabxTAB03/subIncl/SAPML03", backwards=True)
+            ```
+        """
+        try:
+            self.focus(focus_element)
+
+            if backwards:
+                self._session_handle.findById("wnd[0]").TabBackward()
+            else:
+                self._session_handle.findById("wnd[0]").TabForward()
+
+            sleep(0.2)
+
+        except Exception as e:
+            raise exceptions.ActionException(f"Error tabbing forwards on element {focus_element}: {e}")
 
     def exists(self, element: str) -> bool:
         """
@@ -305,7 +369,7 @@ class Window:
         """
 
         try:
-            self.session_handle.findById(element)
+            self._session_handle.findById(element)
             return True
 
         except Exception:
@@ -337,16 +401,43 @@ class Window:
             ```
         """
         try:
-            if focus_element is not None:
-                self.session_handle.findById(focus_element).SetFocus()
+            if self._session_handle.findById(element).IsVKeyAllowed(value) is False:
+                raise exceptions.ActionException(
+                    f"VKey {value} is not allowed for element {element}"
+                )
 
-            self.session_handle.findById(element).sendVKey(value)
+            if focus_element is not None:
+                self._session_handle.findById(focus_element).SetFocus()
+
+            self._session_handle.findById(element).sendVKey(value)
 
         except Exception as e:
             raise exceptions.ActionException(
                 f"Error visualizing element {element}: {e}"
             )
+    
+    def show_msgbox(self, title: str, message: str) -> None:
+        """
+        Shows a message box with the specified title and message.
 
+        Args:
+            title (str): The title of the message box.
+            message (str): The message to display in the message box.
+
+        Raises:
+            ActionException: If an error occurs while showing the message box.
+
+        Example:
+            ```
+            main_window.show_msgbox("Info", "This is a message.")
+            ```
+        """
+        try:
+            self._session_handle.findById("wnd[0]").ShowMessageBox(title, message, 0, 0)
+
+        except Exception as e:
+            raise exceptions.ActionException(f"Error showing message box: {e}")
+    
     def read_html_viewer(self, element: str) -> str:
         """
         Read the HTML content of the specified HTMLViewer element.
@@ -366,7 +457,7 @@ class Window:
             ```
         """
         try:
-            return self.session_handle.findById(
+            return self._session_handle.findById(
                 element
             ).BrowserHandle.Document.documentElement.innerHTML
 
@@ -392,7 +483,7 @@ class Window:
             table.to_pandas()
             ```
         """
-        return ShellTable(self.session_handle, element, load_table)
+        return ShellTable(self._session_handle, element, load_table)
 
     def read_shell_tree(self, element: str) -> ShellTree:
         """
@@ -417,4 +508,4 @@ class Window:
             tree.collapse_all()
             ```
         """
-        return ShellTree(self.session_handle, element)
+        return ShellTree(self._session_handle, element)
