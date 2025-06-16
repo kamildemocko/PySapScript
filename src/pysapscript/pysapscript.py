@@ -93,6 +93,11 @@ class Sapscript:
             main_window = self.attach_window(0, 0)
             main_window.select("wnd[0]/mbar/menu[4]/menu[12]")
             main_window.press("wnd[1]/usr/btnSPOP-OPTION1")
+        
+        except exceptions.AttachException:
+            """
+            main SAP window is already closed, probably by user manually closing it
+            """
 
         finally:
             utils.kill_process("saplogon.exe")
