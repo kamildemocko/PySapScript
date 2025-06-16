@@ -138,6 +138,11 @@ el.replaceWith(d);
             main_window = self.attach_window(0, 0)
             main_window.select(&#34;wnd[0]/mbar/menu[4]/menu[12]&#34;)
             main_window.press(&#34;wnd[1]/usr/btnSPOP-OPTION1&#34;)
+        
+        except exceptions.AttachException:
+            &#34;&#34;&#34;
+            main SAP window is already closed, probably by user manually closing it
+            &#34;&#34;&#34;
 
         finally:
             utils.kill_process(&#34;saplogon.exe&#34;)
@@ -518,6 +523,11 @@ pss.open_new_window(main_window)
         main_window = self.attach_window(0, 0)
         main_window.select(&#34;wnd[0]/mbar/menu[4]/menu[12]&#34;)
         main_window.press(&#34;wnd[1]/usr/btnSPOP-OPTION1&#34;)
+    
+    except exceptions.AttachException:
+        &#34;&#34;&#34;
+        main SAP window is already closed, probably by user manually closing it
+        &#34;&#34;&#34;
 
     finally:
         utils.kill_process(&#34;saplogon.exe&#34;)</code></pre>
