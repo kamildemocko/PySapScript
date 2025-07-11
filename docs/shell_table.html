@@ -339,6 +339,24 @@ el.replaceWith(d);
         except Exception as e:
             raise exceptions.ActionException(f&#34;Error pressing button {button}: {e}&#34;)
 
+    def click_current_cell(self) -&gt; None:
+        &#34;&#34;&#34;
+        Clicks current cell in a shell table
+
+        Raises:
+            ActionException: error clicking current cell in shell table
+
+        Example:
+            ```
+            main_window.click_current_cell(&#34;wnd[0]/usr/shellContent/shell&#34;)
+            ```
+        &#34;&#34;&#34;
+        try:
+            self._session_handle.findById(self.table_element).clickCurrentCell()
+
+        except Exception as e:
+            raise exceptions.ActionException(f&#34;Error clicking current cell: {e}&#34;)
+
     def select_rows(self, indexes: list[int]) -&gt; None:
         &#34;&#34;&#34;
         Selects rows (visual) is in a shell table
@@ -434,8 +452,7 @@ el.replaceWith(d);
 
         except Exception as e:
             raise exceptions.ActionException(f&#34;Error clearing selection: {e}&#34;)
-
-
+    
     def change_checkbox(self, checkbox: str, flag: bool) -&gt; None:
         &#34;&#34;&#34;
         Sets checkbox in a shell table
@@ -624,6 +641,42 @@ el.replaceWith(d);
 </dl>
 <h2 id="example">Example</h2>
 <pre><code>main_window.clear_shell_selection(&quot;wnd[0]/usr/shellContent/shell&quot;)
+</code></pre></div>
+</dd>
+<dt id="pysapscript.shell_table.ShellTable.click_current_cell"><code class="name flex">
+<span>def <span class="ident">click_current_cell</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def click_current_cell(self) -&gt; None:
+    &#34;&#34;&#34;
+    Clicks current cell in a shell table
+
+    Raises:
+        ActionException: error clicking current cell in shell table
+
+    Example:
+        ```
+        main_window.click_current_cell(&#34;wnd[0]/usr/shellContent/shell&#34;)
+        ```
+    &#34;&#34;&#34;
+    try:
+        self._session_handle.findById(self.table_element).clickCurrentCell()
+
+    except Exception as e:
+        raise exceptions.ActionException(f&#34;Error clicking current cell: {e}&#34;)</code></pre>
+</details>
+<div class="desc"><p>Clicks current cell in a shell table</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ActionException</code></dt>
+<dd>error clicking current cell in shell table</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code>main_window.click_current_cell(&quot;wnd[0]/usr/shellContent/shell&quot;)
 </code></pre></div>
 </dd>
 <dt id="pysapscript.shell_table.ShellTable.get_column_names"><code class="name flex">
@@ -1118,6 +1171,7 @@ el.replaceWith(d);
 <li><code><a title="pysapscript.shell_table.ShellTable.cell" href="#pysapscript.shell_table.ShellTable.cell">cell</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.change_checkbox" href="#pysapscript.shell_table.ShellTable.change_checkbox">change_checkbox</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.clear_selection" href="#pysapscript.shell_table.ShellTable.clear_selection">clear_selection</a></code></li>
+<li><code><a title="pysapscript.shell_table.ShellTable.click_current_cell" href="#pysapscript.shell_table.ShellTable.click_current_cell">click_current_cell</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.get_column_names" href="#pysapscript.shell_table.ShellTable.get_column_names">get_column_names</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.load" href="#pysapscript.shell_table.ShellTable.load">load</a></code></li>
 <li><code><a title="pysapscript.shell_table.ShellTable.press_button" href="#pysapscript.shell_table.ShellTable.press_button">press_button</a></code></li>
