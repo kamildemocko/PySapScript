@@ -1,5 +1,6 @@
 import os
-from time import sleep
+
+import polars as pl
 
 from pysapscript.pysapscript import Sapscript
 from pysapscript.types_.types import NavigateAction
@@ -49,6 +50,14 @@ class TestRuns:
         table.select_row(2)
         table.select_all()
         table.clear_selection()
+
+        # layout
+        self.window.press("wnd[0]/tbar[1]/btn[33]")
+        shell = self.window.read_shell_table("wnd[1]/usr/ssubD0500_SUBSCREEN:SAPLSLVC_DIALOG:0501/cntlG51_CONTAINER/shellcont/shell")
+        row = shell.data.with_row_index().filter(pl.col("VARIANT") == "/1ROBOT")
+        row_index = row[0, "index"]
+        shell.select_row(row_index)
+        shell.click_current_cell()
 
         # export with dropdown
         table.press_context_menu_item("Tabuľková kalkulácia...", item_type="text")
