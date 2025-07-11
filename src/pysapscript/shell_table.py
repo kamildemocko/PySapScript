@@ -293,6 +293,24 @@ class ShellTable:
         except Exception as e:
             raise exceptions.ActionException(f"Error pressing button {button}: {e}")
 
+    def click_current_cell(self) -> None:
+        """
+        Clicks current cell in a shell table
+
+        Raises:
+            ActionException: error clicking current cell in shell table
+
+        Example:
+            ```
+            main_window.click_current_cell("wnd[0]/usr/shellContent/shell")
+            ```
+        """
+        try:
+            self._session_handle.findById(self.table_element).clickCurrentCell()
+
+        except Exception as e:
+            raise exceptions.ActionException(f"Error clicking current cell: {e}")
+
     def select_rows(self, indexes: list[int]) -> None:
         """
         Selects rows (visual) is in a shell table
@@ -388,8 +406,7 @@ class ShellTable:
 
         except Exception as e:
             raise exceptions.ActionException(f"Error clearing selection: {e}")
-
-
+    
     def change_checkbox(self, checkbox: str, flag: bool) -> None:
         """
         Sets checkbox in a shell table
