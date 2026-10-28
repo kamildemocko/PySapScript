@@ -42,7 +42,9 @@ class Sapscript:
                    maximise: bool = True,
                    language: str = "en",
                    timeout: int = 30,
-                   quit_auto: bool = True) -> None:
+                   quit_auto: bool = True,
+                   wait_for_window: bool = True,
+    ) -> None:
         """
         Launches SAP and waits for it to load
 
@@ -71,14 +73,15 @@ class Sapscript:
             ```
         """
         self._launch(
-            root_sap_dir, 
-            sid, 
-            client, 
-            user, 
-            password, 
+            root_sap_dir,
+            sid,
+            client,
+            user,
+            password,
             maximise,
             language,
             timeout,
+            wait_for_window,
         )
 
         time.sleep(5)
@@ -93,7 +96,7 @@ class Sapscript:
             main_window = self.attach_window(0, 0)
             main_window.select("wnd[0]/mbar/menu[4]/menu[12]")
             main_window.press("wnd[1]/usr/btnSPOP-OPTION1")
-        
+
         except exceptions.AttachException:
             """
             main SAP window is already closed, probably by user manually closing it
@@ -180,8 +183,9 @@ class Sapscript:
 
         utils.wait_for_window_title(self.default_window_title)
 
-    def _launch(self, working_dir: Path, sid: str, client: str, 
-                user: str, password: str, maximise: bool, language: str, timeout: int = 30) -> None:
+    def _launch(self, working_dir: Path, sid: str, client: str,
+                user: str, password: str, maximise: bool, language: str,
+                timeout: int = 30, wait_for_window: bool = True) -> None:
         """
         launches sap from sapshcut.exe
         """
@@ -202,7 +206,9 @@ class Sapscript:
             try:
                 Popen([sap_executable, *command.split(" ")])
 
-                utils.wait_for_window_title(self.default_window_title, timeout_loops=timeout)
+                if wait_for_window:
+                    utils.wait_for_window_title(self.default_window_title, timeout_loops=timeout)
+
                 break
 
             except exceptions.WindowDidNotAppearException:
